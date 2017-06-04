@@ -1,0 +1,30 @@
+*{
+    magin:0px;
+    padding:0px;
+}
+body{
+    overflow: hidden;
+}
+video{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    opacity: 0.5;
+}
+#threeContainer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: antiquewhite;
+}
+#Soundtrack{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: beige;
+    opacity: 0.3;
+}
