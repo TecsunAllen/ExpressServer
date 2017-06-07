@@ -6,7 +6,10 @@ define(['wavLoader'], function (wavLoader) {
     var renderer = new THREE.WebGLRenderer();
     var meshes = [];
     var Soundtrack = [];
-
+    var lastWave = {
+        time: 0,
+        value:0
+    };
     initScene();
     createMeshes();
     setOrbitControls();
@@ -40,14 +43,23 @@ define(['wavLoader'], function (wavLoader) {
     }
 
     function refreshMeshes() {
-        var wave = parseInt(wavLoader.getCurWave());
+        var wave = getWave().value;
         var color = 0xffff00 * Math.random();
         if (Math.abs(wave % 2) != 1) wave -= 1;
         Soundtrack.push([wavLoader.currentTime * 5, wave]);
-
         for (var i = 0; i < meshes.length; i++) {
             meshes[i].position.z = Math.pow(wave * 0.25, 2);
         }
+    }
+
+    function getWave() {
+        var curTime = (new Date()).getTime();
+        var realWave = parseInt(wavLoader.getCurWave());
+        var modeWave = lastWave.value + (lastWave.time - curTime) * 0.01;
+        if (modeWave < realWave) modeWave = realWave;
+        lastWave.value = modeWave;
+        lastWave.time = curTime;
+        return lastWave;
     }
 
     function drawSoundtrack() {
