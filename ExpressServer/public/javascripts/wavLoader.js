@@ -49,6 +49,7 @@ define(function(){
         }
         xhr.onload = function (ev) {
             wavArraybuffer = xhr.response;
+            if (wavArraybuffer.byteLength < 5000) return;
             meteData = parseWav(wavArraybuffer);
         }
         return meteData;

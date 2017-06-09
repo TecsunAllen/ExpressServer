@@ -19,6 +19,13 @@
     "debug": "~2.0.0",
     "jade": "~1.6.0",
     "stylus": "0.42.3",
-	"mysql":"latest"
+    "mysql": "latest",
+    "gulp": "latest",
+    "child_process": "latest",
+    "gulp-minify-css": "latest",
+    "gulp-concat": "latest",
+    "gulp-uglify": "latest",
+    "gulp-rename": "latest",
+    "del": "latest"
   }
 }

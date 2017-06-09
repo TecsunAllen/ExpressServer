@@ -4,7 +4,8 @@
 require.config({
     baseUrl : "javascripts",
     paths:{
-        //"three":"lib/three"
+        "webgl": "webgl.min",
+        "wavLoader": "wavLoader.min"
     }
 });
 require(["webgl"]);

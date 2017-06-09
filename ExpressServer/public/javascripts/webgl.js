@@ -112,11 +112,11 @@ define(['wavLoader'], function (wavLoader) {
             renderer.render(scene, camera);
             drawSoundtrack();
             console.timeEnd("渲染");
-            requestAnimationFrame(render);
+            //requestAnimationFrame(render);
         }
         catch (e) {
             console.log(e);
-            requestAnimationFrame(render);
+            //requestAnimationFrame(render);
         }
     }
 
