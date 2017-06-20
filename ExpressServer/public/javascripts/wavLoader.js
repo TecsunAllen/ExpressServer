@@ -2,7 +2,7 @@
  * Created by admin on 2017/5/30.
  */
 
-define(function(){
+
     var meteData;
     var wavArraybuffer;
     var clock;
@@ -33,8 +33,9 @@ define(function(){
         };
 
         this.read_array = function (len) {
-            return this.buffer.slice(this.offset, this.offset + len);
+            var data = this.buffer.slice(this.offset, this.offset + len);
             this.offset += len;
+            return data;
         }
 
 
@@ -115,7 +116,7 @@ define(function(){
         return meteData.waveData[index-1];
     }
 
-    return {
+    module.exports =  {
         load:load,
         parseWav:parseWav,
         getMeteData:getMeteData,
@@ -127,4 +128,3 @@ define(function(){
             return wavPlayer.currentTime;
         }
     }
-});

@@ -1,5 +1,4 @@
-﻿
-function WavReader(byteArray) {
+﻿function WavReader(byteArray) {
     this.buffer = byteArray;
     this.offset = 0;
     this.read_string = function (len) {
@@ -23,11 +22,10 @@ function WavReader(byteArray) {
     };
     
     this.read_array = function (len) {
-        return this.buffer.slice(this.offset, this.offset + len);
+        var data = this.buffer.slice(this.offset, this.offset + len);
         this.offset += len;
+        return data;
     }
-
-
 }
 
 var xhr = new XMLHttpRequest();
@@ -116,5 +114,4 @@ function render() {
     renderer.render(scene, camera);
     requestAnimationFrame(arguments.callee)
 }
-
 requestAnimationFrame(render);

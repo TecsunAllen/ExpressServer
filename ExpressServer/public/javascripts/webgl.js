@@ -1,6 +1,4 @@
-
-define(['wavLoader'], function (wavLoader) {
-
+    var wavLoader = require("./wavLoader.js");
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 10000 );
     var renderer = new THREE.WebGLRenderer();
@@ -14,11 +12,8 @@ define(['wavLoader'], function (wavLoader) {
     createMeshes();
     setOrbitControls();
     render();
-
-
     wavLoader.load("test.wav");
     wavLoader.play();
-
     function initScene() {
         var soundtrackCanvasHeight = window.innerHeight / 3;
         camera.position.z = window.innerHeight / 2;
@@ -119,8 +114,6 @@ define(['wavLoader'], function (wavLoader) {
             //requestAnimationFrame(render);
         }
     }
-
-
     window.onresize =  function() {
         camera.aspect = $("#threeContainer").width() / $("#threeContainer").height();
         camera.updateProjectionMatrix();
@@ -130,4 +123,3 @@ define(['wavLoader'], function (wavLoader) {
         $("#Soundtrack").attr("width",window.innerWidth).attr("height",soundtrackCanvasHeight);
         halfSoundtrackCanvasHeight = soundtrackCanvasHeight/2;
     }
-})
