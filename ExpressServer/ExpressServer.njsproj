@@ -69,6 +69,7 @@
     <Compile Include="bin\www" />
     <Compile Include="services\mysql.js" />
     <Compile Include="webpack.config.js" />
+    <Content Include=".babelrc" />
     <Content Include=".idea\.name" />
     <Content Include=".idea\encodings.xml" />
     <Content Include=".idea\ExpressServer.iml" />
