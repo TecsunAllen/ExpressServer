@@ -9861,17 +9861,25 @@ module.exports = getIteratorFn;
 
 var React = __webpack_require__(50);
 var ProductBox = React.createClass({
-    displayName: "ProductBox",
+    displayName: 'ProductBox',
 
+    getInitialState: function getInitialState() {
+        return {};
+    },
+    handleClick: function handleClick(event) {},
+    componentDidMount: function componentDidMount() {
+        var canvas = this.refs._3Dcanvas;
+    },
+    componentDidUpdate: function componentDidUpdate() {},
+    renderCanvas: function renderCanvas() {},
     render: function render() {
         return React.createElement(
-            "div",
-            { className: "productBox" },
-            "Hello World!"
+            'div',
+            null,
+            React.createElement('canvas', { ref: '_3Dcanvas', onClick: this.handleClick })
         );
     }
 });
-
 module.exports = ProductBox;
 
 /***/ }),
@@ -9908,7 +9916,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _reactDom2.default.render(_react2.default.createElement(_productBox2.default, null), document.getElementById('threeContainer')); /**
                                                                                                                                   * Created by admin on 2017/6/1.
                                                                                                                                   */
-//var test = require(["lib/jquery-3.1.1","wavLoader"]);
 
 /***/ }),
 /* 86 */

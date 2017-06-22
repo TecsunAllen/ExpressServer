@@ -21,5 +21,3 @@ var ToolMenu = React.createClass({
         )
     }
 });
-console.log();
-ReactDOM.render(<ToolMenu />, document.getElementById("threeContainer"));
