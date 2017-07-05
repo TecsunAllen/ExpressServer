@@ -1,24 +1,33 @@
 ﻿var React = require('react');
+var threeWorld =require('../ThreeWorld.js');
 var ProductBox = React.createClass({
-    getInitialState: function () {
-        return { };
+    getInitialState: () => {
+        return {};
     },
-    handleClick: function (event) {
+    handleClick: () => {
 
     },
-    componentDidMount: function () {
+    componentDidMount: () => {
+        var self = this;
         var canvas = this.refs._3Dcanvas;
     },
-    componentDidUpdate:function(){
+    componentDidUpdate: () => {
 
     },
-    renderCanvas: function () {
-       
+    renderCanvas: () => {
+
     },
-    render: function () {
+    render: () => {
+        var items = [];
+        for (var i = 0; i < 10; i++) {
+            items.push((<div key={i}>
+                <img />
+            </div>));
+        }
         return (
                 <div>
-                    <canvas ref='_3Dcanvas' onClick={this.handleClick}></canvas>
+                    {items}
+                    <canvas ref='_3Dcanvas'></canvas>
                 </div>
         )
     }
