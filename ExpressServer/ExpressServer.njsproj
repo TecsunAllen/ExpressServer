@@ -68,6 +68,7 @@
     <Compile Include="routes\index.js" />
     <Compile Include="routes\users.js" />
     <Compile Include="bin\www" />
+    <Compile Include="services\folderReader.js" />
     <Compile Include="services\mysql.js" />
     <Compile Include="webpack.config.js" />
     <Content Include=".babelrc" />
