@@ -7,9 +7,12 @@ var ProductBox = React.createClass({
     handleClick: () => {
 
     },
-    componentDidMount: () => {
+    componentDidMount: function(){
         var self = this;
         var canvas = this.refs._3Dcanvas;
+        canvas.width = $(canvas).parent().width();
+        canvas.height = $(canvas).parent().height();
+
     },
     componentDidUpdate: () => {
 
@@ -25,8 +28,7 @@ var ProductBox = React.createClass({
             </div>));
         }
         return (
-                <div>
-                    {items}
+                <div style={{ height: "100%" }}>
                     <canvas ref='_3Dcanvas'></canvas>
                 </div>
         )
