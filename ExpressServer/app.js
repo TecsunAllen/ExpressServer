@@ -1,4 +1,19 @@
-﻿var express = require('express');
+﻿
+
+/*var exec = require('child_process').exec;
+var cmdStr = 'webpack --display-error-details --watch';
+console.log("开始打包！"+ __dirname);
+
+exec(cmdStr, function (err, stdout, stderr) {
+    if (err) {
+        console.log('get weather api error:' + stderr);
+    } else {
+        console.log(stdout);
+    }
+});*/
+
+
+var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');

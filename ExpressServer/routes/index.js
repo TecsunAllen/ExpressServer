@@ -36,6 +36,11 @@ router.get('/webgl', function (req, res) {
     res.render('webgl', { title: 'Express' });
 });
 
+router.get('/getFolders', function (req, res) {
+    var arg = url.parse(req.url, true).query;
+    res.render('webgl', { title: 'Express' });
+});
+
 
 router.get('/getLocationInfo', function (req, res) {
     try{
