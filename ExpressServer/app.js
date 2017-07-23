@@ -1,19 +1,4 @@
-﻿
-
-/*var exec = require('child_process').exec;
-var cmdStr = 'webpack --display-error-details --watch';
-console.log("开始打包！"+ __dirname);
-
-exec(cmdStr, function (err, stdout, stderr) {
-    if (err) {
-        console.log('get weather api error:' + stderr);
-    } else {
-        console.log(stdout);
-    }
-});*/
-
-
-var express = require('express');
+﻿var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -24,7 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-
+var ImagesPath = "E:/Images";
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -38,10 +23,9 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'build/public')));
-
+app.use(express.static(ImagesPath));
 app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
 });
 
