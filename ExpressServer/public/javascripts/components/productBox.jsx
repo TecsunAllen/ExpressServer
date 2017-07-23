@@ -1,10 +1,10 @@
 ﻿var React = require('react');
 var threeWorld =require('../ThreeWorld.js');
 var ProductBox = React.createClass({
-    getInitialState: () => {
+    getInitialState: function () {
         return {};
     },
-    handleClick: () => {
+    handleClick: function () {
 
     },
     componentDidMount: function(){
@@ -12,15 +12,25 @@ var ProductBox = React.createClass({
         var canvas = this.refs._3Dcanvas;
         canvas.width = $(canvas).parent().width();
         canvas.height = $(canvas).parent().height();
+        $.ajax({
+            url: "http://localhost:3000/getFolders?folderPath=" + this.props.folder,
+            type: "GET",
+            success: function (data) {
+
+
+            },
+            error: function (data) {
+            }
+        });
 
     },
-    componentDidUpdate: () => {
+    componentDidUpdate: function () {
 
     },
-    renderCanvas: () => {
+    renderCanvas: function () {
 
     },
-    render: () => {
+    render: function () {
         var items = [];
         for (var i = 0; i < 10; i++) {
             items.push((<div key={i}>

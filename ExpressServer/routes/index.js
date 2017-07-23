@@ -2,6 +2,7 @@
 var router = express.Router();
 var url = require('url');
 var dbService = require('../services/mysql.js');
+var fileSystem = require('fs');
 dbService.connectMysql();
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -36,9 +37,30 @@ router.get('/webgl', function (req, res) {
     res.render('webgl', { title: 'Express' });
 });
 
-router.get('/getFolders', function (req, res) {
+router.get('/scanFolder', function (req, res) {
     var arg = url.parse(req.url, true).query;
-    res.render('webgl', { title: 'Express' });
+    fileSystem.readdir(arg.folderPath, function (err, files) {
+        try {
+            var newfiles = files.filter(function (file) {
+                var stats = fileSystem.lstatSync(arg.folderPath + "/" + file);
+                return (!stats.isDirectory() && /(.JPG$)|(.PNG$)/.test(file));
+            });
+            console.log(files);
+            var newFolders = files.filter(function (file) {
+                var stats = fileSystem.lstatSync(arg.folderPath + "/" + file);
+                return stats.isDirectory();
+            });
+            res.json({
+                baseFolder: arg.folderPath,
+                files: newfiles,
+                folders: newFolders
+            });
+        }
+        catch (e) {
+            console.log(e);
+            res.json(e);
+        }
+    });
 });
 
 

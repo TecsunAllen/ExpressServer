@@ -33,6 +33,7 @@
     <Compile Include="app.js" />
     <Compile Include="gulpfile.js" />
     <Compile Include="public\javascripts\audioReader.js" />
+    <Compile Include="public\javascripts\components\photoThumb.jsx" />
     <Compile Include="public\javascripts\components\productBox.jsx" />
     <Compile Include="public\javascripts\css3.js" />
     <Compile Include="public\javascripts\demo.js" />
@@ -53,7 +54,7 @@
     <Compile Include="public\javascripts\lib\stats.min.js" />
     <Compile Include="public\javascripts\lib\three.js" />
     <Compile Include="public\javascripts\lib\three.min.js" />
-    <Compile Include="public\javascripts\main.js" />
+    <Compile Include="public\javascripts\main.jsx" />
     <Compile Include="public\javascripts\PhotoReader.js" />
     <Compile Include="public\javascripts\photos.js" />
     <Compile Include="public\javascripts\ps.js" />
