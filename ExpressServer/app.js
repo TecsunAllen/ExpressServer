@@ -9,7 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var folderReader = require('./services/folderReader');
 var app = express();
-
+var ImagesPath = "E:/Images";
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -23,6 +23,13 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'build/public')));
+app.use(express.static(ImagesPath));
+app.all('*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+
+
 app.use('/', routes);
 app.use('/users', users);
 

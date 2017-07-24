@@ -3,7 +3,13 @@
     padding:0px;
 }
 body{
-    overflow: hidden;
+
+}
+
+img {
+    flex: 1;
+    width: 300px;
+    padding: 2px;
 }
 video{
     position: absolute;
@@ -13,7 +19,8 @@ video{
     z-index: 1;
     opacity: 0.5;
 }
-#threeContainer {
+
+#folderBrowser {
     position: absolute;
     top: 0;
     bottom: 0;

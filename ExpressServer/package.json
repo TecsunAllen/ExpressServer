@@ -33,6 +33,10 @@
     "react-dom": "latest",
     "serve-favicon": "^2.4.3",
     "stylus": "^0.54.5",
-    "webpack": "latest"
+    "webpack": "latest",
+	"url-loader": "latest",
+	"style-loader": "latest",
+    "css-loader": "latest",
+    "images": "latest"
   }
 }
