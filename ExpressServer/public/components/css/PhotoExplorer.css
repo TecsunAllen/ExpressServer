@@ -1,0 +1,12 @@
+﻿.PhotoExplorer {
+    height:100%;
+}
+.PhotoExplorer div#bigThumb{
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    background:rgba(80, 99, 59,0.5);
+    left:0px;
+    right:0px;
+    display:none;
+}

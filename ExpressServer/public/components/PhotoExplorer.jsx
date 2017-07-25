@@ -66,9 +66,8 @@ var PhotoExplorer = React.createClass({
             <img onClick={this.showBigPhoto} key={i} src={"/getThumbImage?path="+this.state.baseFolder+"/"+this.state.files[i]}/>
         ));
         return (
-            <div style={{ height: "100%" }}>
-                <div onClick={this.closeBigPhoto}
-                     style={{position:"fixed",top: "0px", bottom: "0px",background: "rgba(80, 99, 59,0.5)",left: "0px",right: "0px",display:"none"}}>
+            <div className="PhotoExplorer">
+                <div id="bigThumb" onClick={this.closeBigPhoto}>
                     <img ref="bigThumb" src=""/></div>
                 <div onClick={this.gotoTopFolder}>返回</div>
                 <div id="folderName"> {this.state.baseFolder}</div>
@@ -78,4 +77,4 @@ var PhotoExplorer = React.createClass({
         )
     }
 });
-module.exports = PhotoThumb;
+module.exports = PhotoExplorer;

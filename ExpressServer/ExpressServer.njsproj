@@ -33,8 +33,8 @@
     <Compile Include="app.js" />
     <Compile Include="gulpfile.js" />
     <Compile Include="public\javascripts\audioReader.js" />
-    <Compile Include="public\javascripts\components\PhotoExplorer.jsx" />
-    <Compile Include="public\javascripts\components\productBox.jsx" />
+    <Compile Include="public\components\PhotoExplorer.jsx" />
+    <Compile Include="public\components\productBox.jsx" />
     <Compile Include="public\javascripts\css3.js" />
     <Compile Include="public\javascripts\demo.js" />
     <Compile Include="public\javascripts\guitar.js" />
@@ -86,6 +86,7 @@
     <Content Include="obj\Debug\ExpressServer.njsprojResolveAssemblyReference.cache" />
     <Content Include="package.json" />
     <Content Include="public\javascripts\babel.jsx" />
+    <Content Include="public\components\css\PhotoExplorer.css" />
     <Content Include="public\javascripts\guitar.jsx" />
     <Content Include="public\javascripts\photoAnalysis.jsx" />
     <Content Include="public\stylesheets\style.css" />
@@ -104,8 +105,9 @@
     <Folder Include="build\" />
     <Folder Include="obj\" />
     <Folder Include="obj\Debug\" />
+    <Folder Include="public\components\css\" />
     <Folder Include="public\javascripts\lib\" />
-    <Folder Include="public\javascripts\components\" />
+    <Folder Include="public\components\" />
     <Folder Include="services\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
