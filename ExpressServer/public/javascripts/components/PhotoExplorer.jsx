@@ -1,5 +1,5 @@
 ﻿var React = require('react');
-var PhotoThumb = React.createClass({
+var PhotoExplorer = React.createClass({
     getInitialState: function () {
         return {
             baseFolder: "",
@@ -63,8 +63,7 @@ var PhotoThumb = React.createClass({
             {this.state.folders[i]}
         </li>));
         for (var i = 0; i < this.state.files.length; i++) fileItems.push((
-            <img onClick={this.showBigPhoto} key={i}
-                 src={"/getThumbImage?path="+this.state.baseFolder+"/"+this.state.files[i]}/>
+            <img onClick={this.showBigPhoto} key={i} src={"/getThumbImage?path="+this.state.baseFolder+"/"+this.state.files[i]}/>
         ));
         return (
             <div style={{ height: "100%" }}>

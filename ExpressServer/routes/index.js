@@ -34,9 +34,9 @@ router.post('/SaveLocationInfo', function (req, res) {
 
 
 
-router.get('/webgl', function (req, res) {
+router.get('/photoAnalysis', function (req, res) {
     var arg = url.parse(req.url, true).query;
-    res.render('webgl', { title: 'Express' });
+    res.render('photoAnalysis', { title: 'Express' });
 });
 
 
