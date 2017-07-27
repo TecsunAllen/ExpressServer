@@ -12,9 +12,12 @@ var PhotoExplorer = React.createClass({
     },
     loadFolderInfo: function (path) {
         $.ajax({
-            url: "http://" + this.props.serverIP + "/scanFolder?folderPath=" + path,
+            url: "/scanFolder?folderPath=" + path,
             type: "GET",
             success: (data) => {
+                data.folders = data.folders.filter(function (item) {
+                    return !/thumb/.test(item);
+                })
                 this.setState({
                     baseFolder: data.baseFolder,
                     folders: data.folders,
@@ -39,13 +42,10 @@ var PhotoExplorer = React.createClass({
     },
     showBigPhoto: function (ev) {
         var image = new Image();
-        image.src = ev.target.src;
-        image.onload = ()=> {
-            this.refs.bigThumb.src = image.src;
-            this.refs.bigThumb.style.width = image.width + "px";
-            $(this.refs.bigThumb).css("padding", "6%").css("display", "block").css("margin", "auto");
-            $(this.refs.bigThumb.parentElement).show();
-        }
+        image.src = "/getFile?path=" + (new URL(ev.target.src)).searchParams.get("path");
+
+
+
     },
     closeBigPhoto: function (ev) {
         $(this.refs.bigThumb.parentElement).hide();
@@ -59,20 +59,31 @@ var PhotoExplorer = React.createClass({
     render: function () {
         var fileItems = [];
         var folerItems = [];
-        for (var i = 0; i < this.state.folders.length; i++) folerItems.push((<li onClick={this.gotoFolder} key={i}>
+        for (var i = 0; i < this.state.folders.length; i++) folerItems.push((
+            <li className="btn btn-info" onClick={this.gotoFolder} key={i}>
             {this.state.folders[i]}
         </li>));
         for (var i = 0; i < this.state.files.length; i++) fileItems.push((
-            <img onClick={this.showBigPhoto} key={i} src={"/getThumbImage?path="+this.state.baseFolder+"/"+this.state.files[i]}/>
+            <img className="img-thumbnail" onClick={this.showBigPhoto} key={i}
+                 src={"/getThumbImage?path="+this.state.baseFolder+"/"+this.state.files[i]}/>
         ));
         return (
-            <div className="PhotoExplorer">
+            <div className="PhotoExplorer container-fluid">
                 <div id="bigThumb" onClick={this.closeBigPhoto}>
-                    <img ref="bigThumb" src=""/></div>
-                <div onClick={this.gotoTopFolder}>返回</div>
-                <div id="folderName"> {this.state.baseFolder}</div>
+                    <img ref="bigThumb" src=""/>
+                </div>
+                <div className="form-inline">
+                    <div className="form-group">
+                        <div className="glyphicon glyphicon-arrow-left" onClick={this.gotoTopFolder}></div>
+                    </div>
+                    <div className="form-group">
+                        <div className="glyphicon glyphicon-arrow-right"></div>
+                    </div>
+                    <div className="form-group"><input className="form-control" ref="address"
+                                                       value={this.state.baseFolder} id="address" type="text"/></div>
+                </div>
                 <ul>{folerItems}</ul>
-                <ul>{fileItems}</ul>
+                <div>{fileItems}</div>
             </div>
         )
     }

@@ -1,5 +1,13 @@
-﻿.PhotoExplorer {
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+.PhotoExplorer {
     height:100%;
+}
+
+.PhotoExplorer img {
+    width: 20%;
 }
 .PhotoExplorer div#bigThumb{
     position:fixed;
@@ -9,4 +17,8 @@
     left:0px;
     right:0px;
     display:none;
+}
+
+.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {
+    font-size: x-large;
 }

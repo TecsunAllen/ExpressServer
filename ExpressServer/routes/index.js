@@ -80,6 +80,18 @@ router.get('/getThumbImage', function (req, res) {
         res.end();
     })
 })
+
+
+router.get('/getFile', function (req, res) {
+    var arg = url.parse(req.url, true).query;
+    var filePath = arg.path;
+    var fileStream = fileSystem.createReadStream(filePath);
+    res.writeHead(200, {"Content-Type": "application/octet-stream"});
+    fileStream.pipe(res);
+    fileStream.on("end", function () {
+        res.end();
+    })
+})
 router.get('/scanFolder', function (req, res) {
     var arg = url.parse(req.url, true).query;
     fileSystem.readdir(arg.folderPath, function (err, files) {

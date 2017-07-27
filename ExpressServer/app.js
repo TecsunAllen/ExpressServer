@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var folderReader = require('./services/folderReader');
+//var folderReader = require('./services/folderReader');
 var app = express();
 var ImagesPath = "E:/Images";
 // view engine setup
