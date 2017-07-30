@@ -7,16 +7,19 @@
 }
 
 .PhotoExplorer img {
-    width: 20%;
+    width: 100%;
+}
+
+.PhotoExplorer #leftToolbar {
+
 }
 .PhotoExplorer div#bigThumb{
-    position:fixed;
-    top:0px;
-    bottom:0px;
+    height: 100%;
     background:rgba(80, 99, 59,0.5);
-    left:0px;
-    right:0px;
-    display:none;
+}
+
+.PhotoExplorer div#bigThumb img {
+    width: 100%;
 }
 
 .PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {

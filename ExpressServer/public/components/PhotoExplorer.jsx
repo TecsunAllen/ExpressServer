@@ -1,8 +1,9 @@
 ﻿var React = require('react');
+require("./css/PhotoExplorer.css"); // 载入 style.css
 var PhotoExplorer = React.createClass({
     getInitialState: function () {
         return {
-            baseFolder: "",
+            curreentFolder: "",
             folders: [],
             files: []
         };
@@ -19,7 +20,7 @@ var PhotoExplorer = React.createClass({
                     return !/thumb/.test(item);
                 })
                 this.setState({
-                    baseFolder: data.baseFolder,
+                    curreentFolder: data.baseFolder,
                     folders: data.folders,
                     files: data.files
                 });
@@ -41,14 +42,16 @@ var PhotoExplorer = React.createClass({
         this.loadFolderInfo(parentFolder);
     },
     showBigPhoto: function (ev) {
-        var image = new Image();
-        image.src = "/getFile?path=" + (new URL(ev.target.src)).searchParams.get("path");
-
-
+        /*this.refs.bigCanvas.src = "/getFile?path=" + (new URL(ev.target.src)).searchParams.get("path");
+         $(this.refs.bigCanvas.parentElement).show();
+         var xhr = new XMLHttpRequest();
+         xhr.responseType="arraybuffer";*/
+        this.refs.bigCanvas.width = 0;
+        this.refs.bigCanvas.height = 0;
 
     },
     closeBigPhoto: function (ev) {
-        $(this.refs.bigThumb.parentElement).hide();
+        //$(this.refs.bigThumb.parentElement).hide();
     },
     componentDidUpdate: function () {
 
@@ -65,25 +68,30 @@ var PhotoExplorer = React.createClass({
         </li>));
         for (var i = 0; i < this.state.files.length; i++) fileItems.push((
             <img className="img-thumbnail" onClick={this.showBigPhoto} key={i}
-                 src={"/getThumbImage?path="+this.state.baseFolder+"/"+this.state.files[i]}/>
+                 src={"/getThumbImage?path="+this.state.curreentFolder+"/"+this.state.files[i]}/>
         ));
         return (
             <div className="PhotoExplorer container-fluid">
-                <div id="bigThumb" onClick={this.closeBigPhoto}>
-                    <img ref="bigThumb" src=""/>
-                </div>
-                <div className="form-inline">
-                    <div className="form-group">
-                        <div className="glyphicon glyphicon-arrow-left" onClick={this.gotoTopFolder}></div>
+                <div className="row">
+                    <div id="leftToolbar" className="col-md-3 col-lg-3 col-sm-3">
+                        <div className="form-inline">
+                            <div className="form-group">
+                                <div className="glyphicon glyphicon-arrow-left" onClick={this.gotoTopFolder}></div>
+                            </div>
+                            <div className="form-group">
+                                <div className="glyphicon glyphicon-arrow-right"></div>
+                            </div>
+                            <div className="form-group"><input className="form-control" ref="address"
+                                                               value={this.state.curreentFolder} id="address"
+                                                               type="text"/></div>
+                        </div>
+                        <ul>{folerItems}</ul>
+                        <div>{fileItems}</div>
                     </div>
-                    <div className="form-group">
-                        <div className="glyphicon glyphicon-arrow-right"></div>
+                    <div id="bigThumb" onClick={this.closeBigPhoto} className="col-md-9 col-lg-9 col-sm-9">
+                        <canvas ref="bigCanvas" src=""/>
                     </div>
-                    <div className="form-group"><input className="form-control" ref="address"
-                                                       value={this.state.baseFolder} id="address" type="text"/></div>
                 </div>
-                <ul>{folerItems}</ul>
-                <div>{fileItems}</div>
             </div>
         )
     }
