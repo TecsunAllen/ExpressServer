@@ -9,6 +9,7 @@ var MainContainer = React.createClass({
         return {};
     },
     updateCanvas: function () {
+        debugger
         var srcImageCanvas = this.refs.srcImageCanvas;
         srcImageCanvas.width = srcImageCanvas.parentElement.clientWidth;
         srcImageCanvas.height = srcImageCanvas.parentElement.clientHeight;
@@ -24,16 +25,16 @@ var MainContainer = React.createClass({
     },
     render: function () {
         return (
-            <div className="container-fluid">
-                <div className="row">
+            <div className="container-fluid" style={{height:"100%"}}>
+                <div className="row" style={{height:"5%"}}>
                     <AddressTool eventHander={this.eventHander} className="row" ref="addressTool"/>
                 </div>
-                <div className="row">
-                    <div className="col-md-3 col-lg-3 col-sm-3">
+                <div className="row" style={{height:"95%"}}>
+                    <div className="col-md-3 col-lg-3 col-sm-3" style={{height:"100%"}}>
                         <ThumbList eventHander={this.eventHander} ref="thumbList" thumbUrlList={[]}/>
                     </div>
-                    <div className="col-md-9 col-lg-9 col-sm-9">
-                        <div>
+                    <div className="col-md-9 col-lg-9 col-sm-9" style={{height:"100%"}}>
+                        <div style={{height:"100%"}}>
                             <canvas ref="srcImageCanvas"></canvas>
                         </div>
                     </div>

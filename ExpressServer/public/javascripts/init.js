@@ -14,7 +14,7 @@ var currentState = {
 
 
 function eventHander(component, type, ev) {
-    debugger
+
     switch (type) {
         case "goback":
             var currentFolder = component.state.currfolder;
@@ -26,6 +26,26 @@ function eventHander(component, type, ev) {
         case "gotoFolder":
             var path = component.state.currfolder + "/" + ev.target.text;
             gotoFolder(path);
+            break;
+        case "thumbClick":
+            var url = ev.target.src;
+            var path = (new URL(ev.target.src)).searchParams.get("path");
+            var srcUrl = getSrcImageUrl + path;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", srcUrl, true);
+            xhr.responseType = "arraybuffer";
+            xhr.send();
+            xhr.onload = function (ev) {
+                var data = ev.target.response;
+                var canvas = mainComponent.refs.srcImageCanvas;
+                var ctx = canvas.getContext("2d");
+                var img = new Image()
+                img.src = URL.createObjectURL(new Blob([data], {type: 'image/jpg'}));
+                img.onload = function () {
+                    ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx.canvas.width, ctx.canvas.width * img.height / img.width);
+                }
+
+            }
             break;
     }
 }
