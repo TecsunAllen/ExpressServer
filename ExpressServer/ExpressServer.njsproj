@@ -32,7 +32,7 @@
   <ItemGroup>
     <Compile Include="app.js" />
     <Compile Include="gulpfile.js" />
-    <Compile Include="public\javascripts\audioReader.js" />
+    <Compile Include="services\audioReader.js" />
     <Compile Include="public\components\PhotoExplorer.jsx" />
     <Compile Include="public\javascripts\init.js" />
     <Compile Include="public\javascripts\lib\bootstrap.min.js" />
@@ -52,16 +52,16 @@
     <Compile Include="public\javascripts\lib\three.js" />
     <Compile Include="public\javascripts\lib\three.min.js" />
     <Compile Include="public\javascripts\PhotoReader.js" />
-    <Compile Include="public\javascripts\photos.js" />
-    <Compile Include="public\javascripts\ps.js" />
-    <Compile Include="public\javascripts\require.config.js" />
-    <Compile Include="public\javascripts\test.js" />
-    <Compile Include="public\javascripts\threeEditor.js" />
-    <Compile Include="public\javascripts\ThreeWorld.js" />
-    <Compile Include="public\javascripts\video.js" />
-    <Compile Include="public\javascripts\wavLoader.js" />
-    <Compile Include="public\javascripts\webCrawler.js" />
-    <Compile Include="public\javascripts\webgl.js" />
+    <Compile Include="services\photos.js" />
+    <Compile Include="services\ps.js" />
+    <Compile Include="services\require.config.js" />
+    <Compile Include="services\test.js" />
+    <Compile Include="services\threeEditor.js" />
+    <Compile Include="services\ThreeWorld.js" />
+    <Compile Include="services\video.js" />
+    <Compile Include="services\wavLoader.js" />
+    <Compile Include="services\webCrawler.js" />
+    <Compile Include="services\webgl.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\users.js" />
     <Compile Include="bin\www" />

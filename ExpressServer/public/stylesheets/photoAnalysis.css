@@ -1,3 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.PhotoExplorer {
+    height:100%;
+}
+
+.PhotoExplorer img {
+    width: 100%;
+}
+
+.PhotoExplorer #leftToolbar {
+
+}
+.PhotoExplorer div#bigThumb{
+    height: 100%;
+    background:rgba(80, 99, 59,0.5);
+}
+
+.PhotoExplorer div#bigThumb img {
+    width: 100%;
+}
+
+.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {
+    font-size: x-large;
+}
+
 #folderBrowser {
     position: absolute;
     top: 0;
