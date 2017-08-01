@@ -34,10 +34,7 @@
     <Compile Include="gulpfile.js" />
     <Compile Include="public\javascripts\audioReader.js" />
     <Compile Include="public\components\PhotoExplorer.jsx" />
-    <Compile Include="public\components\productBox.jsx" />
-    <Compile Include="public\javascripts\css3.js" />
-    <Compile Include="public\javascripts\demo.js" />
-    <Compile Include="public\javascripts\guitar.js" />
+    <Compile Include="public\javascripts\init.js" />
     <Compile Include="public\javascripts\lib\bootstrap.min.js" />
     <Compile Include="public\javascripts\lib\browser.min.js" />
     <Compile Include="public\javascripts\lib\exif.min.js" />
@@ -54,7 +51,6 @@
     <Compile Include="public\javascripts\lib\stats.min.js" />
     <Compile Include="public\javascripts\lib\three.js" />
     <Compile Include="public\javascripts\lib\three.min.js" />
-    <Compile Include="public\javascripts\main.jsx" />
     <Compile Include="public\javascripts\PhotoReader.js" />
     <Compile Include="public\javascripts\photos.js" />
     <Compile Include="public\javascripts\ps.js" />
@@ -85,10 +81,13 @@
     <Content Include="obj\Debug\ExpressServer.njsproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\ExpressServer.njsprojResolveAssemblyReference.cache" />
     <Content Include="package.json" />
-    <Content Include="public\javascripts\babel.jsx" />
+    <Content Include="public\components\AddressTool.jsx" />
     <Content Include="public\components\css\PhotoExplorer.css" />
-    <Content Include="public\javascripts\guitar.jsx" />
+    <Content Include="public\components\ThumbList.jsx" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="public\javascripts\photoAnalysis.jsx" />
+    <Content Include="public\stylesheets\bootstrap.min.css" />
+    <Content Include="public\stylesheets\photoAnalysis.css" />
     <Content Include="public\stylesheets\style.css" />
     <Content Include="public\stylesheets\style.styl" />
     <Content Include="public\stylesheets\webgl.css" />
@@ -106,6 +105,7 @@
     <Folder Include="obj\" />
     <Folder Include="obj\Debug\" />
     <Folder Include="public\components\css\" />
+    <Folder Include="public\fonts\" />
     <Folder Include="public\javascripts\lib\" />
     <Folder Include="public\components\" />
     <Folder Include="services\" />
