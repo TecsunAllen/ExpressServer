@@ -1,5 +1,4 @@
-﻿var React = require('react');
-var EXIF = require('./lib/exif.min.js');
+﻿var EXIF = require('./lib/exif.js');
 var oFile = new FileReader();
 oFile.onloadend = function (ev) {
     

@@ -1,6 +1,7 @@
 /**
  * Created by admin on 2017/7/30.
  */
+var EXIF = require('./lib/exif.js');
 var initFolder = "E:/Images";
 var scanFolderUrl = "/scanFolder?folderPath=";
 var getThumbUrl = "/getThumbImage?path=";
@@ -14,7 +15,6 @@ var currentState = {
 
 
 function eventHander(component, type, ev) {
-
     switch (type) {
         case "goback":
             var currentFolder = component.state.currfolder;
@@ -33,16 +33,23 @@ function eventHander(component, type, ev) {
             var srcUrl = getSrcImageUrl + path;
             var xhr = new XMLHttpRequest();
             xhr.open("GET", srcUrl, true);
-            xhr.responseType = "arraybuffer";
+            xhr.responseType = "blob";
             xhr.send();
             xhr.onload = function (ev) {
                 var data = ev.target.response;
                 var canvas = mainComponent.refs.srcImageCanvas;
                 var ctx = canvas.getContext("2d");
                 var img = new Image()
-                img.src = URL.createObjectURL(new Blob([data], {type: 'image/jpg'}));
+                img.src = URL.createObjectURL(data);
                 img.onload = function () {
                     ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx.canvas.width, ctx.canvas.width * img.height / img.width);
+
+                    EXIF.getData(img, function () {
+                        var _dataTxt = EXIF.pretty(this);
+                        console.log(_dataTxt)
+                        //var _dataJson = EXIF.getAllTags(this);
+                        //var _orientation = EXIF.getTag(this, 'Orientation');
+                    });
                 }
 
             }
@@ -69,8 +76,13 @@ function refresh() {
     var thumbUrlList = files.map(function (item) {
         return getThumbUrl + currentState.currfolder + "/" + item;
     })
+    mainComponent.updateCanvas();
     mainComponent.refs.addressTool.setState(currentState);
     mainComponent.refs.thumbList.setState({thumbUrlList: thumbUrlList});
+}
+
+window.onresize = function () {
+    refresh();
 }
 
 module.exports = {

@@ -9,7 +9,6 @@ var MainContainer = React.createClass({
         return {};
     },
     updateCanvas: function () {
-        debugger
         var srcImageCanvas = this.refs.srcImageCanvas;
         srcImageCanvas.width = srcImageCanvas.parentElement.clientWidth;
         srcImageCanvas.height = srcImageCanvas.parentElement.clientHeight;
