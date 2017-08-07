@@ -754,6 +754,16 @@
         return true;
     }
 
+
+    EXIF.getDataByBuffer = function (bufferData) {
+        var data = findEXIFinJPEG(bufferData);
+        var iptcdata = findIPTCinJPEG(bufferData);
+        return {
+            exifdata: data || {},
+            iptcdata: iptcdata || {}
+        };
+    }
+
     EXIF.getTag = function (img, tag) {
         if (!imageHasData(img)) return;
         return img.exifdata[tag];

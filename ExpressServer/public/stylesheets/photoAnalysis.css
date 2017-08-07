@@ -2,6 +2,11 @@
     margin: 0;
     padding: 0;
 }
+
+body {
+    overflow: hidden;
+}
+
 .PhotoExplorer {
     height:100%;
 }
@@ -36,4 +41,53 @@
 
 li {
     list-style: none;
+}
+
+#loading-center-absolute {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 200px;
+    width: 200px;
+    margin-top: -100px;
+    margin-left: -100px;
+}
+
+#loading-center-absolute #object {
+    width: 80px;
+    height: 80px;
+    background-color: #FFF;
+    -webkit-animation: loadingAnimate 1s infinite ease-in-out;
+    animation: loadingAnimate 1s infinite ease-in-out;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 60px;
+    background-color: chocolate;
+}
+
+@-webkit-keyframes loadingAnimate {
+    0% {
+        -webkit-transform: perspective(160px);
+    }
+    50% {
+        -webkit-transform: perspective(160px) rotateY(-180deg);
+    }
+    100% {
+        -webkit-transform: perspective(160px) rotateY(-180deg) rotateX(-180deg);
+    }
+}
+
+@keyframes loadingAnimate {
+    0% {
+        transform: perspective(160px) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: perspective(160px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: perspective(160px) rotateX(-180deg) rotateY(0deg);
+        -webkit-transform: perspective(160px) rotateX(-180deg) rotateY(0deg);
+    }
+    100% {
+        transform: perspective(160px) rotateX(-180deg) rotateY(-180deg);
+        -webkit-transform: perspective(160px) rotateX(-180deg) rotateY(-180deg);
+    }
 }
