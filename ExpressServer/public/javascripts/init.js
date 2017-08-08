@@ -120,6 +120,14 @@ function gotoFolder(path) {
 function initLoad(_mainComponent) {
     mainComponent = _mainComponent;
     gotoFolder(initFolder);
+    mainComponent.refs.toolBox.setState({
+        toolList: [
+            {
+                name: "色温",
+                iconUrl: ""
+            }
+        ]
+    });
 }
 function refresh() {
     var files = currentState.files;
@@ -134,6 +142,10 @@ function refresh() {
 
 window.onresize = function () {
     refresh();
+}
+
+window.oncontextmenu = function (e) {
+    e.preventDefault();
 }
 
 module.exports = {
