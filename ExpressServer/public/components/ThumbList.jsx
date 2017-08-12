@@ -14,8 +14,9 @@ var ThumbList = React.createClass({
     render: function () {
         var fileItems = [];
         for (var i = 0; i < this.state.thumbUrlList.length; i++) fileItems.push((
-            <li key={i}><img onClick={(ev)=>{this.props.eventHander(this,"thumbClick",ev)}} className="img-thumbnail"
-                             src={this.state.thumbUrlList[i]}/></li>
+            <li style={{top:50*i+"px"}} key={i}><img onClick={(ev)=>{this.props.eventHander(this,"thumbClick",ev)}}
+                                                     className="img-thumbnail"
+                                                     src={this.state.thumbUrlList[i]}/></li>
         ));
         return (
             <div style={{height:"100%", overflow: "auto"}}>{fileItems}</div>

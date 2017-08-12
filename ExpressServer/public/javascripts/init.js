@@ -76,6 +76,7 @@ function getEXIFInfo(bufferData) {
 }
 
 function eventHander(component, type, ev) {
+    console.log(type);
     switch (type) {
         case "goback":
             var currentFolder = component.state.currfolder;
@@ -104,6 +105,9 @@ function eventHander(component, type, ev) {
                 mainComponent.setState({isLoading: false});
             });
             break;
+        case "toolClick":
+            component.setState({max: 100, min: 0, value: 50});
+            break;
     }
 }
 
@@ -124,7 +128,11 @@ function initLoad(_mainComponent) {
         toolList: [
             {
                 name: "色温",
-                iconUrl: ""
+                iconUrl: "/images/tool_icon01.svg"
+            },
+            {
+                name: "色温",
+                iconUrl: "/images/tool_icon01.svg"
             }
         ]
     });

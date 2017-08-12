@@ -16,11 +16,12 @@ var ToolBox = React.createClass({
         for (var i = 0; i < this.state.toolList.length; i++) toolItems.push((
             <li onClick={(ev)=>{this.props.eventHander(this,"toolClick",ev)}} title={this.state.toolList[i].name}
                 key={i}>
-                <button alt={this.state.toolList[i].name} className="btn-default" src={this.state.toolList[i].iconUrl}/>
+                <img style={{height:"-webkit-fill-available"}} alt={this.state.toolList[i].name}
+                     src={this.state.toolList[i].iconUrl}/>
             </li>
         ));
         return (
-            <div className="ToolBox" style={{height:"100%", overflow: "auto"}}>{toolItems}</div>
+            <ul className="ToolBox" style={{height:"100%", overflow: "auto"}}>{toolItems}</ul>
         )
     }
 });
