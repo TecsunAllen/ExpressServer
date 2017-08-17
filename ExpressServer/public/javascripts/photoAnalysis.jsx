@@ -1,35 +1,43 @@
-﻿var React = require('react');
-var ReactDom = require('react-dom');
-var ThumbList = require('../components/ThumbList.jsx');
-var ToolBox = require('../components/ToolBox.jsx');
-var AddressTool = require('../components/AddressTool.jsx');
-var Slider = require('../components/Slider.jsx');
-var init = require('./init.js');
-require("../stylesheets/photoAnalysis.css"); // 载入 style.css
-var MainContainer = React.createClass({
-    getInitialState: function () {
-        return {
+﻿import React, { Component } from 'react';
+import ReactDom from 'react-dom';
+import AddressTool from '../components/AddressTool.jsx';
+import "../stylesheets/photoAnalysis.css"; // 载入 style.css
+import ThumbList from '../components/ThumbList.jsx';
+import ToolBox from '../components/ToolBox.jsx';
+import Slider from '../components/Slider.jsx';
+import init from './init.js';
+import { Router, Route, hashHistory } from 'react-router';
+
+class MainContainer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             currentImage: null,
             isLoading: false
-        }
-    },
-    updateCanvas: function () {
+        };
+    }
+
+    updateCanvas() {
         var srcImageCanvas = this.refs.srcImageCanvas;
         srcImageCanvas.width = srcImageCanvas.parentElement.clientWidth;
         srcImageCanvas.height = srcImageCanvas.parentElement.clientHeight;
-    },
-    componentDidMount: function () {
+    }
+
+    componentDidMount() {
         this.updateCanvas();
-    },
-    componentDidUpdate: function () {
+    }
+
+    componentDidUpdate() {
         if (this.state.isLoading) $(this.refs.loadingAnimation).show();
         else  $(this.refs.loadingAnimation).hide();
         this.updateCanvas();
-    },
-    eventHander: function (a, b, c) {
+    }
+
+    eventHander(a, b, c) {
         init.eventHander(a, b, c);
-    },
-    render: function () {
+    }
+
+    render() {
         return (
             <div className="container-fluid" style={{height:"100%"}}>
                 <div className="row">
@@ -48,7 +56,8 @@ var MainContainer = React.createClass({
                             <div ref="loadingAnimation" id="loading-center-absolute">
                                 <div id="object"></div>
                             </div>
-                            <canvas ref="srcImageCanvas"></canvas>
+                            <canvas onDoubleClick={(ev)=>{this.props.eventHander(this,"gotoPhotoShop",ev)}}
+                                    ref="srcImageCanvas"></canvas>
                         </div>
                     </div>
                 </div>
@@ -56,5 +65,6 @@ var MainContainer = React.createClass({
             </div>
         )
     }
-});
+}
+;
 init.initLoad(ReactDom.render(<MainContainer />, document.querySelector("#folderBrowser")));

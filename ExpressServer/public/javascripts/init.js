@@ -108,6 +108,9 @@ function eventHander(component, type, ev) {
         case "toolClick":
             component.setState({max: 100, min: 0, value: 50});
             break;
+        case "gotoPhotoShop":
+
+            break;
     }
 }
 

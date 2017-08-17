@@ -1,22 +1,27 @@
 //依赖bootstrap框架
-var React = require('react');
-var AddressTool = React.createClass({
-    getInitialState: function () {
-        return {
+import React, { Component } from 'react';
+class AddressTool extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             currfolder: "",
             childfolders: [],
             files: []
         };
-    },
-    componentDidMount: function () {
-    },
-    componentDidUpdate: function () {
+    }
 
-    },
-    inputChangeHander: function () {
+    componentDidMount() {
+    }
 
-    },
-    render: function () {
+    componentDidUpdate() {
+
+    }
+
+    inputChangeHander() {
+
+    }
+
+    render() {
         var folderItems = [];
         for (var i = 0; i < this.state.childfolders.length; i++) {
             folderItems.push(<li key={i} onClick={(ev)=>{this.props.eventHander(this,"gotoFolder",ev)}}><a
@@ -49,5 +54,5 @@ var AddressTool = React.createClass({
             </div>
         )
     }
-});
-module.exports = AddressTool;
+}
+export default  AddressTool;
