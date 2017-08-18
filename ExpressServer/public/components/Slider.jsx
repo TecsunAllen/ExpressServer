@@ -1,7 +1,7 @@
 //依赖bootstrap框架
-var React = require('react');
-var Slider = React.createClass({
-    getInitialState: function () {
+import React, { Component } from 'react';
+class Slider extends Component{
+    getInitialState () {
         return {
             title: "测试",
             max: 100,
@@ -9,8 +9,8 @@ var Slider = React.createClass({
             value: 0,
             oneStep: 5
         };
-    },
-    componentDidMount: function () {
+    }
+    componentDidMount () {
         $(this.refs.sliderCube).mousedown((ev) => {
             this.changeValue(ev);
         }).mousemove((ev) => {
@@ -22,11 +22,11 @@ var Slider = React.createClass({
             this.changeValue(ev);
         });
         this.setState({value: 0});
-    },
-    componentDidUpdate: function () {
+    }
+    componentDidUpdate () {
 
-    },
-    changeValue: function (ev) {
+    }
+    changeValue (ev) {
         ev.originalEvent.preventDefault();
         if (ev.type == "mousedown") {
             this.lastClientX = ev.clientX;
@@ -47,8 +47,8 @@ var Slider = React.createClass({
         else if (ev.type == "mouseup") {
             this.start = false;
         }
-    },
-    render: function () {
+    }
+    render () {
         var cubeStyle = {left: 0};
         if (this.refs.sliderCube) {
             var value = (this.state.value - this.state.min) / (this.state.max - this.state.min);
@@ -69,5 +69,5 @@ var Slider = React.createClass({
             </div>
         )
     }
-});
-module.exports = Slider;
+};
+export default Slider;

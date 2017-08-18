@@ -1,17 +1,17 @@
 //依赖bootstrap框架
-var React = require('react');
-var ToolBox = React.createClass({
-    getInitialState: function () {
+import React, { Component } from 'react';
+class ToolBox extends Component{
+    getInitialState () {
         return {
             toolList: []
         };
-    },
-    componentDidMount: function () {
-    },
-    componentDidUpdate: function () {
+    }
+    componentDidMount () {
+    }
+    componentDidUpdate () {
 
-    },
-    render: function () {
+    }
+    render () {
         var toolItems = [];
         for (var i = 0; i < this.state.toolList.length; i++) toolItems.push((
             <li onClick={(ev)=>{this.props.eventHander(this,"toolClick",ev)}} title={this.state.toolList[i].name}
@@ -24,5 +24,5 @@ var ToolBox = React.createClass({
             <ul className="ToolBox" style={{height:"100%", overflow: "auto"}}>{toolItems}</ul>
         )
     }
-});
-module.exports = ToolBox;
+};
+export default ToolBox;

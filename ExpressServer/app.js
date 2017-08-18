@@ -24,6 +24,28 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'build/public')));
 app.use(express.static(ImagesPath));
+/*app.use(function(req, res, next){
+    res.setHeader("Access-Control-Allow-Origin", "*");
+})*/
+
+
+
+var exec = require('child_process').exec;
+var child = exec('runWebpack',{
+    encoding: "utf8"
+  },
+  function (error, stdout, stderr) {
+    console.log('stdout: ' + stdout);
+    console.log('stderr: ' + stderr);
+    if (error !== null) {
+      console.log('exec error: ' + error);
+    }
+});
+
+
+
+
+
 app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     next();
