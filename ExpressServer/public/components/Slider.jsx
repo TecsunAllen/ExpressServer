@@ -1,8 +1,9 @@
 //依赖bootstrap框架
 import React, { Component } from 'react';
 class Slider extends Component{
-    getInitialState () {
-        return {
+    constructor(props) {
+        super(props);
+        this.state = {
             title: "测试",
             max: 100,
             min: 0,

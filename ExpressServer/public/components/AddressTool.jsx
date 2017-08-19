@@ -24,8 +24,7 @@ class AddressTool extends Component {
     render() {
         var folderItems = [];
         for (var i = 0; i < this.state.childfolders.length; i++) {
-            folderItems.push(<li key={i} onClick={(ev)=>{this.props.eventHander(this,"gotoFolder",ev)}}><a
-                href="#">{this.state.childfolders[i]}</a></li>);
+            folderItems.push(<li key={i} onClick={(ev)=>{this.props.eventHander(this,"gotoFolder",ev)}}><a href="#">{this.state.childfolders[i]}</a></li>);
         }
         return (
             <div className="form-inline">

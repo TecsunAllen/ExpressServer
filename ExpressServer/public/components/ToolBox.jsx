@@ -1,8 +1,9 @@
 //依赖bootstrap框架
 import React, { Component } from 'react';
 class ToolBox extends Component{
-    getInitialState () {
-        return {
+    constructor(props) {
+        super(props);
+        this.state = {
             toolList: []
         };
     }

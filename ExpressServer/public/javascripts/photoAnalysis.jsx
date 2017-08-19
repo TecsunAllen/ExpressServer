@@ -43,8 +43,8 @@ class MainContainer extends Component {
                 <div className="row">
                     <div className="col-md-3 col-lg-3 col-sm-3"><AddressTool eventHander={this.eventHander}
                                                                              className="row" ref="addressTool"/></div>
-                    <div style={{height:"50px"}} className="col-md-9 col-lg-9 col-sm-9"><ToolBox
-                        eventHander={this.eventHander} ref="toolBox"/>
+                    <div style={{height:"50px"}} className="col-md-9 col-lg-9 col-sm-9">
+                        <ToolBox eventHander={this.eventHander} ref="toolBox"/>
                     </div>
                 </div>
                 <div className="row" style={{height:"95%"}}>
@@ -67,4 +67,5 @@ class MainContainer extends Component {
     }
 }
 ;
-init.initLoad(ReactDom.render(<MainContainer />, document.querySelector("#folderBrowser")));
+
+export default MainContainer;

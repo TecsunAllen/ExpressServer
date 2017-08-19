@@ -34,10 +34,13 @@
     "react": "latest",
     "react-dom": "latest",
     "react-router": "^4.1.2",
+    "react-router-dom": "latest",
     "serve-favicon": "^2.4.3",
     "style-loader": "latest",
     "stylus": "^0.54.5",
     "url-loader": "latest",
-    "webpack": "latest"
+    "webpack": "latest",
+    "react-redux":"latest",
+    "redux":"latest"
   }
 }
