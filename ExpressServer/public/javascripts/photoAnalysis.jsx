@@ -5,16 +5,13 @@ import "../stylesheets/photoAnalysis.css"; // 载入 style.css
 import ThumbList from '../components/ThumbList.jsx';
 import ToolBox from '../components/ToolBox.jsx';
 import Slider from '../components/Slider.jsx';
-import init from './init.js';
+//import init from './init.js';
 import { Router, Route, hashHistory } from 'react-router';
+
 
 class MainContainer extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            currentImage: null,
-            isLoading: false
-        };
     }
 
     updateCanvas() {
@@ -28,21 +25,20 @@ class MainContainer extends Component {
     }
 
     componentDidUpdate() {
-        if (this.state.isLoading) $(this.refs.loadingAnimation).show();
-        else  $(this.refs.loadingAnimation).hide();
-        this.updateCanvas();
-    }
-
-    eventHander(a, b, c) {
-        init.eventHander(a, b, c);
     }
 
     render() {
+        const {isLoading ,onIncreaseClick} = this.props;
+        var loadingStyle = {
+            height:"100%",
+            "backgroundColor": "antiquewhite"
+        };
         return (
             <div className="container-fluid" style={{height:"100%"}}>
-                <div className="row">
-                    <div className="col-md-3 col-lg-3 col-sm-3"><AddressTool eventHander={this.eventHander}
-                                                                             className="row" ref="addressTool"/></div>
+                <div onDoubleClick={onIncreaseClick}  className="row">
+                    <div className="col-md-3 col-lg-3 col-sm-3">
+                        <AddressTool eventHander={this.eventHander} className="row" ref="addressTool"/>
+                    </div>
                     <div style={{height:"50px"}} className="col-md-9 col-lg-9 col-sm-9">
                         <ToolBox eventHander={this.eventHander} ref="toolBox"/>
                     </div>
@@ -52,7 +48,7 @@ class MainContainer extends Component {
                         <ThumbList eventHander={this.eventHander} ref="thumbList" thumbUrlList={[]}/>
                     </div>
                     <div className="col-md-10 col-lg-10 col-sm-10" style={{height:"100%"}}>
-                        <div style={{height:"100%","backgroundColor": "antiquewhite"}}>
+                        <div style={loadingStyle}>
                             <div ref="loadingAnimation" id="loading-center-absolute">
                                 <div id="object"></div>
                             </div>
@@ -65,7 +61,5 @@ class MainContainer extends Component {
             </div>
         )
     }
-}
-;
-
+};
 export default MainContainer;

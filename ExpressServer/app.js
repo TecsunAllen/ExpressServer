@@ -30,7 +30,7 @@ app.use(express.static(ImagesPath));
 
 
 
-var exec = require('child_process').exec;
+/*var exec = require('child_process').exec;
 var child = exec('runWebpack',{
     encoding: "utf8"
   },
@@ -41,7 +41,7 @@ var child = exec('runWebpack',{
       console.log('exec error: ' + error);
     }
 });
-
+**/
 
 
 
