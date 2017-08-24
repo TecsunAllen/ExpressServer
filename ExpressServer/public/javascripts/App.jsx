@@ -4,19 +4,20 @@ import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux'
 import {
     HashRouter,
+    hashHistory,
     Route,
     Link,
     Switch
 } from 'react-router-dom';
+import {} from 'react-router-redux';
 import { createHashHistory } from 'history';
 
 import MainContainer from './photoAnalysis.jsx';
+import PS from './PhotoShop.jsx';
 import AppState from './AppState.js';
 import {setLoading,IS_LOADING} from './AppActions.js';
 
-// Action
-const increaseAction = { type: 'increase' }
-
+/*
 // Reducer
 function counterReducer(state = AppState, action) {
   
@@ -47,6 +48,19 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
+
+class App extends Component{
+  render(){
+    <Provider store={store}>
+      <Router>
+        <Route path="/" component={PS} />
+        <Route path="/(:filter)" component={App} />
+      </Router>
+    </Provider>
+  }
+}
+
+
 // Connected Component
 const App = connect(
   mapStateToProps,
@@ -58,4 +72,21 @@ ReactDom.render(
     <App />
   </Provider>,
   document.getElementById('AppContainer')
+)*/
+ReactDom.render(
+  <BrowserRouter
+    basename="/minooo"
+    forceRefresh={false}
+    keyLength={12}
+    >
+    <div>
+      <AddressBar/>    
+      <Link to="/">Home</Link>
+      <Route exact path="/" component={Home} />
+    </div>
+  </BrowserRouter>,
+  document.getElementById('AppContainer')
 )
+/**
+ * http://www.jianshu.com/p/e3adc9b5f75c/
+ */

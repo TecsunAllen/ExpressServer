@@ -17,7 +17,7 @@ var PhotoShop = React.createClass({
     render: function () {
         return (
             <div>
-
+                PS
             </div>
         )
     }
