@@ -2,10 +2,7 @@
  * action 类型
  */
 
-export const ADD_TODO = 'ADD_TODO';
-export const TOGGLE_TODO = 'TOGGLE_TODO'
-export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
-export const IS_LOADING = 'IS_LOADING'
+export const GOTO_FOLDER = 'GOTO_FOLDER';
 /*
  * 其它的常量
  */
@@ -20,6 +17,6 @@ export const VisibilityFilters = {
  * action 创建函数
  */
 
-export function setLoading() {
-  return { type: IS_LOADING }
+export function gotoFolder(folderPath) {
+  return { type: GOTO_FOLDER,folderPath:folderPath }
 }

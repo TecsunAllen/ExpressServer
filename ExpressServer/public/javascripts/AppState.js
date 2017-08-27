@@ -1,5 +1,9 @@
 var AppState = {
-    isLoading: false
+    currentFolder: {
+        path: 'E:/Images',
+        fileList:[],
+        folderList:[]
+    }
 };
 
 export default AppState;

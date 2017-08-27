@@ -2,6 +2,32 @@
     margin: 0;
     padding: 0;
 }
+
+#AppContainer{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+
+.ThumbList {
+    background-color: antiquewhite;
+}
+
+.ThumbList .thumbnail-folder{
+    background-image: url(/images/folder.svg);
+    width: 10%;
+    height: 10%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.ThumbList .img-thumbnail{
+    width: 10%;
+}
+
+
 .PhotoExplorer {
     height:100%;
 }
