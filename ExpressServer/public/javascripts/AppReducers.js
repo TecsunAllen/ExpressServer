@@ -10,6 +10,7 @@ export const GET_SRCIMAGE_URL = "/getFile?path=";
 
 
 export function appReducer(state = AppState, action) {
+  
   switch (action.type) {
     case GOTO_FOLDER:
       var folderPath = action.folderPath || state.currentFolder.path;

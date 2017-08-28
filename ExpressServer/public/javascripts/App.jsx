@@ -47,7 +47,12 @@ const App = connect(
 
 ReactDom.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter basename="" >
+      <div id="APPRouterContainer">
+        <Route exact path="/" component={App} />
+        <Route exact path="/ps" component={PS} />
+      </div>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('AppContainer')
 )

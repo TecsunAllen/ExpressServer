@@ -5033,9 +5033,7 @@ module.exports = ReactBrowserEventEmitter;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLocation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return locationsAreEqual; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_resolve_pathname__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_resolve_pathname___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_resolve_pathname__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_value_equal__ = __webpack_require__(109);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_value_equal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_value_equal__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PathUtils__ = __webpack_require__(30);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -5087,7 +5085,7 @@ var createLocation = function createLocation(path, state, key, currentLocation) 
     if (!location.pathname) {
       location.pathname = currentLocation.pathname;
     } else if (location.pathname.charAt(0) !== '/') {
-      location.pathname = __WEBPACK_IMPORTED_MODULE_0_resolve_pathname___default()(location.pathname, currentLocation.pathname);
+      location.pathname = Object(__WEBPACK_IMPORTED_MODULE_0_resolve_pathname__["default"])(location.pathname, currentLocation.pathname);
     }
   } else {
     // When there is no prior location and pathname is empty, set it to /
@@ -5100,7 +5098,7 @@ var createLocation = function createLocation(path, state, key, currentLocation) 
 };
 
 var locationsAreEqual = function locationsAreEqual(a, b) {
-  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && a.key === b.key && __WEBPACK_IMPORTED_MODULE_1_value_equal___default()(a.state, b.state);
+  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && a.key === b.key && Object(__WEBPACK_IMPORTED_MODULE_1_value_equal__["default"])(a.state, b.state);
 };
 
 /***/ }),
@@ -12080,24 +12078,25 @@ function verifyPlainObject(value, displayName, methodName) {
 
 /***/ }),
 /* 108 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-var isAbsolute = function isAbsolute(pathname) {
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function isAbsolute(pathname) {
   return pathname.charAt(0) === '/';
-};
+}
 
 // About 1.5x faster than the two-arg version of Array#splice()
-var spliceOne = function spliceOne(list, index) {
+function spliceOne(list, index) {
   for (var i = index, k = i + 1, n = list.length; k < n; i += 1, k += 1) {
     list[i] = list[k];
-  }list.pop();
-};
+  }
+
+  list.pop();
+}
 
 // This implementation is based heavily on node's url.parse
-var resolvePathname = function resolvePathname(to) {
+function resolvePathname(to) {
   var from = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
   var toParts = to && to.split('/') || [];
@@ -12150,29 +12149,28 @@ var resolvePathname = function resolvePathname(to) {
   if (hasTrailingSlash && result.substr(-1) !== '/') result += '/';
 
   return result;
-};
+}
 
-module.exports = resolvePathname;
+/* harmony default export */ __webpack_exports__["default"] = (resolvePathname);
 
 /***/ }),
 /* 109 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-exports.__esModule = true;
-
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var valueEqual = function valueEqual(a, b) {
+function valueEqual(a, b) {
   if (a === b) return true;
 
   if (a == null || b == null) return false;
 
-  if (Array.isArray(a)) return Array.isArray(b) && a.length === b.length && a.every(function (item, index) {
-    return valueEqual(item, b[index]);
-  });
+  if (Array.isArray(a)) {
+    return Array.isArray(b) && a.length === b.length && a.every(function (item, index) {
+      return valueEqual(item, b[index]);
+    });
+  }
 
   var aType = typeof a === 'undefined' ? 'undefined' : _typeof(a);
   var bType = typeof b === 'undefined' ? 'undefined' : _typeof(b);
@@ -12196,9 +12194,9 @@ var valueEqual = function valueEqual(a, b) {
   }
 
   return false;
-};
+}
 
-exports.default = valueEqual;
+/* harmony default export */ __webpack_exports__["default"] = (valueEqual);
 
 /***/ }),
 /* 110 */
@@ -13030,7 +13028,8 @@ var AppState = {
         path: 'E:/Images',
         fileList: [],
         folderList: []
-    }
+    },
+    selectedFileName: ""
 };
 
 exports.default = AppState;
@@ -13141,7 +13140,16 @@ var App = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_photoAn
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: store },
-  _react2.default.createElement(App, null)
+  _react2.default.createElement(
+    _reactRouterDom.BrowserRouter,
+    { basename: '' },
+    _react2.default.createElement(
+      'div',
+      { id: 'APPRouterContainer' },
+      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: App }),
+      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/ps', component: _PhotoShop2.default })
+    )
+  )
 ), document.getElementById('AppContainer'));
 
 /**
@@ -29656,7 +29664,8 @@ var MainContainer = function (_Component) {
             var _props = this.props,
                 currentFolder = _props.currentFolder,
                 GET_THUMB_URL = _props.GET_THUMB_URL,
-                onFolderSelect = _props.onFolderSelect;
+                onFolderSelect = _props.onFolderSelect,
+                history = _props.history;
 
             return _react2.default.createElement(
                 'div',
@@ -29667,7 +29676,7 @@ var MainContainer = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'col-md-12 col-lg-12 col-sm-12' },
-                        _react2.default.createElement(_AddressTool2.default, { childfolders: currentFolder.folderList,
+                        _react2.default.createElement(_AddressTool2.default, { history: history, childfolders: currentFolder.folderList,
                             currfolder: currentFolder.path,
                             className: 'row', ref: 'addressTool' })
                     )
@@ -29678,7 +29687,7 @@ var MainContainer = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'ThumbList col-md-12 col-lg-12 col-sm-12', style: { height: "100%" } },
-                        _react2.default.createElement(_ThumbList2.default, { onFolderSelect: onFolderSelect, ref: 'thumbList', currentFolder: currentFolder, GET_THUMB_URL: GET_THUMB_URL })
+                        _react2.default.createElement(_ThumbList2.default, { history: history, onFolderSelect: onFolderSelect, ref: 'thumbList', currentFolder: currentFolder, GET_THUMB_URL: GET_THUMB_URL })
                     )
                 )
             );
@@ -29783,7 +29792,8 @@ var AddressTool = function (_Component) {
 
 AddressTool.propTypes = {
     currfolder: _react.PropTypes.string.isRequired,
-    childfolders: _react.PropTypes.array.isRequired
+    childfolders: _react.PropTypes.array.isRequired,
+    history: _react.PropTypes.object.isRequired
 };
 exports.default = AddressTool;
 
@@ -29969,8 +29979,17 @@ var ThumbList = function (_Component) {
         key: "componentDidUpdate",
         value: function componentDidUpdate() {}
     }, {
+        key: "gotoPS",
+        value: function gotoPS() {
+            var history = this.props.history;
+
+            history.push("/ps", {});
+        }
+    }, {
         key: "render",
         value: function render() {
+            var _this2 = this;
+
             var _props = this.props,
                 currentFolder = _props.currentFolder,
                 GET_THUMB_URL = _props.GET_THUMB_URL,
@@ -29991,7 +30010,9 @@ var ThumbList = function (_Component) {
                 var isPhoto = /(JPG)|(PNG)/.test(currentFolder.fileList[i]);
                 var thumbSrc = isPhoto ? GET_THUMB_URL + currentFolder.path + '/' + currentFolder.fileList[i] : "";
 
-                fileItems.push(_react2.default.createElement("img", { key: i, className: "img-thumbnail",
+                fileItems.push(_react2.default.createElement("img", { onDoubleClick: function onDoubleClick() {
+                        return _this2.gotoPS();
+                    }, key: i, className: "img-thumbnail",
                     src: thumbSrc }));
             }
 
@@ -30009,7 +30030,8 @@ var ThumbList = function (_Component) {
 
 ThumbList.propTypes = {
     currentFolder: _react.PropTypes.object.isRequired,
-    GET_THUMB_URL: _react.PropTypes.string.isRequired
+    GET_THUMB_URL: _react.PropTypes.string.isRequired,
+    history: _react.PropTypes.object.isRequired
 };
 
 exports.default = ThumbList;
@@ -30378,6 +30400,7 @@ function appReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _AppState2.default;
   var action = arguments[1];
 
+
   switch (action.type) {
     case _AppActions.GOTO_FOLDER:
       var folderPath = action.folderPath || state.currentFolder.path;
@@ -30438,7 +30461,7 @@ exports = module.exports = __webpack_require__(114)(undefined);
 
 
 // module
-exports.push([module.i, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#AppContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n.ThumbList {\r\n    background-color: antiquewhite;\r\n}\r\n\r\n.ThumbList .thumbnail-folder{\r\n    background-image: url(/images/folder.svg);\r\n    width: 10%;\r\n    height: 10%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n}\r\n.ThumbList .img-thumbnail{\r\n    width: 10%;\r\n}\r\n\r\n\r\n.PhotoExplorer {\r\n    height:100%;\r\n}\r\n\r\n.PhotoExplorer img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer #leftToolbar {\r\n\r\n}\r\n.PhotoExplorer div#bigThumb{\r\n    height: 100%;\r\n    background:rgba(80, 99, 59,0.5);\r\n}\r\n\r\n.PhotoExplorer div#bigThumb img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {\r\n    font-size: x-large;\r\n}", ""]);
+exports.push([module.i, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#AppContainer,#APPRouterContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n.ThumbList {\r\n    background-color: antiquewhite;\r\n}\r\n\r\n.ThumbList .thumbnail-folder{\r\n    background-image: url(/images/folder.svg);\r\n    width: 10%;\r\n    height: 10%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n}\r\n.ThumbList .img-thumbnail{\r\n    width: 10%;\r\n}\r\n\r\n\r\n.PhotoExplorer {\r\n    height:100%;\r\n}\r\n\r\n.PhotoExplorer img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer #leftToolbar {\r\n\r\n}\r\n.PhotoExplorer div#bigThumb{\r\n    height: 100%;\r\n    background:rgba(80, 99, 59,0.5);\r\n}\r\n\r\n.PhotoExplorer div#bigThumb img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {\r\n    font-size: x-large;\r\n}", ""]);
 
 // exports
 

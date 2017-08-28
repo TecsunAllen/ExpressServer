@@ -3,7 +3,8 @@ var AppState = {
         path: 'E:/Images',
         fileList:[],
         folderList:[]
-    }
+    },
+    selectedFileName:""
 };
 
 export default AppState;

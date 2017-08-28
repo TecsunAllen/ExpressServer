@@ -3,7 +3,7 @@
     padding: 0;
 }
 
-#AppContainer{
+#AppContainer,#APPRouterContainer{
     position: absolute;
     top: 0;
     bottom: 0;

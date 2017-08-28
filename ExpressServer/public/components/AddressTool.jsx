@@ -36,6 +36,7 @@ class AddressTool extends Component {
 }
 AddressTool.propTypes = {
     currfolder: PropTypes.string.isRequired,
-    childfolders: PropTypes.array.isRequired
+    childfolders: PropTypes.array.isRequired,
+    history: PropTypes.object.isRequired
 }
 export default  AddressTool;

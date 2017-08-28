@@ -30,19 +30,19 @@ class MainContainer extends Component {
 
     render() {
         
-        const {currentFolder,GET_THUMB_URL,onFolderSelect} = this.props;
+        const {currentFolder,GET_THUMB_URL,onFolderSelect,history} = this.props;
         return (
             <div className="container-fluid" style={{height:"100%"}}>
-                <div   className="row">
+                <div className="row">
                     <div className="col-md-12 col-lg-12 col-sm-12">
-                        <AddressTool childfolders={currentFolder.folderList} 
+                        <AddressTool history={history} childfolders={currentFolder.folderList} 
                         currfolder={currentFolder.path} 
                          className="row" ref="addressTool"/>
                     </div>
                 </div>
                 <div className="row" style={{height:"95%"}}>
                     <div className="ThumbList col-md-12 col-lg-12 col-sm-12" style={{height:"100%"}}>
-                        <ThumbList onFolderSelect={onFolderSelect} ref="thumbList" currentFolder={currentFolder} GET_THUMB_URL={GET_THUMB_URL}/>
+                        <ThumbList history={history} onFolderSelect={onFolderSelect} ref="thumbList" currentFolder={currentFolder} GET_THUMB_URL={GET_THUMB_URL}/>
                     </div>
                 </div>
             </div>
