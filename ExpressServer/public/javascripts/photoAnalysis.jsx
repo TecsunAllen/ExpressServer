@@ -5,6 +5,7 @@ import "../stylesheets/photoAnalysis.css"; // 载入 style.css
 import ThumbList from '../components/ThumbList.jsx';
 import ToolBox from '../components/ToolBox.jsx';
 import Slider from '../components/Slider.jsx';
+import PhotoShop from './PhotoShop.jsx';
 //import init from './init.js';
 import { Router, Route, hashHistory } from 'react-router';
 
@@ -30,8 +31,9 @@ class MainContainer extends Component {
 
     render() {
         
-        const {currentFolder,GET_THUMB_URL,onFolderSelect,history} = this.props;
+        const {currentFolder,GET_THUMB_URL,GET_SRCIMAGE_URL,onFolderSelect,onFileSelect,history} = this.props;
         return (
+            !currentFolder.selectedFileName ?
             <div className="container-fluid" style={{height:"100%"}}>
                 <div className="row">
                     <div className="col-md-12 col-lg-12 col-sm-12">
@@ -42,10 +44,17 @@ class MainContainer extends Component {
                 </div>
                 <div className="row" style={{height:"95%"}}>
                     <div className="ThumbList col-md-12 col-lg-12 col-sm-12" style={{height:"100%"}}>
-                        <ThumbList history={history} onFolderSelect={onFolderSelect} ref="thumbList" currentFolder={currentFolder} GET_THUMB_URL={GET_THUMB_URL}/>
+                        <ThumbList history={history} 
+                        onFileSelect={onFileSelect} 
+                        onFolderSelect={onFolderSelect} 
+                        ref="thumbList" 
+                        currentFolder={currentFolder} 
+                        GET_THUMB_URL={GET_THUMB_URL}/>
                     </div>
                 </div>
             </div>
+            :
+            <PhotoShop GET_SRCIMAGE_URL={GET_SRCIMAGE_URL} selectedFilePath={currentFolder.path + '/' + currentFolder.selectedFileName}/>
         )
     }
 };

@@ -13027,9 +13027,9 @@ var AppState = {
     currentFolder: {
         path: 'E:/Images',
         fileList: [],
-        folderList: []
-    },
-    selectedFileName: ""
+        folderList: [],
+        selectedFileName: ""
+    }
 };
 
 exports.default = AppState;
@@ -13045,11 +13045,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.gotoFolder = gotoFolder;
+exports.openImage = openImage;
 /*
  * action 类型
  */
 
 var GOTO_FOLDER = exports.GOTO_FOLDER = 'GOTO_FOLDER';
+var OPEN_IMAGE = exports.OPEN_IMAGE = 'OPEN_IMAGE';
 /*
  * 其它的常量
  */
@@ -13065,6 +13067,10 @@ var VisibilityFilters = exports.VisibilityFilters = {
 
 };function gotoFolder(folderPath) {
   return { type: GOTO_FOLDER, folderPath: folderPath };
+}
+
+function openImage(fileName) {
+  return { type: OPEN_IMAGE, fileName: fileName };
 }
 
 /***/ }),
@@ -13116,26 +13122,34 @@ var store = (0, _redux.createStore)(_AppReducers.appReducer);
 //import {} from 'react-router-redux';
 
 
-function mapStateToProps(state) {
+var App = (0, _reactRedux.connect)(function (state) {
   return {
     currentFolder: state.currentFolder,
-    GET_THUMB_URL: _AppReducers.GET_THUMB_URL
+    GET_THUMB_URL: _AppReducers.GET_THUMB_URL,
+    GET_SRCIMAGE_URL: _AppReducers.GET_SRCIMAGE_URL
   };
-}
-
-// Map Redux actions to component props
-function mapDispatchToProps(dispatch) {
+}, function (dispatch) {
   return {
     onFolderSelect: function onFolderSelect(folderPath) {
       return dispatch((0, _AppActions.gotoFolder)(folderPath));
+    },
+    onFileSelect: function onFileSelect(fileName) {
+      return dispatch((0, _AppActions.openImage)(fileName));
     },
     onMainComponentLoad: function onMainComponentLoad() {
       return dispatch((0, _AppActions.gotoFolder)());
     }
   };
-}
+})(_photoAnalysis2.default);
 
-var App = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_photoAnalysis2.default);
+var PS = (0, _reactRedux.connect)(function (state) {
+  return {
+    selectedFilePath: state.currentFolder.path + '/' + state.selectedFileName,
+    GET_SRCIMAGE_URL: _AppReducers.GET_SRCIMAGE_URL
+  };
+}, function (dispatch) {
+  return {};
+})(_PhotoShop2.default);
 
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
@@ -13147,7 +13161,7 @@ _reactDom2.default.render(_react2.default.createElement(
       'div',
       { id: 'APPRouterContainer' },
       _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: App }),
-      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/ps', component: _PhotoShop2.default })
+      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/ps', component: PS })
     )
   )
 ), document.getElementById('AppContainer'));
@@ -29620,6 +29634,10 @@ var _Slider = __webpack_require__(281);
 
 var _Slider2 = _interopRequireDefault(_Slider);
 
+var _PhotoShop = __webpack_require__(282);
+
+var _PhotoShop2 = _interopRequireDefault(_PhotoShop);
+
 var _reactRouter = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -29664,10 +29682,12 @@ var MainContainer = function (_Component) {
             var _props = this.props,
                 currentFolder = _props.currentFolder,
                 GET_THUMB_URL = _props.GET_THUMB_URL,
+                GET_SRCIMAGE_URL = _props.GET_SRCIMAGE_URL,
                 onFolderSelect = _props.onFolderSelect,
+                onFileSelect = _props.onFileSelect,
                 history = _props.history;
 
-            return _react2.default.createElement(
+            return !currentFolder.selectedFileName ? _react2.default.createElement(
                 'div',
                 { className: 'container-fluid', style: { height: "100%" } },
                 _react2.default.createElement(
@@ -29687,10 +29707,15 @@ var MainContainer = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'ThumbList col-md-12 col-lg-12 col-sm-12', style: { height: "100%" } },
-                        _react2.default.createElement(_ThumbList2.default, { history: history, onFolderSelect: onFolderSelect, ref: 'thumbList', currentFolder: currentFolder, GET_THUMB_URL: GET_THUMB_URL })
+                        _react2.default.createElement(_ThumbList2.default, { history: history,
+                            onFileSelect: onFileSelect,
+                            onFolderSelect: onFolderSelect,
+                            ref: 'thumbList',
+                            currentFolder: currentFolder,
+                            GET_THUMB_URL: GET_THUMB_URL })
                     )
                 )
-            );
+            ) : _react2.default.createElement(_PhotoShop2.default, { GET_SRCIMAGE_URL: GET_SRCIMAGE_URL, selectedFilePath: currentFolder.path + '/' + currentFolder.selectedFileName });
         }
     }]);
 
@@ -29981,19 +30006,19 @@ var ThumbList = function (_Component) {
     }, {
         key: "gotoPS",
         value: function gotoPS() {
-            var history = this.props.history;
-
-            history.push("/ps", {});
+            /*const {history} = this.props;
+            history.push("/ps",{
+                
+            });*/
         }
     }, {
         key: "render",
         value: function render() {
-            var _this2 = this;
-
             var _props = this.props,
                 currentFolder = _props.currentFolder,
                 GET_THUMB_URL = _props.GET_THUMB_URL,
-                onFolderSelect = _props.onFolderSelect;
+                onFolderSelect = _props.onFolderSelect,
+                onFileSelect = _props.onFileSelect;
 
             var folderItems = [];
             for (var i = 0; i < currentFolder.folderList.length; i++) {
@@ -30010,8 +30035,8 @@ var ThumbList = function (_Component) {
                 var isPhoto = /(JPG)|(PNG)/.test(currentFolder.fileList[i]);
                 var thumbSrc = isPhoto ? GET_THUMB_URL + currentFolder.path + '/' + currentFolder.fileList[i] : "";
 
-                fileItems.push(_react2.default.createElement("img", { onDoubleClick: function onDoubleClick() {
-                        return _this2.gotoPS();
+                fileItems.push(_react2.default.createElement("img", { title: currentFolder.fileList[i], onDoubleClick: function onDoubleClick(ev) {
+                        return onFileSelect(ev.target.title);
                     }, key: i, className: "img-thumbnail",
                     src: thumbSrc }));
             }
@@ -30273,93 +30298,46 @@ var PhotoShop = function (_Component) {
     function PhotoShop(props) {
         _classCallCheck(this, PhotoShop);
 
-        var _this = _possibleConstructorReturn(this, (PhotoShop.__proto__ || Object.getPrototypeOf(PhotoShop)).call(this, props));
-
-        _this.state = {
-            title: "测试",
-            max: 100,
-            min: 0,
-            value: 0,
-            oneStep: 5
-        };
-        return _this;
+        return _possibleConstructorReturn(this, (PhotoShop.__proto__ || Object.getPrototypeOf(PhotoShop)).call(this, props));
     }
 
     _createClass(PhotoShop, [{
-        key: "componentDidMount",
+        key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this2 = this;
+            var _props = this.props,
+                GET_SRCIMAGE_URL = _props.GET_SRCIMAGE_URL,
+                selectedFilePath = _props.selectedFilePath;
 
-            $(this.refs.sliderCube).mousedown(function (ev) {
-                _this2.changeValue(ev);
-            }).mousemove(function (ev) {
-                _this2.changeValue(ev);
-            });
-            $(document).mousemove(function (ev) {
-                _this2.changeValue(ev);
-            }).mouseup(function (ev) {
-                _this2.changeValue(ev);
-            });
-            this.setState({ value: 0 });
+            var container = this.refs.PhotoShopContainer;
+            var canvas = this.refs.mainCanvas;
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            var ctx = canvas.getContext('2d');
+            var image = new Image();
+            image.src = GET_SRCIMAGE_URL + selectedFilePath;
+            image.onload = function () {
+                ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.width * image.height / image.width);
+            };
         }
     }, {
-        key: "componentDidUpdate",
+        key: 'componentDidUpdate',
         value: function componentDidUpdate() {}
     }, {
-        key: "changeValue",
-        value: function changeValue(ev) {
-            ev.originalEvent.preventDefault();
-            if (ev.type == "mousedown") {
-                this.lastClientX = ev.clientX;
-                this.start = true;
-            } else if (ev.type == "mousemove" && this.start) {
-                var offsetX = ev.clientX - this.lastClientX;
-                var sliderBarWidth = this.refs.sliderBar.offsetWidth - this.refs.sliderCube.offsetWidth;
-                var left = Number(this.refs.sliderCube.style.left.replace("px", "")) + offsetX;
-                var _value = this.state.min + left * (this.state.max - this.state.min) / sliderBarWidth;
-                var value = _value - _value % this.state.oneStep;
-                var value = _value;
-                this.lastClientX = ev.clientX;
-                if (left >= 0 && left <= sliderBarWidth) {
-                    this.setState({ value: value });
-                }
-            } else if (ev.type == "mouseup") {
-                this.start = false;
-            }
-        }
-    }, {
-        key: "render",
+        key: 'render',
         value: function render() {
-            var cubeStyle = { left: 0 };
-            if (this.refs.sliderCube) {
-                var value = (this.state.value - this.state.min) / (this.state.max - this.state.min);
-                var sliderBarWidth = this.refs.sliderBar.offsetWidth - this.refs.sliderCube.offsetWidth;
-                var left = value * sliderBarWidth + "px";
-                cubeStyle = { left: left };
-            }
+            var _props2 = this.props,
+                GET_SRCIMAGE_URL = _props2.GET_SRCIMAGE_URL,
+                selectedFilePath = _props2.selectedFilePath;
+
             return _react2.default.createElement(
-                "div",
-                { className: "L_Slider", ref: "mainContainer", style: { display: "" } },
+                'div',
+                { ref: 'PhotoShopContainer', className: 'PhotoShopContainer' },
                 _react2.default.createElement(
-                    "div",
+                    'span',
                     null,
-                    _react2.default.createElement(
-                        "span",
-                        { className: "L_SliderTitle" },
-                        this.state.title
-                    ),
-                    _react2.default.createElement(
-                        "span",
-                        { className: "L_SliderValue" },
-                        parseInt(this.state.value)
-                    )
+                    selectedFilePath
                 ),
-                _react2.default.createElement(
-                    "div",
-                    { className: "L_SliderBC" },
-                    _react2.default.createElement("div", { ref: "sliderBar", className: "L_SliderBar" }),
-                    _react2.default.createElement("div", { style: cubeStyle, ref: "sliderCube", className: "L_SliderCube" })
-                )
+                _react2.default.createElement('canvas', { ref: 'mainCanvas' })
             );
         }
     }]);
@@ -30416,6 +30394,18 @@ function appReducer() {
         }
       });
       return newState;
+    case _AppActions.OPEN_IMAGE:
+      var fileName = action.fileName;
+      var newState = Object.assign({}, state, {
+        currentFolder: {
+          path: state.currentFolder.path,
+          fileList: state.currentFolder.fileList,
+          folderList: state.currentFolder.folderList,
+          selectedFileName: fileName
+        }
+      });
+      return newState;
+      return newState;
     default:
       return state;
   }
@@ -30461,7 +30451,7 @@ exports = module.exports = __webpack_require__(114)(undefined);
 
 
 // module
-exports.push([module.i, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#AppContainer,#APPRouterContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n.ThumbList {\r\n    background-color: antiquewhite;\r\n}\r\n\r\n.ThumbList .thumbnail-folder{\r\n    background-image: url(/images/folder.svg);\r\n    width: 10%;\r\n    height: 10%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n}\r\n.ThumbList .img-thumbnail{\r\n    width: 10%;\r\n}\r\n\r\n\r\n.PhotoExplorer {\r\n    height:100%;\r\n}\r\n\r\n.PhotoExplorer img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer #leftToolbar {\r\n\r\n}\r\n.PhotoExplorer div#bigThumb{\r\n    height: 100%;\r\n    background:rgba(80, 99, 59,0.5);\r\n}\r\n\r\n.PhotoExplorer div#bigThumb img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {\r\n    font-size: x-large;\r\n}", ""]);
+exports.push([module.i, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#AppContainer,#APPRouterContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n.ThumbList {\r\n    background-color: antiquewhite;\r\n}\r\n\r\n.ThumbList .thumbnail-folder{\r\n    background-image: url(/images/folder.svg);\r\n    width: 10%;\r\n    height: 10%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n}\r\n.ThumbList .img-thumbnail{\r\n    width: 10%;\r\n}\r\n\r\n\r\n.PhotoExplorer {\r\n    height:100%;\r\n}\r\n\r\n.PhotoExplorer img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer #leftToolbar {\r\n\r\n}\r\n.PhotoExplorer div#bigThumb{\r\n    height: 100%;\r\n    background:rgba(80, 99, 59,0.5);\r\n}\r\n\r\n.PhotoExplorer div#bigThumb img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {\r\n    font-size: x-large;\r\n}\r\n\r\n\r\n\r\n.PhotoShopContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}", ""]);
 
 // exports
 

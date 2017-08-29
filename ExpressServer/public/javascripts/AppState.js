@@ -2,9 +2,9 @@ var AppState = {
     currentFolder: {
         path: 'E:/Images',
         fileList:[],
-        folderList:[]
-    },
-    selectedFileName:""
+        folderList:[],
+        selectedFileName:""
+    }
 };
 
 export default AppState;

@@ -1,6 +1,6 @@
 // Reducer
 import AppState from './AppState.js';
-import { gotoFolder, GOTO_FOLDER } from './AppActions.js';
+import {gotoFolder,openImage,OPEN_IMAGE,GOTO_FOLDER} from './AppActions.js';
 
           
           
@@ -25,6 +25,18 @@ export function appReducer(state = AppState, action) {
           folderList: data.childfolders
         }
       });
+      return newState;
+    case OPEN_IMAGE:
+      var fileName = action.fileName;
+      var newState = Object.assign({}, state,{
+        currentFolder: {
+          path: state.currentFolder.path,
+          fileList: state.currentFolder.fileList,
+          folderList: state.currentFolder.folderList,
+          selectedFileName:fileName
+        }
+      });
+      return newState;
       return newState;
     default:
       return state

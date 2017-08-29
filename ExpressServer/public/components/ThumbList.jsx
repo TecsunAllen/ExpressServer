@@ -13,14 +13,14 @@ class ThumbList extends Component {
     }
 
     gotoPS(){
-        const {history} = this.props;
+        /*const {history} = this.props;
         history.push("/ps",{
             
-        });
+        });*/
     }
 
     render() {
-        const {currentFolder,GET_THUMB_URL,onFolderSelect} = this.props;
+        const {currentFolder,GET_THUMB_URL,onFolderSelect,onFileSelect} = this.props;
         var folderItems = [];
         for (var i = 0; i < currentFolder.folderList.length; i++) {
             if(currentFolder.folderList[i] == "thumb")continue;
@@ -37,7 +37,7 @@ class ThumbList extends Component {
             var thumbSrc = isPhoto? GET_THUMB_URL + currentFolder.path + '/' + currentFolder.fileList[i]:"";
 
             fileItems.push(
-                <img onDoubleClick={()=>this.gotoPS()} key={i} className="img-thumbnail"
+                <img title={currentFolder.fileList[i]} onDoubleClick={(ev)=>onFileSelect(ev.target.title)} key={i} className="img-thumbnail"
                 src={thumbSrc}/>
             );
         }

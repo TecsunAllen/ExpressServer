@@ -14,35 +14,50 @@ import {
 import { createHashHistory } from 'history';
 
 import MainContainer from './photoAnalysis.jsx';
-import PS from './PhotoShop.jsx';
+import PhotoShop from './PhotoShop.jsx';
 import AppState from './AppState.js';
-import {gotoFolder,GOTO_FOLDER} from './AppActions.js';
+import {gotoFolder,openImage,OPEN_IMAGE,GOTO_FOLDER} from './AppActions.js';
 
-import {appReducer,GET_THUMB_URL} from './AppReducers.js';
+import {appReducer,GET_THUMB_URL,GET_SRCIMAGE_URL} from './AppReducers.js';
 import "../components/css/PhotoExplorer.css"; // 载入 style.css
 // Store
 const store = createStore(appReducer)
 
 
-function mapStateToProps(state) {
-  return {
-    currentFolder: state.currentFolder,
-    GET_THUMB_URL:GET_THUMB_URL
-  }
-}
-
-// Map Redux actions to component props
-function mapDispatchToProps(dispatch) {
-  return {
-    onFolderSelect: (folderPath) => dispatch(gotoFolder(folderPath)),
-    onMainComponentLoad:() => dispatch(gotoFolder()),
-  }
-}
 
 const App = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainContainer)
+  (state) => {
+    return {
+      currentFolder: state.currentFolder,
+      GET_THUMB_URL: GET_THUMB_URL,
+      GET_SRCIMAGE_URL:GET_SRCIMAGE_URL
+    }
+  },
+  (dispatch) => {
+    return {
+      onFolderSelect: (folderPath) => dispatch(gotoFolder(folderPath)),
+      onFileSelect:(fileName)=>dispatch(openImage(fileName)),
+      onMainComponentLoad: () => dispatch(gotoFolder())
+    }
+  }
+)(MainContainer);
+
+
+const PS = connect(
+  (state) => {
+    return {
+      selectedFilePath: state.currentFolder.path + '/' + state.selectedFileName,
+      GET_SRCIMAGE_URL: GET_SRCIMAGE_URL
+    }
+  },
+  (dispatch) => {
+    return {
+
+    }
+  }
+)(PhotoShop);
+
+
 
 
 ReactDom.render(

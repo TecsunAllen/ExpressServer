@@ -3,6 +3,7 @@
  */
 
 export const GOTO_FOLDER = 'GOTO_FOLDER';
+export const OPEN_IMAGE = 'OPEN_IMAGE';
 /*
  * 其它的常量
  */
@@ -19,4 +20,9 @@ export const VisibilityFilters = {
 
 export function gotoFolder(folderPath) {
   return { type: GOTO_FOLDER,folderPath:folderPath }
+}
+
+
+export function openImage(fileName) {
+  return { type: OPEN_IMAGE,fileName:fileName }
 }
