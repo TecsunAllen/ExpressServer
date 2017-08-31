@@ -73,6 +73,11 @@ ReactDom.render(
 )
 
 
+window.onresize =()=>{
+  store.dispatch(gotoFolder())
+}
+
+
 /**
  * http://www.jianshu.com/p/e3adc9b5f75c/
  */

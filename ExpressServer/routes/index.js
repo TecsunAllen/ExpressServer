@@ -21,7 +21,7 @@ function filterFiles(files, folderPath, mode) {
     var newfiles = files.filter(function (file) {
         try {
             var stats = fileSystem.lstatSync(folderPath + "/" + file);
-            return mode == "file" ? (!stats.isDirectory() && /(.JPG$)|(.PNG$)/.test(file)) : stats.isDirectory();
+            return mode == "file" ? (!stats.isDirectory() && /(.JPG$)|(.PNG$)/.test(file.toUpperCase())) : stats.isDirectory();
         }
         catch (e) {
             return false;

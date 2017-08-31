@@ -4,8 +4,13 @@ class PhotoShop extends Component {
     constructor(props) {
         super(props);
     }
-    componentDidMount() {
-        
+    componentDidMount() {      
+        this.drawImage()
+    }
+    componentDidUpdate() {
+        this.drawImage();
+    }
+    drawImage(){
         const { GET_SRCIMAGE_URL, selectedFilePath } = this.props;
         var container = this.refs.PhotoShopContainer;
         var canvas = this.refs.mainCanvas;
@@ -15,20 +20,22 @@ class PhotoShop extends Component {
         var image = new Image();
         image.src = GET_SRCIMAGE_URL +selectedFilePath;
         image.onload = ()=>{
-            ctx.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.width*image.height/image.width);
+            var needHeightWhenWidthFull = canvas.width*image.height/image.width;
+            var drawWidth,drawHeight,drawOffsetX,drawOffsetY;
+            drawHeight = needHeightWhenWidthFull > canvas.height ? canvas.height:needHeightWhenWidthFull;
+            drawWidth = drawHeight * image.width/image.height;
+            drawOffsetX = (canvas.width - drawWidth)/2;
+            drawOffsetY = (canvas.height - drawHeight)/2;
+            ctx.drawImage(image,0,0,image.width,image.height,drawOffsetX,drawOffsetY,drawWidth,drawHeight);
         }
-    }
-    componentDidUpdate() {
-
+        
     }
     render() {
         const { GET_SRCIMAGE_URL, selectedFilePath } = this.props;
         return (
             <div ref="PhotoShopContainer" className="PhotoShopContainer">
-                <span>{selectedFilePath}</span>
-                <canvas ref="mainCanvas" />
-            </div>
-            
+                <canvas title={selectedFilePath} ref="mainCanvas" />
+            </div>            
         )
     }
 };
