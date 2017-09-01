@@ -17,6 +17,11 @@ router.get('/photoAnalysis', function (req, res) {
     res.render('photoAnalysis', { title: 'Express' });
 });
 
+router.get('/oec', function (req, res) {
+    var arg = url.parse(req.url, true).query;
+    res.render('oec', { title: 'Express' });
+});
+
 function filterFiles(files, folderPath, mode) {
     var newfiles = files.filter(function (file) {
         try {

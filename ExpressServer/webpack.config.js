@@ -6,7 +6,7 @@ module.exports = {
 
     //页面入口文件配置
     entry: {
-        index: __dirname + '/public/javascripts/App.jsx'
+        index: __dirname + '/public/javascripts/oec.jsx'
     },
     //入口文件输出配置
     output: {
