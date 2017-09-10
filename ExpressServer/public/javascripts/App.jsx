@@ -1,29 +1,33 @@
-﻿import React, { Component ,PropTypes } from 'react';
+﻿//引用公共库
+import React, { Component ,PropTypes } from 'react';
 import ReactDom from 'react-dom';
 import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux'
 import {
-    HashRouter,
-    hashHistory,
     BrowserRouter,
     Route,
     Link,
     Switch
 } from 'react-router-dom';
-import { createHashHistory } from 'history';
 
+//加载组件
 import MainContainer from './photoAnalysis.jsx';
 import PhotoShop from './PhotoShop.jsx';
 import MainRouter from './MainRouter.jsx';
 
-
+//加载redux模块
 import AppState from './AppState.js';
 import {gotoFolder,openImage,setState} from './AppActions.js';
 import {appReducer,GET_THUMB_URL,GET_SRCIMAGE_URL} from './AppReducers.js';
-import "../components/css/App.css"; // 载入 style.css
-// Store
-const store = createStore(appReducer)
 
+// 载入 css
+import "../components/css/App.css"; 
+
+
+const store = createStore(appReducer)
+store.subscribe((data)=>{
+  console.log(store.getState());
+})
 const App = connect(
   (state) => {
     return {
@@ -56,11 +60,6 @@ const PS = connect(
   }
 )(PhotoShop);
 
-
-
-store.subscribe((data)=>{
-  console.log(store.getState());
-})
 
 ReactDom.render(
   <Provider store={store}>
