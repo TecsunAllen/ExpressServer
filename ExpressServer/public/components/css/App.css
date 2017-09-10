@@ -85,3 +85,10 @@ body{
 video{
     width: 100%;
 }
+
+
+
+
+.floatTools{
+    position: absolute;
+}

@@ -48,8 +48,8 @@ router.get('/getThumbImage', function (req, res) {
             fileSystem.mkdirSync(dirPath + "/thumb");
         }
         if (!fileSystem.existsSync(thumbPath)) {
-            images(filePath)     //加载图像文件
-                .size(1000)          //等比缩放图像到1000像素宽
+    images(filePath)     //加载图像文件
+                .size(300)          //等比缩放图像到1000像素宽
                 .save(thumbPath, {
                     quality: 80     //保存图片到文件,图片质量为50
                 });
@@ -60,6 +60,7 @@ router.get('/getThumbImage', function (req, res) {
     fileStream.pipe(res);
     fileStream.on("end", function () {
         res.end();
+        //fileSystem.unlink(thumbPath);
     })
 })
 

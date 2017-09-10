@@ -10,20 +10,19 @@ import {
     Link,
     Switch
 } from 'react-router-dom';
-//import {} from 'react-router-redux';
 import { createHashHistory } from 'history';
 
 import MainContainer from './photoAnalysis.jsx';
 import PhotoShop from './PhotoShop.jsx';
-import AppState from './AppState.js';
-import {gotoFolder,openImage,OPEN_IMAGE,GOTO_FOLDER} from './AppActions.js';
+import MainRouter from './MainRouter.jsx';
 
+
+import AppState from './AppState.js';
+import {gotoFolder,openImage,setState} from './AppActions.js';
 import {appReducer,GET_THUMB_URL,GET_SRCIMAGE_URL} from './AppReducers.js';
-import "../components/css/PhotoExplorer.css"; // 载入 style.css
+import "../components/css/App.css"; // 载入 style.css
 // Store
 const store = createStore(appReducer)
-
-
 
 const App = connect(
   (state) => {
@@ -46,7 +45,7 @@ const App = connect(
 const PS = connect(
   (state) => {
     return {
-      selectedFilePath: state.currentFolder.path + '/' + state.selectedFileName,
+      selectedFilePath: state.currentFolder.path + '/' + state.currentFolder.selectedFileName,
       GET_SRCIMAGE_URL: GET_SRCIMAGE_URL
     }
   },
@@ -59,6 +58,9 @@ const PS = connect(
 
 
 
+store.subscribe((data)=>{
+  console.log(store.getState());
+})
 
 ReactDom.render(
   <Provider store={store}>
@@ -72,11 +74,11 @@ ReactDom.render(
   document.getElementById('AppContainer')
 )
 
+store.dispatch(gotoFolder(store.getState().currentFolder.path));
 
-window.onresize =()=>{
+window.onresize = () => {
   store.dispatch(gotoFolder())
 }
-
 
 /**
  * http://www.jianshu.com/p/e3adc9b5f75c/

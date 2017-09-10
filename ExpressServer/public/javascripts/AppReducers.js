@@ -1,6 +1,6 @@
 // Reducer
 import AppState from './AppState.js';
-import {gotoFolder,openImage,OPEN_IMAGE,GOTO_FOLDER} from './AppActions.js';
+import {gotoFolder,openImage,OPEN_IMAGE,GOTO_FOLDER,SET_STATE} from './AppActions.js';
 
           
           
@@ -12,6 +12,8 @@ export const GET_SRCIMAGE_URL = "/getFile?path=";
 export function appReducer(state = AppState, action) {
   
   switch (action.type) {
+    case SET_STATE:
+      return action.state;
     case GOTO_FOLDER:
       var folderPath = action.folderPath || state.currentFolder.path;
       var xhr = new XMLHttpRequest();
@@ -37,7 +39,6 @@ export function appReducer(state = AppState, action) {
           selectedFileName:fileName
         }
       });
-      return newState;
       return newState;
     default:
       return state

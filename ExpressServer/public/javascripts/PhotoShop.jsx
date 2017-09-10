@@ -27,8 +27,7 @@ class PhotoShop extends Component {
             drawOffsetX = (canvas.width - drawWidth)/2;
             drawOffsetY = (canvas.height - drawHeight)/2;
             ctx.drawImage(image,0,0,image.width,image.height,drawOffsetX,drawOffsetY,drawWidth,drawHeight);
-        }
-        
+        } 
     }
     render() {
         const { GET_SRCIMAGE_URL, selectedFilePath } = this.props;

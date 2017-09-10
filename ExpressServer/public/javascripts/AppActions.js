@@ -4,6 +4,7 @@
 
 export const GOTO_FOLDER = 'GOTO_FOLDER';
 export const OPEN_IMAGE = 'OPEN_IMAGE';
+export const SET_STATE = 'SET_STATE';
 /*
  * 其它的常量
  */
@@ -25,4 +26,8 @@ export function gotoFolder(folderPath) {
 
 export function openImage(fileName) {
   return { type: OPEN_IMAGE,fileName:fileName }
+}
+
+export function setState(state) {
+  return { type: SET_STATE,state:state }
 }

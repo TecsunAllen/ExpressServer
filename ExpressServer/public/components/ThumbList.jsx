@@ -6,6 +6,22 @@ class ThumbList extends Component {
     }
 
     componentDidMount() {
+        /*const {currentFolder,GET_THUMB_URL,onFolderSelect,onFileSelect} = this.props;
+        var images = $(this.refs.thumbContainer).find("img");
+
+
+        for (var i = 0; i < currentFolder.fileList.length; i++) {
+            var isPhoto = /(JPG)|(PNG)/.test(currentFolder.fileList[i]);
+            var thumbSrc = isPhoto? GET_THUMB_URL + currentFolder.path + '/' + currentFolder.fileList[i]:"";
+            images.src=thumbSrc;
+        }*/
+    }
+
+    loadImage(images,files,index){
+        images.src=src;
+        image.onload = ()=>{
+            this.loadImage
+        }
     }
 
     componentDidUpdate() {
@@ -43,7 +59,7 @@ class ThumbList extends Component {
         }
   
         return (
-            <div style={{height:"100%", overflow: "auto"}}>{folderItems}{fileItems}</div>
+            <div ref="thumbContainer" style={{height:"100%", overflow: "auto"}}>{folderItems}{fileItems}</div>
         )
     }
 }
