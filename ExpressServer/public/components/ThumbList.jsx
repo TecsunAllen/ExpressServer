@@ -49,13 +49,32 @@ class ThumbList extends Component {
 
         var fileItems = [];
         for (var i = 0; i < currentFolder.fileList.length; i++) {
-            var isPhoto = /(JPG)|(PNG)/.test(currentFolder.fileList[i]);
+            var isPhoto = /(JPG)|(PNG)/.test(currentFolder.fileList[i].toUpperCase());
+            var isMusic = /(MP3)|(WAV)/.test(currentFolder.fileList[i].toUpperCase());
+            var isVideo = /MP4/.test(currentFolder.fileList[i].toUpperCase());
             var thumbSrc = isPhoto? GET_THUMB_URL + currentFolder.path + '/' + currentFolder.fileList[i]:"";
+            if(isPhoto){
+                thumbSrc = GET_THUMB_URL + currentFolder.path + '/' + currentFolder.fileList[i];
+                fileItems.push(
+                    <img title={currentFolder.fileList[i]} onDoubleClick={(ev)=>onFileSelect(ev.target.title)} key={i} className="img-thumbnail"
+                    src={thumbSrc}/>
+                );
+            }
+            else if(isMusic){
+                thumbSrc = '/images/music.png';
+                fileItems.push(
+                    <img title={currentFolder.fileList[i]} key={i} className="img-thumbnail"
+                    src={thumbSrc}/>
+                );
+            }
+            else if(isVideo){
+                thumbSrc = '/images/music.png';
+                fileItems.push(
+                    <video controls title={currentFolder.fileList[i]} key={i} 
+                    src=""/>
+                );
+            }
 
-            fileItems.push(
-                <img title={currentFolder.fileList[i]} onDoubleClick={(ev)=>onFileSelect(ev.target.title)} key={i} className="img-thumbnail"
-                src={thumbSrc}/>
-            );
         }
   
         return (

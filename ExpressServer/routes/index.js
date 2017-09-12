@@ -26,7 +26,8 @@ function filterFiles(files, folderPath, mode) {
     var newfiles = files.filter(function (file) {
         try {
             var stats = fileSystem.lstatSync(folderPath + "/" + file);
-            return mode == "file" ? (!stats.isDirectory() && /(.JPG$)|(.PNG$)/.test(file.toUpperCase())) : stats.isDirectory();
+            return mode == "file" ? !stats.isDirectory() : stats.isDirectory();
+            //return mode == "file" ? (!stats.isDirectory() && /(.JPG$)|(.PNG$)/.test(file.toUpperCase())) : stats.isDirectory();
         }
         catch (e) {
             return false;
@@ -85,6 +86,7 @@ router.get('/getFile', function (req, res) {
         console.log(ex);
     }
 })
+
 router.get('/scanFolder', function (req, res) {
     var arg = url.parse(req.url, true).query;
     try {
