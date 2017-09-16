@@ -4,6 +4,7 @@ var path = require('path');
 var url = require('url');
 var dbService = require('../services/mysql.js');
 var fileSystem = require('fs');
+var pcScaner = require("./pcScaner.js")
 var images = require("images");
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -21,6 +22,13 @@ router.get('/oec', function (req, res) {
     var arg = url.parse(req.url, true).query;
     res.render('oec', { title: 'Express' });
 });
+
+
+router.get('/scanPC', function (req, res) {
+    pcScaner.startScan();
+    res.json({success:false,message:"无效路径！"});
+});
+
 
 function filterFiles(files, folderPath, mode) {
     var newfiles = files.filter(function (file) {
