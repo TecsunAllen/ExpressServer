@@ -75,6 +75,10 @@ router.get('/getFile', function (req, res) {
             res.json({success:false,message:"无效路径！"});
             return; 
         }
+        if(!fileSystem.existsSync(filePath)){
+            res.json({success:false,message:"文件不存在！"});
+            return; 
+        }
         var fileStream = fileSystem.createReadStream(filePath);
         res.writeHead(200, { "Content-Type": "application/octet-stream" });
         fileStream.pipe(res);

@@ -29051,11 +29051,20 @@ var ThumbList = function (_Component) {
             var folderItems = [];
             for (var i = 0; i < currentFolder.folderList.length; i++) {
                 if (currentFolder.folderList[i] == "thumb") continue;
-                folderItems.push(_react2.default.createElement("div", { key: i, title: currentFolder.folderList[i],
-                    className: "img-thumbnail thumbnail-folder",
-                    onClick: function onClick(ev) {
-                        return onFolderSelect(currentFolder.path + '/' + ev.target.title);
-                    } }));
+                folderItems.push(_react2.default.createElement(
+                    "div",
+                    { key: i, className: "img-thumbnail", title: currentFolder.folderList[i],
+                        onDoubleClick: function onDoubleClick(ev) {
+                            return onFolderSelect(currentFolder.path + '/' + ev.currentTarget.title);
+                        } },
+                    _react2.default.createElement("img", { src: "/images/folder.png"
+                    }),
+                    _react2.default.createElement(
+                        "label",
+                        null,
+                        currentFolder.folderList[i]
+                    )
+                ));
             }
 
             var fileItems = [];
@@ -29066,19 +29075,23 @@ var ThumbList = function (_Component) {
                 var thumbSrc = isPhoto ? GET_THUMB_URL + currentFolder.path + '/' + currentFolder.fileList[i] : "";
                 if (isPhoto) {
                     thumbSrc = GET_THUMB_URL + currentFolder.path + '/' + currentFolder.fileList[i];
-                    fileItems.push(_react2.default.createElement("img", { title: currentFolder.fileList[i], onDoubleClick: function onDoubleClick(ev) {
-                            return onFileSelect(ev.target.title);
-                        }, key: i, className: "img-thumbnail",
-                        src: thumbSrc }));
                 } else if (isMusic) {
                     thumbSrc = '/images/music.png';
-                    fileItems.push(_react2.default.createElement("img", { title: currentFolder.fileList[i], key: i, className: "img-thumbnail",
-                        src: thumbSrc }));
                 } else if (isVideo) {
-                    thumbSrc = '/images/music.png';
-                    fileItems.push(_react2.default.createElement("video", { controls: true, title: currentFolder.fileList[i], key: i,
-                        src: "" }));
+                    thumbSrc = '/images/video.png';
                 }
+                fileItems.push(_react2.default.createElement(
+                    "div",
+                    { key: i, title: currentFolder.fileList[i], className: "img-thumbnail", onDoubleClick: function onDoubleClick(ev) {
+                            return onFileSelect(ev.currentTarget.title);
+                        } },
+                    _react2.default.createElement("img", { src: thumbSrc }),
+                    _react2.default.createElement(
+                        "label",
+                        null,
+                        currentFolder.fileList[i]
+                    )
+                ));
             }
 
             return _react2.default.createElement(
@@ -29423,7 +29436,7 @@ function appReducer() {
           path: data.currfolder,
           fileList: data.files,
           folderList: data.childfolders,
-          selectedFileName: state.currentFolder.selectedFileName
+          selectedFileName: ""
         }
       });
       return newState;
@@ -29483,7 +29496,7 @@ exports = module.exports = __webpack_require__(108)(undefined);
 
 
 // module
-exports.push([module.i, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n\r\nbody{\r\n    background-color: beige;\r\n}\r\n\r\n#AppContainer,#APPRouterContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n.ThumbList {\r\n    background-color: antiquewhite;\r\n}\r\n\r\n.ThumbList .thumbnail-folder{\r\n    background-image: url(/images/folder.svg);\r\n    width: 10%;\r\n    height: 10%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n}\r\n.ThumbList .img-thumbnail{\r\n    width: 10%;\r\n}\r\n\r\n\r\n.PhotoExplorer {\r\n    height:100%;\r\n}\r\n\r\n.PhotoExplorer img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer #leftToolbar {\r\n\r\n}\r\n.PhotoExplorer div#bigThumb{\r\n    height: 100%;\r\n    background:rgba(80, 99, 59,0.5);\r\n}\r\n\r\n.PhotoExplorer div#bigThumb img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {\r\n    font-size: x-large;\r\n}\r\n\r\n\r\n\r\n.PhotoShopContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n\r\n#APPRouterContainer > div{\r\n    height: 100%;\r\n}\r\n#APPRouterContainer > div > img{\r\n    margin: auto;\r\n    margin-top: 10%;\r\n    height: 40%;\r\n}\r\n\r\n#APPRouterContainer .playBtn{\r\n    position: absolute;\r\n}\r\n\r\nvideo{\r\n    width: 100%;\r\n}\r\n\r\n\r\n\r\n\r\n.floatTools{\r\n    position: absolute;\r\n}", ""]);
+exports.push([module.i, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n\r\nbody{\r\n    background-color: beige;\r\n}\r\n\r\n#AppContainer,#APPRouterContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n.img-thumbnail{\r\n    background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n.ThumbList {\r\n    background-color: antiquewhite;\r\n}\r\n\r\n.ThumbList .thumbnail-folder{\r\n    background-image: url(/images/folder.png);\r\n    width: 10%;\r\n    height: 10%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n}\r\n.ThumbList .img-thumbnail{\r\n    width: 10%;\r\n}\r\n.ThumbList img{\r\n    width: 100%;\r\n}\r\n.ThumbList label{\r\n    white-space: nowrap;\r\n    text-overflow: ellipsis;\r\n    overflow: hidden;\r\n}\r\n\r\n\r\n.PhotoExplorer {\r\n    height:100%;\r\n}\r\n\r\n.PhotoExplorer img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer #leftToolbar {\r\n\r\n}\r\n.PhotoExplorer div#bigThumb{\r\n    height: 100%;\r\n    background:rgba(80, 99, 59,0.5);\r\n}\r\n\r\n.PhotoExplorer div#bigThumb img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {\r\n    font-size: x-large;\r\n}\r\n\r\n\r\n\r\n.PhotoShopContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n\r\n#APPRouterContainer > div{\r\n    height: 100%;\r\n}\r\n#APPRouterContainer > div > img{\r\n    margin: auto;\r\n    margin-top: 10%;\r\n    height: 40%;\r\n}\r\n\r\n#APPRouterContainer .playBtn{\r\n    position: absolute;\r\n}\r\n\r\nvideo{\r\n    width: 100%;\r\n}\r\n\r\n\r\n\r\n\r\n.floatTools{\r\n    position: absolute;\r\n}", ""]);
 
 // exports
 

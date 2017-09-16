@@ -25,7 +25,7 @@ export function appReducer(state = AppState, action) {
           path: data.currfolder,
           fileList: data.files,
           folderList: data.childfolders,
-          selectedFileName:state.currentFolder.selectedFileName
+          selectedFileName:""
         }
       });
       return newState;

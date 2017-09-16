@@ -17,12 +17,16 @@ body{
 }
 
 
+.img-thumbnail{
+    background-color: rgba(0, 0, 0, 0);
+}
+
 .ThumbList {
     background-color: antiquewhite;
 }
 
 .ThumbList .thumbnail-folder{
-    background-image: url(/images/folder.svg);
+    background-image: url(/images/folder.png);
     width: 10%;
     height: 10%;
     background-size: contain;
@@ -30,6 +34,14 @@ body{
 }
 .ThumbList .img-thumbnail{
     width: 10%;
+}
+.ThumbList img{
+    width: 100%;
+}
+.ThumbList label{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 
