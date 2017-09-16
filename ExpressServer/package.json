@@ -42,6 +42,7 @@
     "style-loader": "latest",
     "stylus": "^0.54.5",
     "url-loader": "latest",
-    "webpack": "latest"
+    "webpack": "latest",
+    "xml2js":"latest"
   }
 }
