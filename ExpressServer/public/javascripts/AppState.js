@@ -4,6 +4,10 @@ var AppState = {
         fileList:[],
         folderList:[],
         selectedFileName:""
+    },
+    searchFiles:{
+        fileList:[],
+        selectedFile:""
     }
 };
 

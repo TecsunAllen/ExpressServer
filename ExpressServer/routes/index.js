@@ -26,7 +26,7 @@ router.get('/oec', function (req, res) {
 
 router.get('/scanPC', function (req, res) {
     pcScaner.startScan();
-    res.json({success:false,message:"无效路径！"});
+    res.json({success:true,message:"开始扫描!"});
 });
 
 

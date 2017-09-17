@@ -5,6 +5,7 @@ import "../stylesheets/photoAnalysis.css"; // 载入 style.css
 import ThumbList from '../components/ThumbList.jsx';
 import FloatTools from '../components/FloatTools.jsx';
 import Slider from '../components/Slider.jsx';
+import SearchBar from '../components/SearchBar.jsx';
 import PhotoShop from './PhotoShop.jsx';
 //import init from './init.js';
 import { Router, Route, hashHistory } from 'react-router';
@@ -64,6 +65,7 @@ class MainContainer extends Component {
                         GET_THUMB_URL={GET_THUMB_URL}/>
                     </div>
                 </div>
+                <SearchBar  />
             </div>
         )
     }
