@@ -30,6 +30,14 @@ router.get('/scanPC', function (req, res) {
 });
 
 
+router.get('/findFile', function (req, res) {
+    var arg = url.parse(req.url, true).query;
+    pcScaner.findFileByName(arg.fileName,function(err, result){
+        res.json(result);
+    });
+
+});
+
 function filterFiles(files, folderPath, mode) {
     var newfiles = files.filter(function (file) {
         try {
