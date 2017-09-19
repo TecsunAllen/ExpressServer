@@ -1,0 +1,7 @@
+{
+    "mongoDBServerPath":"",
+    "databaseName":"PCResourceManager",
+    "databasePath":"",
+    "databaseHost":"127.0.0.1",
+    "databasePort":"27017"
+}

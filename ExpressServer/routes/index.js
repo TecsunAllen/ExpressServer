@@ -2,10 +2,9 @@
 var router = express.Router();
 var path = require('path');
 var url = require('url');
-var dbService = require('../services/mysql.js');
 var fileSystem = require('fs');
-var pcScaner = require("./pcScaner.js")
 var images = require("images");
+var pcScaner = require("../services/pcScaner.js")
 /* GET home page. */
 router.get('/', function (req, res) {
     var arg = url.parse(req.url, true).query;
