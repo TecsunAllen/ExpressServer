@@ -1,6 +1,6 @@
 var AppState = {
     currentFolder: {
-        path: 'E:/test',
+        path: 'E:/',
         fileList:[],
         folderList:[],
         selectedFileName:""

@@ -12695,7 +12695,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var AppState = {
     currentFolder: {
-        path: 'E:/test',
+        path: 'E:/',
         fileList: [],
         folderList: [],
         selectedFileName: ""
@@ -12782,7 +12782,7 @@ var _PhotoShop = __webpack_require__(110);
 
 var _PhotoShop2 = _interopRequireDefault(_PhotoShop);
 
-var _MainRouter = __webpack_require__(275);
+var _MainRouter = __webpack_require__(276);
 
 var _MainRouter2 = _interopRequireDefault(_MainRouter);
 
@@ -12792,9 +12792,9 @@ var _AppState2 = _interopRequireDefault(_AppState);
 
 var _AppActions = __webpack_require__(112);
 
-var _AppReducers = __webpack_require__(276);
+var _AppReducers = __webpack_require__(277);
 
-__webpack_require__(277);
+__webpack_require__(278);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28629,7 +28629,7 @@ var _Slider = __webpack_require__(274);
 
 var _Slider2 = _interopRequireDefault(_Slider);
 
-var _SearchBar = __webpack_require__(279);
+var _SearchBar = __webpack_require__(275);
 
 var _SearchBar2 = _interopRequireDefault(_SearchBar);
 
@@ -29353,6 +29353,85 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //依赖bootstrap框架
 
 
+var SearchBar = function (_Component) {
+    _inherits(SearchBar, _Component);
+
+    function SearchBar(props) {
+        _classCallCheck(this, SearchBar);
+
+        return _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call(this, props));
+    }
+
+    _createClass(SearchBar, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {}
+    }, {
+        key: "componentDidUpdate",
+        value: function componentDidUpdate() {}
+    }, {
+        key: "render",
+        value: function render() {
+            var fileList = this.props.fileList;
+
+            var liItems = [];
+            if (fileList) {
+                fileList.forEach(function (file) {
+                    liItems.push(_react2.default.createElement(
+                        "li",
+                        null,
+                        file
+                    ));
+                }, this);
+            }
+            return _react2.default.createElement(
+                "div",
+                { className: "searchBar" },
+                _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement("input", { type: "text" })
+                ),
+                _react2.default.createElement(
+                    "ul",
+                    null,
+                    liItems
+                )
+            );
+        }
+    }]);
+
+    return SearchBar;
+}(_react.Component);
+
+;
+exports.default = SearchBar;
+
+/***/ }),
+/* 276 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //依赖bootstrap框架
+
+
 var MainRouter = function (_Component) {
     _inherits(MainRouter, _Component);
 
@@ -29401,7 +29480,7 @@ var MainRouter = function (_Component) {
 exports.default = MainRouter;
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29466,13 +29545,13 @@ function appReducer() {
 }
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(278);
+var content = __webpack_require__(279);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -29497,7 +29576,7 @@ if(false) {
 }
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(108)(undefined);
@@ -29505,89 +29584,10 @@ exports = module.exports = __webpack_require__(108)(undefined);
 
 
 // module
-exports.push([module.i, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n\r\nbody{\r\n    background-color: beige;\r\n}\r\n\r\n#AppContainer,#APPRouterContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n.img-thumbnail{\r\n    background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n.ThumbList {\r\n    background-color: antiquewhite;\r\n}\r\n\r\n.ThumbList .thumbnail-folder{\r\n    background-image: url(/images/folder.png);\r\n    width: 10%;\r\n    height: 10%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n}\r\n.ThumbList .img-thumbnail{\r\n    width: 10%;\r\n}\r\n.ThumbList img{\r\n    width: 100%;\r\n}\r\n.ThumbList label{\r\n    white-space: nowrap;\r\n    text-overflow: ellipsis;\r\n    overflow: hidden;\r\n}\r\n\r\n\r\n.PhotoExplorer {\r\n    height:100%;\r\n}\r\n\r\n.PhotoExplorer img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer #leftToolbar {\r\n\r\n}\r\n.PhotoExplorer div#bigThumb{\r\n    height: 100%;\r\n    background:rgba(80, 99, 59,0.5);\r\n}\r\n\r\n.PhotoExplorer div#bigThumb img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {\r\n    font-size: x-large;\r\n}\r\n\r\n\r\n\r\n.PhotoShopContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n\r\n#APPRouterContainer > div{\r\n    height: 100%;\r\n}\r\n#APPRouterContainer > div > img{\r\n    margin: auto;\r\n    margin-top: 10%;\r\n    height: 40%;\r\n}\r\n\r\n#APPRouterContainer .playBtn{\r\n    position: absolute;\r\n}\r\n\r\nvideo{\r\n    width: 100%;\r\n}\r\n\r\n\r\n\r\n\r\n.floatTools{\r\n    position: absolute;\r\n}\r\n\r\n\r\n\r\n.searchBar{\r\n    position: absolute;\r\n    top: 10%;\r\n    width: 80%;\r\n    margin-left: 10%;\r\n}\r\n.searchBar input{\r\n    width: 100%;\r\n    height: 30px;\r\n}\r\n.searchBar > ul\r\n{\r\n    background-color: rgb(128, 128, 128);\r\n}\r\n\r\n.searchBar >div{\r\n    padding-left:2%; \r\n    padding-right: 2%;\r\n    background-color: gray;\r\n}\r\n.searchBar > ul > li\r\n{\r\n    height: 20px;\r\n    padding-left:2%; \r\n}\r\n.searchBar > ul > li:hover\r\n{\r\n    background-color: #805959;\r\n}", ""]);
+exports.push([module.i, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n\r\nbody{\r\n    background-color: beige;\r\n}\r\n\r\n#AppContainer,#APPRouterContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n.img-thumbnail{\r\n    background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n.ThumbList {\r\n    background-color: antiquewhite;\r\n}\r\n\r\n.ThumbList .thumbnail-folder{\r\n    background-image: url(/images/folder.png);\r\n    width: 10%;\r\n    height: 10%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n}\r\n.ThumbList .img-thumbnail{\r\n    width: 10%;\r\n}\r\n.ThumbList img{\r\n    width: 100%;\r\n}\r\n.ThumbList label{\r\n    white-space: nowrap;\r\n    text-overflow: ellipsis;\r\n    overflow: hidden;\r\n}\r\n\r\n\r\n.PhotoExplorer {\r\n    height:100%;\r\n}\r\n\r\n.PhotoExplorer img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer #leftToolbar {\r\n\r\n}\r\n.PhotoExplorer div#bigThumb{\r\n    height: 100%;\r\n    background:rgba(80, 99, 59,0.5);\r\n}\r\n\r\n.PhotoExplorer div#bigThumb img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {\r\n    font-size: x-large;\r\n}\r\n\r\n\r\n\r\n.PhotoShopContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n\r\n#APPRouterContainer > div{\r\n    height: 100%;\r\n}\r\n#APPRouterContainer > div > img{\r\n    margin: auto;\r\n    margin-top: 10%;\r\n    height: 40%;\r\n}\r\n\r\n#APPRouterContainer .playBtn{\r\n    position: absolute;\r\n}\r\n\r\nvideo{\r\n    width: 100%;\r\n}\r\n\r\n\r\n\r\n\r\n.floatTools{\r\n    position: absolute;\r\n}\r\n\r\n\r\n\r\n.searchBar{\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0;\r\n    width: 60%;\r\n    margin-left: 10%;\r\n}\r\n.searchBar input{\r\n    width: 100%;\r\n    height: 30px;\r\n}\r\n.searchBar > ul\r\n{\r\n    background-color: rgb(128, 128, 128);\r\n}\r\n\r\n.searchBar >div{\r\n    padding-left:2%; \r\n    padding-right: 2%;\r\n    background-color: gray;\r\n}\r\n.searchBar > ul > li\r\n{\r\n    height: 20px;\r\n    padding-left:2%; \r\n}\r\n.searchBar > ul > li:hover\r\n{\r\n    background-color: #805959;\r\n}", ""]);
 
 // exports
 
-
-/***/ }),
-/* 279 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //依赖bootstrap框架
-
-
-var SearchBar = function (_Component) {
-    _inherits(SearchBar, _Component);
-
-    function SearchBar(props) {
-        _classCallCheck(this, SearchBar);
-
-        return _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call(this, props));
-    }
-
-    _createClass(SearchBar, [{
-        key: "componentDidMount",
-        value: function componentDidMount() {}
-    }, {
-        key: "componentDidUpdate",
-        value: function componentDidUpdate() {}
-    }, {
-        key: "render",
-        value: function render() {
-            var fileList = this.props.fileList;
-
-            var liItems = [];
-            if (fileList) {
-                fileList.forEach(function (file) {
-                    liItems.push(_react2.default.createElement(
-                        "li",
-                        null,
-                        file
-                    ));
-                }, this);
-            }
-            return _react2.default.createElement(
-                "div",
-                { className: "searchBar" },
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    _react2.default.createElement("input", { type: "text" })
-                ),
-                _react2.default.createElement(
-                    "ul",
-                    null,
-                    liItems
-                )
-            );
-        }
-    }]);
-
-    return SearchBar;
-}(_react.Component);
-
-;
-exports.default = SearchBar;
 
 /***/ })
 /******/ ]);

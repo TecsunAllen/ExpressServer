@@ -25,7 +25,6 @@ function filterFiles(files, folderPath, mode) {
 
 function readFolder(folder, callback) {
     scanCount++;
-    console.log("开始读取第"+scanCount +"个文件夹：" + folder.Path);
     fileSystem.readdir(folder.Path, function (err, files) {
         if (!files) return;
         var folders = filterFiles(files, folder.Path, "folder");
@@ -55,7 +54,10 @@ function readFolder(folder, callback) {
 var allFiles = [];
 function startScan() {
     dbHelper.dropdb(function(err,data){
+        scanCount = 0;
+        readFolder({ Path:"C:/"}, function () {});
         readFolder({ Path:"D:/"}, function () {});
+        readFolder({ Path:"E:/"}, function () {});
     });
 }
 var pcScaner = {

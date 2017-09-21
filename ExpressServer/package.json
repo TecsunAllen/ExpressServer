@@ -44,6 +44,7 @@
     "stylus": "^0.54.5",
     "url-loader": "latest",
     "webpack": "latest",
-    "xml2js": "latest"
+    "xml2js": "latest",
+    "node-cmd":"latest"
   }
 }

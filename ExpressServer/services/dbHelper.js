@@ -3,15 +3,32 @@ var DB_CONN_STR = 'mongodb://'+ appConfig.databaseHost+':'+ appConfig.databasePo
 var Mongodb;
 var MongoCollection;
 var MongoClient = require('mongodb').MongoClient;
-MongoClient.connect(DB_CONN_STR, function (err, db) {
-    if (!err) {
-        Mongodb = db;
-        MongoCollection = db.collection('PCFiless');
-    }
-    else {
-        console.log(err);
+
+var runDBCommand = "\"C:\\Program Files\\MongoDB\\Server\\3.4\\bin\\mongod.exe\" --dbpath D:\\mongodb\\database\\PCManager";
+
+var exec = require('child_process').exec;
+var child = exec(runDBCommand,{
+    encoding: "utf8"
+  },
+  function (error, stdout, stderr) {
+    console.log('stdout: ' + stdout);
+    console.log('stderr: ' + stderr);
+    if (error !== null) {
+      console.log('exec error: ' + error);
     }
 });
+
+setTimeout(function(){
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+        if (!err) {
+            Mongodb = db;
+            MongoCollection = db.collection('PCFiless');
+        }
+        else {
+            console.log(err);
+        }
+    });
+},5000);
 
 function insertData(data, callback) {
     MongoCollection.insert(data, function (err, result) {

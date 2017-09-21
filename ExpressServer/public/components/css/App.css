@@ -109,8 +109,9 @@ video{
 
 .searchBar{
     position: absolute;
-    top: 10%;
-    width: 80%;
+    top: 0;
+    right: 0;
+    width: 60%;
     margin-left: 10%;
 }
 .searchBar input{
