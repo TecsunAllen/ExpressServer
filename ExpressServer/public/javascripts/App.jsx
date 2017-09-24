@@ -17,7 +17,7 @@ import MainRouter from './MainRouter.jsx';
 
 //加载redux模块
 import AppState from './AppState.js';
-import {gotoFolder,openImage,setState} from './AppActions.js';
+import {dispatchEvents,setState} from './AppActions.js';
 import {appReducer,GET_THUMB_URL,GET_SRCIMAGE_URL} from './AppReducers.js';
 
 // 载入 css
@@ -32,15 +32,19 @@ const App = connect(
   (state) => {
     return {
       currentFolder: state.currentFolder,
+      searchedFiles:state.searchedFiles,
+      selectedFilePath:state.selectedFilePath,
       GET_THUMB_URL: GET_THUMB_URL,
       GET_SRCIMAGE_URL:GET_SRCIMAGE_URL
     }
   },
   (dispatch) => {
     return {
-      onFolderSelect: (folderPath) => dispatch(gotoFolder(folderPath)),
-      onFileSelect:(fileName)=>dispatch(openImage(fileName)),
-      onMainComponentLoad: () => dispatch(gotoFolder())
+      //onFileSelect:(fileName)=>dispatch(openImage(fileName)),
+      //onMainComponentLoad: () => dispatch(gotoFolder()),
+      eventHander:function(){
+        dispatch(dispatchEvents(arguments[0],arguments[1],arguments[2]));
+      }
     }
   }
 )(MainContainer);
@@ -73,10 +77,10 @@ ReactDom.render(
   document.getElementById('AppContainer')
 )
 
-store.dispatch(gotoFolder(store.getState().currentFolder.path));
+store.dispatch(dispatchEvents("intoFolder",store.getState().currentFolder.path));
 
 window.onresize = () => {
-  store.dispatch(gotoFolder())
+  store.dispatch(dispatchEvents())
 }
 
 /**

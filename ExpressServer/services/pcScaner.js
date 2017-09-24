@@ -41,7 +41,7 @@ function readFolder(folder, callback) {
         var insertArr = [];
 
         for (var i = 0; i < folder.Folders.length; i++) {
-            insertArr.push({ name: folders[i], path: folder.Folders[i], type: 0 });
+            insertArr.push({ name: folders[i], path: folder.Folders[i].Path, type: 0 });
         }
         for (var i = 0; i < folder.Files.length; i++) {
             insertArr.push({ name: files[i], path: path.join(folder.Path, files[i]), type: 1 });

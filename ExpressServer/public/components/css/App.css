@@ -2,10 +2,15 @@
     margin: 0;
     padding: 0;
 }
+a{
+    cursor: pointer;
+}
 
 
 body{
     background-color: beige;
+    font-size: 21px;
+    font-family: unset;
 }
 
 #AppContainer,#APPRouterContainer{
@@ -65,7 +70,11 @@ body{
     width: 100%;
 }
 
-.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {
+.glyphicon-arrow-left{
+    font-size: x-large;
+}
+
+.glyphicon-arrow-right {
     font-size: x-large;
 }
 
@@ -130,10 +139,21 @@ video{
 }
 .searchBar > ul > li
 {
-    height: 20px;
-    padding-left:2%; 
+    height: 25px;
+    padding-left: 2%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .searchBar > ul > li:hover
 {
     background-color: #805959;
+}
+
+
+
+.fileViewer{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
 }

@@ -10,6 +10,19 @@ var users = require('./routes/users');
 //var folderReader = require('./services/folderReader');
 var app = express();
 var ImagesPath = "E:/Images";
+/*var mimeNames = {
+    ".css": "text/css",
+    ".html": "text/html",
+    ".js": "application/javascript",
+    ".mp3": "audio/mpeg",
+    ".mp4": "video/mp4",
+    ".ogg": "application/ogg", 
+    ".ogv": "video/ogg", 
+    ".oga": "audio/ogg",
+    ".txt": "text/plain",
+    ".wav": "audio/x-wav",
+    ".webm": "video/webm"
+};*/
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -24,30 +37,10 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'build/public')));
 app.use(express.static(ImagesPath));
-/*app.use(function(req, res, next){
-    res.setHeader("Access-Control-Allow-Origin", "*");
-})*/
 
 
+app.all('*', function (request, response, next) {
 
-/*var exec = require('child_process').exec;
-var child = exec('runWebpack',{
-    encoding: "utf8"
-  },
-  function (error, stdout, stderr) {
-    console.log('stdout: ' + stdout);
-    console.log('stderr: ' + stderr);
-    if (error !== null) {
-      console.log('exec error: ' + error);
-    }
-});
-**/
-
-
-
-
-app.all('*', function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
     next();
 });
 
@@ -103,5 +96,28 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+function sendResponse(response, responseStatus, responseHeaders, readable) {
+    response.writeHead(responseStatus, responseHeaders);
+    if (readable == null)
+        response.end();
+    else
+        readable.on("open", function () {
+            readable.pipe(response);
+        });
+ 
+    return null;
+}
+ 
+function getMimeNameFromExt(ext) {
+    var result = mimeNames[ext.toLowerCase()];
+    
+    // 最好给一个默认值
+    if (result == null)
+        result = "application/octet-stream";
+    
+    return result;
+} 
+
 
 module.exports = app;

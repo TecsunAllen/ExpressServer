@@ -17,19 +17,27 @@ class AddressTool extends Component {
     }
 
     render() {
-        const {currfolder ,childfolders} = this.props;
+        const {currfolder ,childfolders,eventHander} = this.props;
+        var addressList = [];
+        var addressTexts = currfolder.split("/");
+        var currentPath ="";
+        for(var i=0;i<addressTexts.length;i++){
+            currentPath +=addressTexts[i]+"/";
+            addressList.push(<a  onClick={(ev) => eventHander("intoFolder",ev.target.dataset.path)} key={i} data-path={currentPath.substring(0,currentPath.length-1)} className="btn-default">{addressTexts[i]+"/"}</a>);
+        }
         return (
             <div className="form-inline">
                 <div className="form-group">
                     <div className="glyphicon glyphicon-arrow-left"
-                         onClick={(ev)=>{this.props.eventHander(this,"goback",ev)}}></div>
+                         onClick={(ev)=>{eventHander(this,"goback",ev)}}></div>
                 </div>
                 <div className="form-group">
                     <div className="glyphicon glyphicon-arrow-right"
-                         onClick={(ev)=>{this.props.eventHander(this,"forwrad",ev)}}></div>
+                         onClick={(ev)=>{eventHander(this,"forwrad",ev)}}></div>
                 </div>
-                <div className="form-group"><input readOnly="true" className="form-control" ref="address"
-                                                   value={currfolder} id="address" type="text"/></div>
+                <div className="form-group">
+                    {addressList}
+                </div>
             </div>
         )
     }

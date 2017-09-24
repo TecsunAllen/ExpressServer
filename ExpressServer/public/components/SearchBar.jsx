@@ -11,16 +11,20 @@ class SearchBar extends Component {
     }
 
     render() {
-        const { fileList } = this.props;
+        const { fileList, eventHander } = this.props;
         var liItems = [];
         if (fileList) {
-            fileList.forEach(function (file) {
-                liItems.push(<li>{file}</li>);
-            }, this);
+            for(var i=0;i<fileList.length;i++){
+                liItems.push(<li onDoubleClick={(ev)=>eventHander("openFile",ev.target.title)} title={fileList[i].path} key={i}>{fileList[i].name + "  " + fileList[i].path}</li>);
+            }
         }
         return (
             <div className="searchBar">
-                <div><input type="text" /></div>
+                <div><input onChange={(ev) => {
+                    if (ev.target.value.length >= 3)
+                        eventHander('searchFiles', ev.target.value);
+                }
+                } type="text" /></div>
                 <ul>
                     {liItems}
                 </ul>

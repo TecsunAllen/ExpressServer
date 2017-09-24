@@ -80,7 +80,6 @@ router.get('/getThumbImage', function (req, res) {
     })
 })
 
-
 router.get('/getFile', function (req, res) {
     try {
         var arg = url.parse(req.url, true).query;
@@ -95,7 +94,7 @@ router.get('/getFile', function (req, res) {
             return; 
         }
         var fileStream = fileSystem.createReadStream(filePath);
-        res.writeHead(200, { "Content-Type": "application/octet-stream" });
+        res.writeHead(200, { "Content-Type": "video/mp4" });
         fileStream.pipe(res);
         fileStream.on("end", function () {
             res.end();

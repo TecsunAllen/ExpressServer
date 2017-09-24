@@ -4,11 +4,13 @@ var Mongodb;
 var MongoCollection;
 var MongoClient = require('mongodb').MongoClient;
 
-var runDBCommand = "\"C:\\Program Files\\MongoDB\\Server\\3.4\\bin\\mongod.exe\" --dbpath D:\\mongodb\\database\\PCManager";
+//var runDBCommand = "\"C:\\Program Files\\MongoDB\\Server\\3.4\\bin\\mongod.exe\" --dbpath D:\\mongodb\\database\\PCManager";
+var runDBCommand = __dirname + "/../start.bat";
 
 var exec = require('child_process').exec;
-var child = exec(runDBCommand,{
-    encoding: "utf8"
+/*var child = exec(runDBCommand,{
+    encoding: "utf8",
+    cwd : __dirname+"/../"
   },
   function (error, stdout, stderr) {
     console.log('stdout: ' + stdout);
@@ -16,7 +18,7 @@ var child = exec(runDBCommand,{
     if (error !== null) {
       console.log('exec error: ' + error);
     }
-});
+});*/
 
 setTimeout(function(){
     MongoClient.connect(DB_CONN_STR, function (err, db) {
@@ -28,7 +30,7 @@ setTimeout(function(){
             console.log(err);
         }
     });
-},5000);
+},2000);
 
 function insertData(data, callback) {
     MongoCollection.insert(data, function (err, result) {

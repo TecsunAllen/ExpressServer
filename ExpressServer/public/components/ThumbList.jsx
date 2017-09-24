@@ -36,17 +36,17 @@ class ThumbList extends Component {
     }
 
     render() {
-        const { currentFolder, GET_THUMB_URL, onFolderSelect, onFileSelect } = this.props;
+        const { currentFolder, GET_THUMB_URL, eventHander } = this.props;
         var folderItems = [];
         for (var i = 0; i < currentFolder.folderList.length; i++) {
             if (currentFolder.folderList[i] == "thumb") continue;
             folderItems.push(
-                <div key={i} className="img-thumbnail" title={currentFolder.folderList[i]} 
-                    onDoubleClick={(ev) => onFolderSelect(currentFolder.path + '/' + ev.currentTarget.title)}>
+                <li key={i}><a className="img-thumbnail" title={currentFolder.folderList[i]}
+                    onDoubleClick={(ev) => eventHander("intoFolder", currentFolder.path + '/' + ev.currentTarget.title)}>
                     <img src='/images/folder.png'
                     />
                     <label>{currentFolder.folderList[i]}</label>
-                </div>
+                </a></li>
             );
         }
 
@@ -65,16 +65,31 @@ class ThumbList extends Component {
             else if (isVideo) {
                 thumbSrc = '/images/video.png';
             }
+            else {
+                thumbSrc = '/images/fileIcon.png';
+            }
             fileItems.push(
-                <div key={i} title={currentFolder.fileList[i]} className="img-thumbnail" onDoubleClick={(ev) => onFileSelect(ev.currentTarget.title)}>
+                <li key={i}><a title={currentFolder.fileList[i]} className="img-thumbnail" onDoubleClick={(ev) => eventHander("openFile", ev.currentTarget.title)}>
                     <img src={thumbSrc} />
                     <label>{currentFolder.fileList[i]}</label>
-                </div>
+                </a></li>
             );
         }
 
         return (
-            <div ref="thumbContainer" style={{ height: "100%", overflow: "auto" }}>{folderItems}{fileItems}</div>
+            <div style={{ height: "100%", overflow: "auto",display:"flex" }}>
+                <div style={{flex:1}}>
+                    <ul>
+                        <li><a onClick={(ev) => eventHander("intoFolder", "C:")}>C:</a></li>
+                        <li><a onClick={(ev) => eventHander("intoFolder", "D:")}>D:</a></li>
+                        <li><a onClick={(ev) => eventHander("intoFolder", "E:")}>E:</a></li>
+                    </ul>
+                </div>
+                <div style={{flex:9}}>
+                    <ul>{folderItems}</ul>                  
+                    <ul>{fileItems}</ul>
+                </div>
+            </div>
         )
     }
 }

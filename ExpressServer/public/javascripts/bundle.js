@@ -12695,15 +12695,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 var AppState = {
     currentFolder: {
-        path: 'E:/',
+        path: 'E:',
         fileList: [],
-        folderList: [],
-        selectedFileName: ""
+        folderList: []
     },
-    searchFiles: {
-        fileList: [],
-        selectedFile: ""
-    }
+    searchedFiles: {
+        fileList: []
+    },
+    selectedFilePath: ""
 };
 
 exports.default = AppState;
@@ -12719,15 +12718,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.gotoFolder = gotoFolder;
-exports.openImage = openImage;
+exports.openFile = openFile;
 exports.setState = setState;
+exports.searchFiles = searchFiles;
+exports.dispatchEvents = dispatchEvents;
 /*
  * action 类型
  */
 
 var GOTO_FOLDER = exports.GOTO_FOLDER = 'GOTO_FOLDER';
-var OPEN_IMAGE = exports.OPEN_IMAGE = 'OPEN_IMAGE';
+var OPEN_FILE = exports.OPEN_FILE = 'OPEN_FILE';
 var SET_STATE = exports.SET_STATE = 'SET_STATE';
+var SEARCH_FILES = exports.SEARCH_FILES = 'SEARCH_FILES';
 /*
  * 其它的常量
  */
@@ -12745,12 +12747,28 @@ var VisibilityFilters = exports.VisibilityFilters = {
   return { type: GOTO_FOLDER, folderPath: folderPath };
 }
 
-function openImage(fileName) {
-  return { type: OPEN_IMAGE, fileName: fileName };
+function openFile(filePath) {
+  return { type: OPEN_FILE, filePath: filePath };
 }
 
 function setState(state) {
   return { type: SET_STATE, state: state };
+}
+function searchFiles(name) {
+  return { type: SEARCH_FILES, name: name };
+}
+
+function dispatchEvents() {
+  var type = arguments[0];
+  var data = arguments[1];
+  switch (type) {
+    case "intoFolder":
+      return gotoFolder(data);
+    case "openFile":
+      return openFile(data);
+    case "searchFiles":
+      return searchFiles(data);
+  }
 }
 
 /***/ }),
@@ -12813,19 +12831,17 @@ store.subscribe(function (data) {
 var App = (0, _reactRedux.connect)(function (state) {
   return {
     currentFolder: state.currentFolder,
+    searchedFiles: state.searchedFiles,
+    selectedFilePath: state.selectedFilePath,
     GET_THUMB_URL: _AppReducers.GET_THUMB_URL,
     GET_SRCIMAGE_URL: _AppReducers.GET_SRCIMAGE_URL
   };
 }, function (dispatch) {
   return {
-    onFolderSelect: function onFolderSelect(folderPath) {
-      return dispatch((0, _AppActions.gotoFolder)(folderPath));
-    },
-    onFileSelect: function onFileSelect(fileName) {
-      return dispatch((0, _AppActions.openImage)(fileName));
-    },
-    onMainComponentLoad: function onMainComponentLoad() {
-      return dispatch((0, _AppActions.gotoFolder)());
+    //onFileSelect:(fileName)=>dispatch(openImage(fileName)),
+    //onMainComponentLoad: () => dispatch(gotoFolder()),
+    eventHander: function eventHander() {
+      dispatch((0, _AppActions.dispatchEvents)(arguments[0], arguments[1], arguments[2]));
     }
   };
 })(_photoAnalysis2.default);
@@ -12854,10 +12870,10 @@ _reactDom2.default.render(_react2.default.createElement(
   )
 ), document.getElementById('AppContainer'));
 
-store.dispatch((0, _AppActions.gotoFolder)(store.getState().currentFolder.path));
+store.dispatch((0, _AppActions.dispatchEvents)("intoFolder", store.getState().currentFolder.path));
 
 window.onresize = function () {
-  store.dispatch((0, _AppActions.gotoFolder)());
+  store.dispatch((0, _AppActions.dispatchEvents)());
 };
 
 /**
@@ -28637,6 +28653,10 @@ var _PhotoShop = __webpack_require__(110);
 
 var _PhotoShop2 = _interopRequireDefault(_PhotoShop);
 
+var _FileViewer = __webpack_require__(280);
+
+var _FileViewer2 = _interopRequireDefault(_FileViewer);
+
 var _reactRouter = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28682,13 +28702,16 @@ var MainContainer = function (_Component) {
     }, {
         key: 'shouldComponentUpdate',
         value: function shouldComponentUpdate(data) {
-            var currentFolder = data.currentFolder,
-                history = data.history;
-
-            if (currentFolder.selectedFileName) {
+            /*const {currentFolder,history} = data;
+            if(currentFolder.selectedFileName){
+                //this.myHistory.push("/ps");
                 history.push("/ps");
                 return false;
-            }
+            }*/
+            /*else if(this.myHistory[this.myHistory.length - 1] != "/#" + currentFolder.path){
+                //this.myHistory.push("/#" + currentFolder.path);
+                history.push("/#" + currentFolder.path);
+            }*/
             return true;
         }
     }, {
@@ -28699,6 +28722,9 @@ var MainContainer = function (_Component) {
         value: function render() {
             var _props = this.props,
                 currentFolder = _props.currentFolder,
+                searchedFiles = _props.searchedFiles,
+                selectedFilePath = _props.selectedFilePath,
+                eventHander = _props.eventHander,
                 GET_THUMB_URL = _props.GET_THUMB_URL,
                 GET_SRCIMAGE_URL = _props.GET_SRCIMAGE_URL,
                 onFolderSelect = _props.onFolderSelect,
@@ -28714,7 +28740,7 @@ var MainContainer = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'col-md-12 col-lg-12 col-sm-12' },
-                        _react2.default.createElement(_AddressTool2.default, { history: history, childfolders: currentFolder.folderList,
+                        _react2.default.createElement(_AddressTool2.default, { eventHander: eventHander, history: history, childfolders: currentFolder.folderList,
                             currfolder: currentFolder.path,
                             className: 'row', ref: 'addressTool' })
                     )
@@ -28725,15 +28751,14 @@ var MainContainer = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'ThumbList col-md-12 col-lg-12 col-sm-12', style: { height: "100%" } },
-                        _react2.default.createElement(_ThumbList2.default, { history: history,
-                            onFileSelect: onFileSelect,
-                            onFolderSelect: onFolderSelect,
+                        _react2.default.createElement(_ThumbList2.default, { eventHander: eventHander, history: history,
                             ref: 'thumbList',
                             currentFolder: currentFolder,
                             GET_THUMB_URL: GET_THUMB_URL })
                     )
                 ),
-                _react2.default.createElement(_SearchBar2.default, null)
+                _react2.default.createElement(_SearchBar2.default, { fileList: searchedFiles.fileList, eventHander: eventHander }),
+                _react2.default.createElement(_FileViewer2.default, { filePath: selectedFilePath })
             );
         }
     }]);
@@ -28744,7 +28769,6 @@ var MainContainer = function (_Component) {
 ;
 MainContainer.propTypes = {
     currentFolder: _react.PropTypes.object.isRequired,
-    onFolderSelect: _react.PropTypes.func.isRequired,
     GET_THUMB_URL: _react.PropTypes.string.isRequired
 };
 exports.default = MainContainer;
@@ -28800,8 +28824,22 @@ var AddressTool = function (_Component) {
 
             var _props = this.props,
                 currfolder = _props.currfolder,
-                childfolders = _props.childfolders;
+                childfolders = _props.childfolders,
+                eventHander = _props.eventHander;
 
+            var addressList = [];
+            var addressTexts = currfolder.split("/");
+            var currentPath = "";
+            for (var i = 0; i < addressTexts.length; i++) {
+                currentPath += addressTexts[i] + "/";
+                addressList.push(_react2.default.createElement(
+                    "a",
+                    { onClick: function onClick(ev) {
+                            return eventHander("intoFolder", ev.target.dataset.path);
+                        }, key: i, "data-path": currentPath.substring(0, currentPath.length - 1), className: "btn-default" },
+                    addressTexts[i] + "/"
+                ));
+            }
             return _react2.default.createElement(
                 "div",
                 { className: "form-inline" },
@@ -28810,7 +28848,7 @@ var AddressTool = function (_Component) {
                     { className: "form-group" },
                     _react2.default.createElement("div", { className: "glyphicon glyphicon-arrow-left",
                         onClick: function onClick(ev) {
-                            _this2.props.eventHander(_this2, "goback", ev);
+                            eventHander(_this2, "goback", ev);
                         } })
                 ),
                 _react2.default.createElement(
@@ -28818,14 +28856,13 @@ var AddressTool = function (_Component) {
                     { className: "form-group" },
                     _react2.default.createElement("div", { className: "glyphicon glyphicon-arrow-right",
                         onClick: function onClick(ev) {
-                            _this2.props.eventHander(_this2, "forwrad", ev);
+                            eventHander(_this2, "forwrad", ev);
                         } })
                 ),
                 _react2.default.createElement(
                     "div",
                     { className: "form-group" },
-                    _react2.default.createElement("input", { readOnly: "true", className: "form-control", ref: "address",
-                        value: currfolder, id: "address", type: "text" })
+                    addressList
                 )
             );
         }
@@ -29054,24 +29091,27 @@ var ThumbList = function (_Component) {
             var _props = this.props,
                 currentFolder = _props.currentFolder,
                 GET_THUMB_URL = _props.GET_THUMB_URL,
-                onFolderSelect = _props.onFolderSelect,
-                onFileSelect = _props.onFileSelect;
+                eventHander = _props.eventHander;
 
             var folderItems = [];
             for (var i = 0; i < currentFolder.folderList.length; i++) {
                 if (currentFolder.folderList[i] == "thumb") continue;
                 folderItems.push(_react2.default.createElement(
-                    "div",
-                    { key: i, className: "img-thumbnail", title: currentFolder.folderList[i],
-                        onDoubleClick: function onDoubleClick(ev) {
-                            return onFolderSelect(currentFolder.path + '/' + ev.currentTarget.title);
-                        } },
-                    _react2.default.createElement("img", { src: "/images/folder.png"
-                    }),
+                    "li",
+                    { key: i },
                     _react2.default.createElement(
-                        "label",
-                        null,
-                        currentFolder.folderList[i]
+                        "a",
+                        { className: "img-thumbnail", title: currentFolder.folderList[i],
+                            onDoubleClick: function onDoubleClick(ev) {
+                                return eventHander("intoFolder", currentFolder.path + '/' + ev.currentTarget.title);
+                            } },
+                        _react2.default.createElement("img", { src: "/images/folder.png"
+                        }),
+                        _react2.default.createElement(
+                            "label",
+                            null,
+                            currentFolder.folderList[i]
+                        )
                     )
                 ));
             }
@@ -29088,26 +29128,85 @@ var ThumbList = function (_Component) {
                     thumbSrc = '/images/music.png';
                 } else if (isVideo) {
                     thumbSrc = '/images/video.png';
+                } else {
+                    thumbSrc = '/images/fileIcon.png';
                 }
                 fileItems.push(_react2.default.createElement(
-                    "div",
-                    { key: i, title: currentFolder.fileList[i], className: "img-thumbnail", onDoubleClick: function onDoubleClick(ev) {
-                            return onFileSelect(ev.currentTarget.title);
-                        } },
-                    _react2.default.createElement("img", { src: thumbSrc }),
+                    "li",
+                    { key: i },
                     _react2.default.createElement(
-                        "label",
-                        null,
-                        currentFolder.fileList[i]
+                        "a",
+                        { title: currentFolder.fileList[i], className: "img-thumbnail", onDoubleClick: function onDoubleClick(ev) {
+                                return eventHander("openFile", ev.currentTarget.title);
+                            } },
+                        _react2.default.createElement("img", { src: thumbSrc }),
+                        _react2.default.createElement(
+                            "label",
+                            null,
+                            currentFolder.fileList[i]
+                        )
                     )
                 ));
             }
 
             return _react2.default.createElement(
                 "div",
-                { ref: "thumbContainer", style: { height: "100%", overflow: "auto" } },
-                folderItems,
-                fileItems
+                { style: { height: "100%", overflow: "auto", display: "flex" } },
+                _react2.default.createElement(
+                    "div",
+                    { style: { flex: 1 } },
+                    _react2.default.createElement(
+                        "ul",
+                        null,
+                        _react2.default.createElement(
+                            "li",
+                            null,
+                            _react2.default.createElement(
+                                "a",
+                                { onClick: function onClick(ev) {
+                                        return eventHander("intoFolder", "C:");
+                                    } },
+                                "C:"
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "li",
+                            null,
+                            _react2.default.createElement(
+                                "a",
+                                { onClick: function onClick(ev) {
+                                        return eventHander("intoFolder", "D:");
+                                    } },
+                                "D:"
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "li",
+                            null,
+                            _react2.default.createElement(
+                                "a",
+                                { onClick: function onClick(ev) {
+                                        return eventHander("intoFolder", "E:");
+                                    } },
+                                "E:"
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { style: { flex: 9 } },
+                    _react2.default.createElement(
+                        "ul",
+                        null,
+                        folderItems
+                    ),
+                    _react2.default.createElement(
+                        "ul",
+                        null,
+                        fileItems
+                    )
+                )
             );
         }
     }]);
@@ -29371,17 +29470,21 @@ var SearchBar = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            var fileList = this.props.fileList;
+            var _props = this.props,
+                fileList = _props.fileList,
+                eventHander = _props.eventHander;
 
             var liItems = [];
             if (fileList) {
-                fileList.forEach(function (file) {
+                for (var i = 0; i < fileList.length; i++) {
                     liItems.push(_react2.default.createElement(
                         "li",
-                        null,
-                        file
+                        { onDoubleClick: function onDoubleClick(ev) {
+                                return eventHander("openFile", ev.target.title);
+                            }, title: fileList[i].path, key: i },
+                        fileList[i].name + "  " + fileList[i].path
                     ));
-                }, this);
+                }
             }
             return _react2.default.createElement(
                 "div",
@@ -29389,7 +29492,9 @@ var SearchBar = function (_Component) {
                 _react2.default.createElement(
                     "div",
                     null,
-                    _react2.default.createElement("input", { type: "text" })
+                    _react2.default.createElement("input", { onChange: function onChange(ev) {
+                            if (ev.target.value.length >= 3) eventHander('searchFiles', ev.target.value);
+                        }, type: "text" })
                 ),
                 _react2.default.createElement(
                     "ul",
@@ -29489,7 +29594,7 @@ exports.default = MainRouter;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GET_SRCIMAGE_URL = exports.GET_THUMB_URL = exports.SCAN_FOLDER_URL = undefined;
+exports.SEARCH_FILES_URL = exports.GET_SRCIMAGE_URL = exports.GET_THUMB_URL = exports.SCAN_FOLDER_URL = undefined;
 exports.appReducer = appReducer;
 
 var _AppState = __webpack_require__(111);
@@ -29504,6 +29609,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var SCAN_FOLDER_URL = exports.SCAN_FOLDER_URL = "/scanFolder?folderPath=";
 var GET_THUMB_URL = exports.GET_THUMB_URL = "/getThumbImage?path=";
 var GET_SRCIMAGE_URL = exports.GET_SRCIMAGE_URL = "/getFile?path=";
+var SEARCH_FILES_URL = exports.SEARCH_FILES_URL = "/findFile?fileName=";
 
 function appReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _AppState2.default;
@@ -29523,20 +29629,28 @@ function appReducer() {
         currentFolder: {
           path: data.currfolder,
           fileList: data.files,
-          folderList: data.childfolders,
-          selectedFileName: ""
-        }
+          folderList: data.childfolders
+        },
+        selectedFilePath: ""
       });
       return newState;
-    case _AppActions.OPEN_IMAGE:
-      var fileName = action.fileName;
+    case _AppActions.OPEN_FILE:
+      var filePath = action.filePath;
       var newState = Object.assign({}, state, {
-        currentFolder: {
-          path: state.currentFolder.path,
-          fileList: state.currentFolder.fileList,
-          folderList: state.currentFolder.folderList,
-          selectedFileName: fileName
-        }
+        selectedFilePath: filePath
+      });
+      return newState;
+    case _AppActions.SEARCH_FILES:
+      var xhr = new XMLHttpRequest();
+      var fileName = action.name;
+      xhr.open("get", SEARCH_FILES_URL + fileName, false);
+      xhr.send();
+      var data = JSON.parse(xhr.response);
+      var newState = Object.assign({}, state, {
+        searchedFiles: {
+          fileList: data
+        },
+        selectedFilePath: ""
       });
       return newState;
     default:
@@ -29584,10 +29698,70 @@ exports = module.exports = __webpack_require__(108)(undefined);
 
 
 // module
-exports.push([module.i, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n\r\nbody{\r\n    background-color: beige;\r\n}\r\n\r\n#AppContainer,#APPRouterContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n.img-thumbnail{\r\n    background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n.ThumbList {\r\n    background-color: antiquewhite;\r\n}\r\n\r\n.ThumbList .thumbnail-folder{\r\n    background-image: url(/images/folder.png);\r\n    width: 10%;\r\n    height: 10%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n}\r\n.ThumbList .img-thumbnail{\r\n    width: 10%;\r\n}\r\n.ThumbList img{\r\n    width: 100%;\r\n}\r\n.ThumbList label{\r\n    white-space: nowrap;\r\n    text-overflow: ellipsis;\r\n    overflow: hidden;\r\n}\r\n\r\n\r\n.PhotoExplorer {\r\n    height:100%;\r\n}\r\n\r\n.PhotoExplorer img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer #leftToolbar {\r\n\r\n}\r\n.PhotoExplorer div#bigThumb{\r\n    height: 100%;\r\n    background:rgba(80, 99, 59,0.5);\r\n}\r\n\r\n.PhotoExplorer div#bigThumb img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer .glyphicon-arrow-left, .glyphicon-arrow-right {\r\n    font-size: x-large;\r\n}\r\n\r\n\r\n\r\n.PhotoShopContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n\r\n#APPRouterContainer > div{\r\n    height: 100%;\r\n}\r\n#APPRouterContainer > div > img{\r\n    margin: auto;\r\n    margin-top: 10%;\r\n    height: 40%;\r\n}\r\n\r\n#APPRouterContainer .playBtn{\r\n    position: absolute;\r\n}\r\n\r\nvideo{\r\n    width: 100%;\r\n}\r\n\r\n\r\n\r\n\r\n.floatTools{\r\n    position: absolute;\r\n}\r\n\r\n\r\n\r\n.searchBar{\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0;\r\n    width: 60%;\r\n    margin-left: 10%;\r\n}\r\n.searchBar input{\r\n    width: 100%;\r\n    height: 30px;\r\n}\r\n.searchBar > ul\r\n{\r\n    background-color: rgb(128, 128, 128);\r\n}\r\n\r\n.searchBar >div{\r\n    padding-left:2%; \r\n    padding-right: 2%;\r\n    background-color: gray;\r\n}\r\n.searchBar > ul > li\r\n{\r\n    height: 20px;\r\n    padding-left:2%; \r\n}\r\n.searchBar > ul > li:hover\r\n{\r\n    background-color: #805959;\r\n}", ""]);
+exports.push([module.i, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\na{\r\n    cursor: pointer;\r\n}\r\n\r\n\r\nbody{\r\n    background-color: beige;\r\n    font-size: 21px;\r\n    font-family: unset;\r\n}\r\n\r\n#AppContainer,#APPRouterContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n.img-thumbnail{\r\n    background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n.ThumbList {\r\n    background-color: antiquewhite;\r\n}\r\n\r\n.ThumbList .thumbnail-folder{\r\n    background-image: url(/images/folder.png);\r\n    width: 10%;\r\n    height: 10%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n}\r\n.ThumbList .img-thumbnail{\r\n    width: 10%;\r\n}\r\n.ThumbList img{\r\n    width: 100%;\r\n}\r\n.ThumbList label{\r\n    white-space: nowrap;\r\n    text-overflow: ellipsis;\r\n    overflow: hidden;\r\n}\r\n\r\n\r\n.PhotoExplorer {\r\n    height:100%;\r\n}\r\n\r\n.PhotoExplorer img {\r\n    width: 100%;\r\n}\r\n\r\n.PhotoExplorer #leftToolbar {\r\n\r\n}\r\n.PhotoExplorer div#bigThumb{\r\n    height: 100%;\r\n    background:rgba(80, 99, 59,0.5);\r\n}\r\n\r\n.PhotoExplorer div#bigThumb img {\r\n    width: 100%;\r\n}\r\n\r\n.glyphicon-arrow-left{\r\n    font-size: x-large;\r\n}\r\n\r\n.glyphicon-arrow-right {\r\n    font-size: x-large;\r\n}\r\n\r\n\r\n\r\n.PhotoShopContainer{\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n\r\n\r\n#APPRouterContainer > div{\r\n    height: 100%;\r\n}\r\n#APPRouterContainer > div > img{\r\n    margin: auto;\r\n    margin-top: 10%;\r\n    height: 40%;\r\n}\r\n\r\n#APPRouterContainer .playBtn{\r\n    position: absolute;\r\n}\r\n\r\nvideo{\r\n    width: 100%;\r\n}\r\n\r\n\r\n\r\n\r\n.floatTools{\r\n    position: absolute;\r\n}\r\n\r\n\r\n\r\n.searchBar{\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0;\r\n    width: 60%;\r\n    margin-left: 10%;\r\n}\r\n.searchBar input{\r\n    width: 100%;\r\n    height: 30px;\r\n}\r\n.searchBar > ul\r\n{\r\n    background-color: rgb(128, 128, 128);\r\n}\r\n\r\n.searchBar >div{\r\n    padding-left:2%; \r\n    padding-right: 2%;\r\n    background-color: gray;\r\n}\r\n.searchBar > ul > li\r\n{\r\n    height: 25px;\r\n    padding-left: 2%;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n}\r\n.searchBar > ul > li:hover\r\n{\r\n    background-color: #805959;\r\n}\r\n\r\n\r\n\r\n.fileViewer{\r\n    position: absolute;\r\n    top: 10%;\r\n    left: 10%;\r\n    width: 80%;\r\n}", ""]);
 
 // exports
 
+
+/***/ }),
+/* 280 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //依赖bootstrap框架
+
+
+var FileViewer = function (_Component) {
+    _inherits(FileViewer, _Component);
+
+    function FileViewer(props) {
+        _classCallCheck(this, FileViewer);
+
+        return _possibleConstructorReturn(this, (FileViewer.__proto__ || Object.getPrototypeOf(FileViewer)).call(this, props));
+    }
+
+    _createClass(FileViewer, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {}
+    }, {
+        key: "componentDidUpdate",
+        value: function componentDidUpdate() {}
+    }, {
+        key: "render",
+        value: function render() {
+            var filePath = this.props.filePath;
+
+            return _react2.default.createElement(
+                "div",
+                { className: "fileViewer", style: { zIndex: filePath ? 1 : -1 } },
+                _react2.default.createElement("video", { controls: true, src: "/getFile?path=" + filePath })
+            );
+        }
+    }]);
+
+    return FileViewer;
+}(_react.Component);
+
+;
+exports.default = FileViewer;
 
 /***/ })
 /******/ ]);

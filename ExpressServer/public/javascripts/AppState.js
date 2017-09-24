@@ -1,14 +1,13 @@
 var AppState = {
     currentFolder: {
-        path: 'E:/',
+        path: 'E:',
         fileList:[],
-        folderList:[],
-        selectedFileName:""
+        folderList:[]
     },
-    searchFiles:{
-        fileList:[],
-        selectedFile:""
-    }
+    searchedFiles:{
+        fileList:[]
+    },
+    selectedFilePath:""
 };
 
 export default AppState;
