@@ -25,13 +25,13 @@ router.get('/oec', function (req, res) {
 
 router.get('/scanPC', function (req, res) {
     pcScaner.startScan();
-    res.json({success:true,message:"开始扫描!"});
+    res.json({ success: true, message: "开始扫描!" });
 });
 
 
 router.get('/findFile', function (req, res) {
     var arg = url.parse(req.url, true).query;
-    pcScaner.findFileByName(arg.fileName,function(err, result){
+    pcScaner.findFileByName(arg.fileName, function (err, result) {
         res.json(result);
     });
 
@@ -85,16 +85,41 @@ router.get('/getFile', function (req, res) {
         var arg = url.parse(req.url, true).query;
         var filePath = arg.path;
         var extname = path.extname(filePath);
-        if(extname == ""){
-            res.json({success:false,message:"无效路径！"});
-            return; 
+        if (extname == "") {
+            res.json({ success: false, message: "无效路径！" });
+            return;
         }
-        if(!fileSystem.existsSync(filePath)){
-            res.json({success:false,message:"文件不存在！"});
-            return; 
+        if (!fileSystem.existsSync(filePath)) {
+            res.json({ success: false, message: "文件不存在！" });
+            return;
         }
-        var fileStream = fileSystem.createReadStream(filePath);
-        res.writeHead(200, { "Content-Type": "video/mp4" });
+        var stat = fileSystem.statSync(filePath);
+        var totalLength = stat.size;
+        var particalLength = 1024 * 1024;
+        var range = {
+            start: 0,
+            end: particalLength
+        };
+
+        if (req.headers.range) {
+            var rangeArray = req.headers.range.split(/bytes=([0-9]*)-([0-9]*)/);
+            var start = parseInt(rangeArray[1]);
+            var end = parseInt(rangeArray[2]);
+            range.start = start;
+            range.end = isNaN(end)?totalLength-1 : range.start + particalLength -1;
+            res.writeHead(206, { 
+                "Content-Type": "video/mp4", 
+            "Content-Length": range.end-range.start +1,
+            "Accept-Ranges":"bytes",
+            'Content-Range':'bytes ' + range.start + '-' +  range.end + '/' + totalLength,
+            "Cache-Control":"no-cache"
+        });
+        }
+        else res.writeHead(200, { "Content-Type": "video/mp4", 
+        "Content-Length": totalLength,
+        "Accept-Ranges":"bytes",
+        "Cache-Control":"no-cache"});
+        var fileStream = fileSystem.createReadStream(filePath,range);
         fileStream.pipe(res);
         fileStream.on("end", function () {
             res.end();
@@ -108,7 +133,7 @@ router.get('/getFile', function (req, res) {
 router.get('/scanFolder', function (req, res) {
     var arg = url.parse(req.url, true).query;
     try {
-        fileSystem.readdir(arg.folderPath, function (err, files) {
+        fileSystem.readdir(arg.folderPath + "/", function (err, files) {
             try {
                 var newfiles = filterFiles(files, arg.folderPath, "file");
                 var newFolders = filterFiles(files, arg.folderPath, "folder");

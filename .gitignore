@@ -156,3 +156,5 @@ $RECYCLE.BIN/
 .DS_Store
 /ExpressServer/node_modules
 /ExpressServer/typings
+/environments
+ExpressServer/public/javascripts/bundle.js

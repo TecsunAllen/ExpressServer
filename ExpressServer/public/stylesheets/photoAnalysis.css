@@ -151,6 +151,8 @@ li {
     right: 0px;
 }
 
-.ThumbList li {
+.ThumbList div:nth-child(2) li {
     transition: all 1s ease-in-out;
+    float: left;
+    width: 10%;
 }

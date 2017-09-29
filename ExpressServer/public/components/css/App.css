@@ -37,9 +37,6 @@ body{
     background-size: contain;
     background-repeat: no-repeat;
 }
-.ThumbList .img-thumbnail{
-    width: 10%;
-}
 .ThumbList img{
     width: 100%;
 }
@@ -58,9 +55,6 @@ body{
     width: 100%;
 }
 
-.PhotoExplorer #leftToolbar {
-
-}
 .PhotoExplorer div#bigThumb{
     height: 100%;
     background:rgba(80, 99, 59,0.5);
