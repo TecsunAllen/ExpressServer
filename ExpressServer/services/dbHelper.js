@@ -1,5 +1,5 @@
 var appConfig = require("../services/configHelper.js");
-var DB_CONN_STR = 'mongodb://'+ appConfig.databaseHost+':'+ appConfig.databasePort+'/'+appConfig.databaseName;
+var DB_CONN_STR = 'mongodb://' + appConfig.databaseHost + ':' + appConfig.databasePort + '/' + appConfig.databaseName;
 var Mongodb;
 var MongoCollection;
 var MongoClient = require('mongodb').MongoClient;
@@ -20,17 +20,17 @@ var exec = require('child_process').exec;
     }
 });*/
 
-setTimeout(function(){
-    MongoClient.connect(DB_CONN_STR, function (err, db) {
-        if (!err) {
-            Mongodb = db;
-            MongoCollection = db.collection('PCFiless');
-        }
-        else {
-            console.log(err);
-        }
-    });
-},2000);
+
+MongoClient.connect(DB_CONN_STR, function (err, db) {
+    if (!err) {
+        Mongodb = db;
+        MongoCollection = db.collection('PCFiless');
+    }
+    else {
+        console.log(err);
+    }
+});
+
 
 function insertData(data, callback) {
     MongoCollection.insert(data, function (err, result) {
@@ -55,19 +55,19 @@ function insertManyData(dataArr, callback) {
 
 function queryData(queryObj, callback) {
     MongoCollection.find(queryObj).toArray(function (err, result) {
-        if(callback)callback(err, result);
+        if (callback) callback(err, result);
     });
 }
 
-function dropdb(callback){
+function dropdb(callback) {
     Mongodb.dropDatabase(callback);
 }
 
 module.exports = {
-    Mongodb:Mongodb,
-    MongoCollection:MongoCollection,
-    dropdb:dropdb,
-    insert:insertData,
-    insertMany:insertManyData,
-    query:queryData
+    Mongodb: Mongodb,
+    MongoCollection: MongoCollection,
+    dropdb: dropdb,
+    insert: insertData,
+    insertMany: insertManyData,
+    query: queryData
 }

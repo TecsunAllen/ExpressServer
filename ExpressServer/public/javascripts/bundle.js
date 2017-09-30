@@ -13816,8 +13816,8 @@ var VisibilityFilters = exports.VisibilityFilters = {
    * action 创建函数
    */
 
-};function gotoFolder(folderPath) {
-  return { type: GOTO_FOLDER, folderPath: folderPath };
+};function gotoFolder(data) {
+  return { type: GOTO_FOLDER, data: data };
 }
 
 function openFile(filePath) {
@@ -13827,8 +13827,8 @@ function openFile(filePath) {
 function setState(state) {
   return { type: SET_STATE, state: state };
 }
-function searchFiles(name) {
-  return { type: SEARCH_FILES, name: name };
+function searchFiles(data) {
+  return { type: SEARCH_FILES, data: data };
 }
 
 function dispatchEvents() {
@@ -13914,7 +13914,30 @@ var App = (0, _reactRedux.connect)(function (state) {
     //onFileSelect:(fileName)=>dispatch(openImage(fileName)),
     //onMainComponentLoad: () => dispatch(gotoFolder()),
     eventHander: function eventHander() {
-      dispatch((0, _AppActions.dispatchEvents)(arguments[0], arguments[1], arguments[2]));
+      var _argumrnts = arguments;
+      switch (arguments[0]) {
+        case "intoFolder":
+          debugger;
+          var xhr = new XMLHttpRequest();
+          xhr.open("get", _AppReducers.SCAN_FOLDER_URL + arguments[1], true);
+          xhr.onload = function (ev) {
+            var data = JSON.parse(ev.target.response);
+            dispatch((0, _AppActions.dispatchEvents)(_argumrnts[0], data));
+          };
+          xhr.send();
+          break;
+        case "searchFiles":
+          var xhr = new XMLHttpRequest();
+          xhr.open("get", _AppReducers.SEARCH_FILES_URL + arguments[1], true);
+          xhr.onload = function (ev) {
+            var data = JSON.parse(ev.target.response);
+            dispatch((0, _AppActions.dispatchEvents)(_argumrnts[0], data));
+          };
+          xhr.send();
+          break;
+        default:
+          dispatch((0, _AppActions.dispatchEvents)(arguments[0], arguments[1], arguments[2]));
+      }
     }
   };
 })(_photoAnalysis2.default);
@@ -13943,7 +13966,13 @@ _reactDom2.default.render(_react2.default.createElement(
   )
 ), document.getElementById('AppContainer'));
 
-store.dispatch((0, _AppActions.dispatchEvents)("intoFolder", store.getState().currentFolder.path));
+var xhr = new XMLHttpRequest();
+xhr.open("get", _AppReducers.SCAN_FOLDER_URL + store.getState().currentFolder.path, true);
+xhr.onload = function (ev) {
+  var data = JSON.parse(ev.target.response);
+  store.dispatch((0, _AppActions.dispatchEvents)("intoFolder", data));
+};
+xhr.send();
 
 window.onresize = function () {
   store.dispatch((0, _AppActions.dispatchEvents)());
@@ -29941,7 +29970,6 @@ var AddressTool = function (_Component) {
 
             var _props = this.props,
                 currfolder = _props.currfolder,
-                childfolders = _props.childfolders,
                 eventHander = _props.eventHander;
 
             var addressList = [];
@@ -29990,7 +30018,6 @@ var AddressTool = function (_Component) {
 
 AddressTool.propTypes = {
     currfolder: _react.PropTypes.string.isRequired,
-    childfolders: _react.PropTypes.array.isRequired,
     history: _react.PropTypes.object.isRequired
 };
 exports.default = AddressTool;
@@ -30840,11 +30867,7 @@ function appReducer() {
     case _AppActions.SET_STATE:
       return action.state;
     case _AppActions.GOTO_FOLDER:
-      var folderPath = action.folderPath || state.currentFolder.path;
-      var xhr = new XMLHttpRequest();
-      xhr.open("get", SCAN_FOLDER_URL + folderPath, false);
-      xhr.send();
-      var data = JSON.parse(xhr.response);
+      var data = action.data;
       var newState = Object.assign({}, state, {
         currentFolder: {
           path: data.currfolder,
@@ -30861,11 +30884,7 @@ function appReducer() {
       });
       return newState;
     case _AppActions.SEARCH_FILES:
-      var xhr = new XMLHttpRequest();
-      var fileName = action.name;
-      xhr.open("get", SEARCH_FILES_URL + fileName, false);
-      xhr.send();
-      var data = JSON.parse(xhr.response);
+      var data = action.data;
       var newState = Object.assign({}, state, {
         searchedFiles: {
           fileList: data

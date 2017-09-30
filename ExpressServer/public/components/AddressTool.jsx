@@ -17,7 +17,7 @@ class AddressTool extends Component {
     }
 
     render() {
-        const {currfolder ,childfolders,eventHander} = this.props;
+        const {currfolder,eventHander} = this.props;
         var addressList = [];
         var addressTexts = currfolder.split("/");
         var currentPath ="";
@@ -44,7 +44,6 @@ class AddressTool extends Component {
 }
 AddressTool.propTypes = {
     currfolder: PropTypes.string.isRequired,
-    childfolders: PropTypes.array.isRequired,
     history: PropTypes.object.isRequired
 }
 export default  AddressTool;

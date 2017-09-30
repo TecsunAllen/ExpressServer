@@ -20,8 +20,8 @@ export const VisibilityFilters = {
  * action 创建函数
  */
 
-export function gotoFolder(folderPath) {
-  return { type: GOTO_FOLDER, folderPath: folderPath }
+export function gotoFolder(data) {
+  return { type: GOTO_FOLDER, data: data }
 }
 
 
@@ -32,8 +32,8 @@ export function openFile(filePath) {
 export function setState(state) {
   return { type: SET_STATE, state: state }
 }
-export function searchFiles(name) {
-  return { type: SEARCH_FILES, name: name }
+export function searchFiles(data) {
+  return { type: SEARCH_FILES, data: data }
 }
 
 

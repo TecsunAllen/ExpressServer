@@ -16,11 +16,7 @@ export function appReducer(state = AppState, action) {
     case SET_STATE:
       return action.state;
     case GOTO_FOLDER:
-      var folderPath = action.folderPath || state.currentFolder.path;
-      var xhr = new XMLHttpRequest();
-      xhr.open("get", SCAN_FOLDER_URL + folderPath, false);
-      xhr.send();
-      var data = JSON.parse(xhr.response);
+      var data = action.data;
       var newState = Object.assign({}, state, {
         currentFolder: {
           path: data.currfolder,
@@ -37,11 +33,7 @@ export function appReducer(state = AppState, action) {
       });
       return newState;
     case SEARCH_FILES:
-      var xhr = new XMLHttpRequest();
-      var fileName = action.name;
-      xhr.open("get", SEARCH_FILES_URL + fileName, false);
-      xhr.send();
-      var data = JSON.parse(xhr.response);
+    var data = action.data;
       var newState = Object.assign({}, state, {
         searchedFiles: {
           fileList: data,

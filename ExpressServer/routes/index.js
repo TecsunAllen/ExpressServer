@@ -106,20 +106,25 @@ router.get('/getFile', function (req, res) {
             var start = parseInt(rangeArray[1]);
             var end = parseInt(rangeArray[2]);
             range.start = start;
-            range.end = isNaN(end)?totalLength-1 : range.start + particalLength -1;
-            res.writeHead(206, { 
-                "Content-Type": "video/mp4", 
-            "Content-Length": range.end-range.start +1,
-            "Accept-Ranges":"bytes",
-            'Content-Range':'bytes ' + range.start + '-' +  range.end + '/' + totalLength,
-            "Cache-Control":"no-cache"
-        });
+            if (isNaN(end)) {
+                range.end = (totalLength - range.start) > particalLength ? range.start + particalLength - 1 : totalLength - 1;
+            }
+            else range.end = end;
+            res.writeHead(206, {
+                "Content-Type": "video/mp4",
+                "Content-Length": range.end - range.start + 1,
+                "Accept-Ranges": "bytes",
+                'Content-Range': 'bytes ' + range.start + '-' + range.end + '/' + totalLength,
+                "Cache-Control": "no-cache"
+            });
         }
-        else res.writeHead(200, { "Content-Type": "video/mp4", 
-        "Content-Length": totalLength,
-        "Accept-Ranges":"bytes",
-        "Cache-Control":"no-cache"});
-        var fileStream = fileSystem.createReadStream(filePath,range);
+        else res.writeHead(200, {
+            "Content-Type": "video/mp4",
+            "Content-Length": totalLength,
+            "Accept-Ranges": "bytes",
+            "Cache-Control": "no-cache"
+        });
+        var fileStream = fileSystem.createReadStream(filePath, range);
         fileStream.pipe(res);
         fileStream.on("end", function () {
             res.end();
