@@ -12,9 +12,14 @@ class FileViewer extends Component {
 
     render() {
         const { filePath} = this.props;
+        var fileName = filePath.split(/[\\/]/).reverse()[0];
+        var playElement;
+        if(/.mp4/i.test(fileName)){
+            playElement = (<video controls autoPlay src={"/getFile?path="+ filePath} />);
+        }
         return (
             <div className="fileViewer" style={{zIndex:filePath?1:-1}}>
-                <video controls src={"/getFile?path="+ filePath} />
+                {playElement}
             </div>
         )
     }
