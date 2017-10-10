@@ -10,8 +10,6 @@ import PhotoShop from './PhotoShop.jsx';
 import FileViewer from '../components/FileViewer.jsx';
 //import init from './init.js';
 import { Router, Route, hashHistory } from 'react-router';
-
-
 class MainContainer extends Component {
     constructor(props) {
         super(props);

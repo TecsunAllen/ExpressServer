@@ -1,6 +1,6 @@
 var AppState = {
     currentFolder: {
-        path: 'E:',
+        path: 'C:/fileStore/default',
         fileList:[],
         folderList:[]
     },

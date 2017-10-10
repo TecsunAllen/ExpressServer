@@ -1,30 +1,19 @@
 var appConfig = require("../services/configHelper.js");
-var DB_CONN_STR = 'mongodb://' + appConfig.databaseHost + ':' + appConfig.databasePort + '/' + appConfig.databaseName;
+var DB_CONN_STR = 'mongodb://' + appConfig.mongodb.databaseHost + ':' + appConfig.mongodb.databasePort + '/' + appConfig.mongodb.databaseName;
 var Mongodb;
 var MongoCollection;
+var positionCollection;
 var MongoClient = require('mongodb').MongoClient;
 
-//var runDBCommand = "\"C:\\Program Files\\MongoDB\\Server\\3.4\\bin\\mongod.exe\" --dbpath D:\\mongodb\\database\\PCManager";
 var runDBCommand = __dirname + "/../start.bat";
 
 var exec = require('child_process').exec;
-/*var child = exec(runDBCommand,{
-    encoding: "utf8",
-    cwd : __dirname+"/../"
-  },
-  function (error, stdout, stderr) {
-    console.log('stdout: ' + stdout);
-    console.log('stderr: ' + stderr);
-    if (error !== null) {
-      console.log('exec error: ' + error);
-    }
-});*/
-
 
 MongoClient.connect(DB_CONN_STR, function (err, db) {
     if (!err) {
         Mongodb = db;
         MongoCollection = db.collection('PCFiless');
+        positionCollection = db.collection('position');
     }
     else {
         console.log(err);
@@ -66,8 +55,40 @@ function dropdb(callback) {
 module.exports = {
     Mongodb: Mongodb,
     MongoCollection: MongoCollection,
+    positionCollection:positionCollection,
     dropdb: dropdb,
     insert: insertData,
     insertMany: insertManyData,
     query: queryData
 }
+
+/*var mysql = require('mysql');
+var connection = mysql.createConnection({
+    host: appConfig.mysql.databaseHost,
+    user: appConfig.mysql.userName,
+    password: appConfig.mysql.password,
+    database: appConfig.mysql.databaseName
+});
+
+connection.connect();
+
+connection.query('SELECT * from position', function (error, results, fields) {
+    if (error) throw error;
+    console.log('The solution is: ', results[0].solution);
+});*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

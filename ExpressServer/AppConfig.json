@@ -1,7 +1,17 @@
 {
-    "mongoDBServerPath":"",
-    "databaseName":"PCResourceManager",
-    "databasePath":"",
-    "databaseHost":"127.0.0.1",
-    "databasePort":"27017"
+    "databseType":"mysql",
+    "mongodb": {
+        "mongoDBServerPath": "",
+        "databaseName": "PCResourceManager",
+        "databasePath": "",
+        "databaseHost": "127.0.0.1",
+        "databasePort": "27017"
+    },
+    "mysql":{
+        "databaseHost": "116.196.78.194",
+        "databasePort": "3306",
+        "databaseName": "wechatapp",
+        "userName":"root",
+        "password":"111111"
+    }
 }

@@ -19,7 +19,7 @@ class SearchBar extends Component {
             }
         }
         return (
-            <div className="searchBar">
+            <div style={{display:"none"}} className="searchBar">
                 <div><input onChange={(ev) => {
                     if (ev.target.value.length >= 3)
                         eventHander('searchFiles', ev.target.value);

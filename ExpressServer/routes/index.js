@@ -4,7 +4,8 @@ var path = require('path');
 var url = require('url');
 var fileSystem = require('fs');
 var images = require("images");
-var pcScaner = require("../services/pcScaner.js")
+//var pcScaner = require("../services/pcScaner.js");
+var dbHelper = require("../services/dbHelper.js");
 /* GET home page. */
 router.get('/', function (req, res) {
     var arg = url.parse(req.url, true).query;
@@ -17,16 +18,44 @@ router.get('/photoAnalysis', function (req, res) {
     res.render('photoAnalysis', { title: 'Express' });
 });
 
+
+router.get('/insertData', function (req, res) {
+    var arg = url.parse(req.url, true).query;
+    var position = JSON.parse(arg.positionInfo);
+    dbHelper.Mongodb.collection(arg.collection).insert(position,function(err,result){
+        if(err){
+            res.json(err);
+        }
+        else res.json({success:true});
+    });
+});
+
+router.get('/getData', function (req, res) {
+    var arg = url.parse(req.url, true).query;
+    var queryObj = JSON.parse(arg.queryInfo);
+    dbHelper.Mongodb.collection(arg.collection).find(queryObj).toArray(function (err, result) {
+        if(err){
+            res.json(err);
+        }
+        else res.json(result);
+    });
+});
+
 router.get('/oec', function (req, res) {
     var arg = url.parse(req.url, true).query;
     res.render('oec', { title: 'Express' });
 });
 
+router.get('/map', function (req, res) {
+    var arg = url.parse(req.url, true).query;
+    res.render('map', { title: 'Express' });
+});
 
-router.get('/scanPC', function (req, res) {
+
+/*router.get('/scanPC', function (req, res) {
     pcScaner.startScan();
     res.json({ success: true, message: "开始扫描!" });
-});
+});*/
 
 
 router.get('/findFile', function (req, res) {

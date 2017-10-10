@@ -9,12 +9,9 @@ import {
   Link,
   Switch
 } from 'react-router-dom';
-
 //加载组件
-import MainContainer from './photoAnalysis.jsx';
-import PhotoShop from './PhotoShop.jsx';
-import MainRouter from './MainRouter.jsx';
-
+import MainContainer from './FileCloud.jsx';
+import Map from './Map.jsx';
 //加载redux模块
 import AppState from './AppState.js';
 import { dispatchEvents, setState } from './AppActions.js';
@@ -22,7 +19,6 @@ import { appReducer, GET_THUMB_URL, SEARCH_FILES_URL, SCAN_FOLDER_URL, GET_SRCIM
 
 // 载入 css
 import "../components/css/App.css";
-
 
 const store = createStore(appReducer)
 store.subscribe((data) => {
@@ -40,8 +36,6 @@ const App = connect(
   },
   (dispatch) => {
     return {
-      //onFileSelect:(fileName)=>dispatch(openImage(fileName)),
-      //onMainComponentLoad: () => dispatch(gotoFolder()),
       eventHander: function () {
         var _argumrnts = arguments;
         switch (arguments[0]) {
@@ -72,46 +66,46 @@ const App = connect(
   }
 )(MainContainer);
 
-
-const PS = connect(
+const MapApp = connect(
   (state) => {
     return {
-      selectedFilePath: state.currentFolder.path + '/' + state.currentFolder.selectedFileName,
-      GET_SRCIMAGE_URL: GET_SRCIMAGE_URL
+      
     }
   },
   (dispatch) => {
     return {
-
     }
   }
-)(PhotoShop);
+)(Map);
 
 
 ReactDom.render(
   <Provider store={store}>
     <BrowserRouter basename="" >
       <div id="APPRouterContainer">
-        <Route exact path="/" component={App} />
-        <Route exact path="/ps" component={PS} />
+        <Route exact path="/" component={MapApp} />
       </div>
     </BrowserRouter>
   </Provider>,
   document.getElementById('AppContainer')
-)
+);
 
-var xhr = new XMLHttpRequest();
-xhr.open("get", SCAN_FOLDER_URL + store.getState().currentFolder.path, true);
-xhr.onload = function (ev) {
-  var data = JSON.parse(ev.target.response);
-  store.dispatch(dispatchEvents("intoFolder", data));
-}
-xhr.send();
+(function () {
+  var xhr = new XMLHttpRequest();
+  xhr.open("get", SCAN_FOLDER_URL + store.getState().currentFolder.path, true);
+  xhr.onload = function (ev) {
+    var data = JSON.parse(ev.target.response);
+    store.dispatch(dispatchEvents("intoFolder", data));
+  }
+  xhr.send();
 
-window.onresize = () => {
-  store.dispatch(dispatchEvents())
-}
-
+  window.onresize = () => {
+    store.dispatch(dispatchEvents())
+  }
+  window.oncontextmenu  = function (e) {
+    e.preventDefault();
+  }
+}());
 /**
  * http://www.jianshu.com/p/e3adc9b5f75c/
  */

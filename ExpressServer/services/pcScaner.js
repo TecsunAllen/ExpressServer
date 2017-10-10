@@ -25,7 +25,7 @@ function filterFiles(files, folderPath, mode) {
 
 function readFolder(folder, callback) {
     scanCount++;
-    console.log("开始扫描"+folder.Path);
+    console.log("开始扫描第"+scanCount +"文件夹" + folder.Path);
     fileSystem.readdir(folder.Path, function (err, files) {
         if (!files) return;
         var folders = filterFiles(files, folder.Path, "folder");
