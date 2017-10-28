@@ -12,11 +12,11 @@ import {
 //加载组件
 import MainContainer from './FileCloud.jsx';
 import Map from './Map.jsx';
+import FundManager from './Myfund.jsx';
 //加载redux模块
 import AppState from './AppState.js';
 import { dispatchEvents, setState } from './AppActions.js';
 import { appReducer, GET_THUMB_URL, SEARCH_FILES_URL, SCAN_FOLDER_URL, GET_SRCIMAGE_URL } from './AppReducers.js';
-
 // 载入 css
 import "../components/css/App.css";
 
@@ -78,12 +78,23 @@ const MapApp = connect(
   }
 )(Map);
 
+const FundApp = connect(
+  (state) => {
+    return {
+      
+    }
+  },
+  (dispatch) => {
+    return {
+    }
+  }
+)(FundManager);
 
 ReactDom.render(
   <Provider store={store}>
     <BrowserRouter basename="" >
       <div id="APPRouterContainer">
-        <Route exact path="/" component={MapApp} />
+        <Route exact path="/" component={FundApp} />
       </div>
     </BrowserRouter>
   </Provider>,

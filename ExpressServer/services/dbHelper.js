@@ -52,10 +52,12 @@ function dropdb(callback) {
     Mongodb.dropDatabase(callback);
 }
 
+function getMongodb(){
+    return Mongodb;
+}
+
 module.exports = {
-    Mongodb: Mongodb,
-    MongoCollection: MongoCollection,
-    positionCollection:positionCollection,
+    getMongodb: getMongodb,
     dropdb: dropdb,
     insert: insertData,
     insertMany: insertManyData,

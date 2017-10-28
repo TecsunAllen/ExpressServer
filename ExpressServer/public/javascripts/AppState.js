@@ -7,7 +7,14 @@ var AppState = {
     searchedFiles:{
         fileList:[]
     },
-    selectedFilePath:""
+    selectedFilePath:"",
+
+
+    fundApp:{
+        filter:{
+            name:""
+        }
+    }
 };
 
 export default AppState;
