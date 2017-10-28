@@ -1,4 +1,34 @@
-﻿function WavReader(byteArray) {
+﻿//依赖bootstrap框架
+import React, { Component, PropTypes } from 'react';
+import WavReader from './WavReader.js';
+class AudioDancer extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+
+    }
+
+    componentDidUpdate(data) {
+
+    }
+
+    render() {
+        const { audioSrc } = this.props;
+        return (
+            <div>
+                <video src={audioSrc} />
+                <canvas />
+            </div>
+        )
+    }
+}
+export default AudioDancer;
+
+
+
+function WavReader(byteArray) {
     this.buffer = byteArray;
     this.offset = 0;
     this.read_string = function (len) {
@@ -10,7 +40,7 @@
         this.offset += len;
         return s;
     };
-    
+
     this.read_number = function (length) {
         var it = this.offset + length - 1;
         var n = 0;
@@ -20,7 +50,7 @@
         this.offset += length;
         return n;
     };
-    
+
     this.read_array = function (len) {
         var data = this.buffer.slice(this.offset, this.offset + len);
         this.offset += len;
@@ -38,29 +68,29 @@ xhr.onload = function (ev) {
     var data = xhr.response;
     var byteArray = new Uint8Array(data);
     var wavReader = new WavReader(byteArray);
-    
+
     window.meteData = {};
-    
+
     meteData.ChunkID = wavReader.read_string(4); //4byte,资源交换文件标志:RIFF     
     meteData.ChunkSize = wavReader.read_number(4);//4byte,从下个地址到文件结尾的总字节数   
     meteData.Format = wavReader.read_string(4);//4byte,wav文件标志:WAVE     
-    
+
     meteData.formatType = wavReader.read_string(4);//4byte,波形文件标志:FMT(最后一位空格符) 
     meteData.formatSize = wavReader.read_number(4);//4byte,音频属性
     meteData.compressionCode = wavReader.read_number(2);//2byte,格式种类(1-线性pcm-WAVE_FORMAT_PCM,WAVEFORMAT_ADPCM)  
-    
+
     meteData.NumChannels = wavReader.read_number(2);//2byte,通道数  
     meteData.SampleRate = wavReader.read_number(4); //4byte,采样率  
     meteData.bytesPerSecond = wavReader.read_number(4);//4byte,传输速率  
-    
+
     meteData.BlockAlign = wavReader.read_number(2); //2byte,数据块的对齐，即DATA数据块长度 
     meteData.BitsPerSample = wavReader.read_number(2);//2byte,采样精度-PCM位宽  
-    
+
     meteData.Subchunk2ID = wavReader.read_string(4);//4byte,数据标志:data  
     meteData.Subchunk2Size = wavReader.read_number(4); //4byte,从下个地址到文件结尾的总字节数，即除了wav header以外的pcm data length  
     meteData.info = wavReader.read_string(meteData.Subchunk2Size);
-    
-    
+
+
     meteData.waveDataTitle = wavReader.read_string(4);
     meteData.waveDataLength = wavReader.read_number(4);
     meteData.waveData = wavReader.read_array(meteData.waveDataLength);
@@ -110,7 +140,7 @@ function getCurWave() {
 
 function render() {
     //mesh.scale.x = getCurWave() / 50000;
-    
+
     renderer.render(scene, camera);
     requestAnimationFrame(arguments.callee)
 }
