@@ -1,6 +1,6 @@
 //依赖bootstrap框架
 import React, { Component } from 'react';
-class FilterForm extends Component {
+class ShowPhotos extends Component {
     constructor(props) {
         super(props);
     }
@@ -9,14 +9,12 @@ class FilterForm extends Component {
     componentDidUpdate() {
 
     }
-
     render() {
-        const { filePath} = this.props;
+        //const { fileList, eventHander } = this.props;
         return (
             <div>
-
             </div>
-        )
+        );
     }
-};
-export default FilterForm;
+}
+export default ShowPhotos;

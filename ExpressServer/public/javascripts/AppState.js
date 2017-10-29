@@ -1,18 +1,18 @@
 var AppState = {
     currentFolder: {
-        path: 'C:/fileStore/default',
-        fileList:[],
-        folderList:[]
+        path: "C:/fileStore/default",
+        fileList: [],
+        folderList: []
     },
-    searchedFiles:{
-        fileList:[]
+    searchedFiles: {
+        fileList: []
     },
-    selectedFilePath:"",
+    selectedFilePath: "",
 
 
-    fundApp:{
-        filter:{
-            name:""
+    fundApp: {
+        filter: {
+            name: ""
         }
     }
 };

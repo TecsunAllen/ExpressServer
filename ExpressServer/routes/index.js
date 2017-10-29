@@ -4,6 +4,8 @@ var path = require('path');
 var url = require('url');
 var fileSystem = require('fs');
 var images = require("images");
+var multer  = require('multer');
+var multipartMiddleware = multer();
 //var pcScaner = require("../services/pcScaner.js");
 var dbHelper = require("../services/dbHelper.js");
 /* GET home page. */
@@ -19,6 +21,11 @@ router.get('/myfund', function (req, res) {
 });
 
 router.get('/photoAnalysis', function (req, res) {
+    var arg = url.parse(req.url, true).query;
+    res.render('photoAnalysis', { title: 'Express' });
+});
+
+router.post('/saveRecord',function (req, res) {
     var arg = url.parse(req.url, true).query;
     res.render('photoAnalysis', { title: 'Express' });
 });

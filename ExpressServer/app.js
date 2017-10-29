@@ -10,19 +10,6 @@ var users = require('./routes/users');
 //var folderReader = require('./services/folderReader');
 var app = express();
 var ImagesPath = "E:/Images";
-/*var mimeNames = {
-    ".css": "text/css",
-    ".html": "text/html",
-    ".js": "application/javascript",
-    ".mp3": "audio/mpeg",
-    ".mp4": "video/mp4",
-    ".ogg": "application/ogg", 
-    ".ogv": "video/ogg", 
-    ".oga": "audio/ogg",
-    ".txt": "text/plain",
-    ".wav": "audio/x-wav",
-    ".webm": "video/webm"
-};*/
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -31,7 +18,7 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -41,7 +28,6 @@ app.use(express.static(ImagesPath));
 
 
 app.all('*', function (request, response, next) {
-
     next();
 });
 
@@ -61,7 +47,7 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
+    app.use(function (err, req, res) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -72,7 +58,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
@@ -96,29 +82,6 @@ Date.prototype.Format = function (fmt) { //author: meizz
     for (var k in o)
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
-}
-
-function sendResponse(response, responseStatus, responseHeaders, readable) {
-    response.writeHead(responseStatus, responseHeaders);
-    if (readable == null)
-        response.end();
-    else
-        readable.on("open", function () {
-            readable.pipe(response);
-        });
- 
-    return null;
-}
- 
-function getMimeNameFromExt(ext) {
-    var result = mimeNames[ext.toLowerCase()];
-    
-    // 最好给一个默认值
-    if (result == null)
-        result = "application/octet-stream";
-    
-    return result;
-} 
-
+};
 
 module.exports = app;
