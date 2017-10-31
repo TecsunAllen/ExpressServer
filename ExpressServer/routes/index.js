@@ -5,7 +5,7 @@ var url = require('url');
 var fileSystem = require('fs');
 var images = require("images");
 var multer  = require('multer');
-var multipartMiddleware = multer();
+var upload = multer({ dest: './uploads/' });
 //var pcScaner = require("../services/pcScaner.js");
 var dbHelper = require("../services/dbHelper.js");
 /* GET home page. */
@@ -25,8 +25,10 @@ router.get('/photoAnalysis', function (req, res) {
     res.render('photoAnalysis', { title: 'Express' });
 });
 
-router.post('/saveRecord',function (req, res) {
+router.post('/saveRecord',upload.array('photos', 12),function (req, res) {
     var arg = url.parse(req.url, true).query;
+    var test = fileSystem.existsSync(req.files[0].path);
+
     res.render('photoAnalysis', { title: 'Express' });
 });
 

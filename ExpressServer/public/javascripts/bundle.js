@@ -28004,7 +28004,6 @@ var EditPhotos = function (_Component) {
     }, {
         key: 'submitForm',
         value: function submitForm() {
-            debugger;
             var formdata = new FormData(this.refs.form);
             $.ajax({
                 type: 'post',
@@ -28018,6 +28017,16 @@ var EditPhotos = function (_Component) {
             });
         }
     }, {
+        key: 'imgLoaded',
+        value: function imgLoaded(ev) {
+            var canvas = ev.target.parentElement.getElementsByTagName("canvas")[0];
+            var img = ev.target;
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(ev.target, 0, 0, img.naturalWidth, img.naturalHeight, 0, 0, canvas.width, canvas.height);
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this3 = this;
@@ -28025,7 +28034,14 @@ var EditPhotos = function (_Component) {
             var imageList = [];
             for (var i = 0; i < this.state.selectedPhotos.length; i++) {
                 var imageUrl = this.state.selectedPhotos[i];
-                imageList.push(_react2.default.createElement('img', { key: i, src: imageUrl }));
+                imageList.push(_react2.default.createElement(
+                    'div',
+                    { key: i },
+                    _react2.default.createElement('img', { onLoad: function onLoad(ev) {
+                            return _this3.imgLoaded(ev);
+                        }, src: imageUrl }),
+                    _react2.default.createElement('canvas', { style: { display: 'none' } })
+                ));
             }
             return _react2.default.createElement(
                 'form',

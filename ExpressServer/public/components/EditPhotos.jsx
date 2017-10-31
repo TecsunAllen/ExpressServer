@@ -42,7 +42,6 @@ class EditPhotos extends Component {
     }
 
     submitForm(){
-        debugger
         var formdata=new FormData(this.refs.form);
         $.ajax({
             type : 'post',
@@ -59,11 +58,24 @@ class EditPhotos extends Component {
             }
         });
     }
+
+    imgLoaded(ev){
+        var canvas = ev.target.parentElement.getElementsByTagName("canvas")[0];
+        var img = ev.target;
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(ev.target,0,0,img.naturalWidth,img.naturalHeight,0,0,canvas.width,canvas.height);
+    }
+
     render() {
         var imageList = [];
         for (var i = 0; i < this.state.selectedPhotos.length; i++) {
             var imageUrl = this.state.selectedPhotos[i];
-            imageList.push(<img key={i} src={imageUrl} />);
+            imageList.push(<div key={i}>
+                <img onLoad={(ev) => this.imgLoaded(ev)}  src={imageUrl} />
+                <canvas style={{ display: 'none' }}/>
+            </div>);
         }
         return (
             <form role="form" ref='form'>
