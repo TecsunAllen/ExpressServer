@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import EditPhotos from '../components/EditPhotos.jsx';
 import ShowPhotos from '../components/ShowPhotos.jsx';
+import Login from '../components/Login.jsx';
 class MyLife extends Component {
     constructor(props) {
         super(props);
@@ -13,12 +14,13 @@ class MyLife extends Component {
 
     }  
     render() {
-        //const {selectedFilePath } = this.props;
+        const { eventHander } = this.props;
         return (
             <div className="MyLifeContainer">
                 <button id='addPhotos'>+</button>
-                <EditPhotos />
-                <ShowPhotos />
+                <EditPhotos eventHander = {eventHander}/>
+                <ShowPhotos eventHander = {eventHander}/>
+                <Login eventHander = {eventHander}/>
             </div>            
         );
     }

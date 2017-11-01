@@ -1,7 +1,7 @@
 /*
  * action 类型
  */
-
+/*
 export const GOTO_FOLDER = 'GOTO_FOLDER';
 export const OPEN_FILE = 'OPEN_FILE';
 export const SET_STATE = 'SET_STATE';
@@ -9,17 +9,17 @@ export const SEARCH_FILES = 'SEARCH_FILES';
 /*
  * 其它的常量
  */
-
+/*
 export const VisibilityFilters = {
   SHOW_ALL: 'SHOW_ALL',
   SHOW_COMPLETED: 'SHOW_COMPLETED',
   SHOW_ACTIVE: 'SHOW_ACTIVE'
-}
+}*/
 
 /*
  * action 创建函数
  */
-
+/*
 export function gotoFolder(data) {
   return { type: GOTO_FOLDER, data: data }
 }
@@ -48,4 +48,4 @@ export function dispatchEvents() {
     case "searchFiles":
       return searchFiles(data);
   }
-}
+}*/

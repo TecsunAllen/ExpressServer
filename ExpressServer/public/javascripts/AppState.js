@@ -1,5 +1,6 @@
 var AppState = {
-    currentFolder: {
+    isLogon:false
+    /*currentFolder: {
         path: "C:/fileStore/default",
         fileList: [],
         folderList: []
@@ -14,7 +15,7 @@ var AppState = {
         filter: {
             name: ""
         }
-    }
+    }*/
 };
 
 export default AppState;

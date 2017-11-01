@@ -2,6 +2,9 @@
 import AppState from "./AppState.js";
 import {OPEN_FILE, GOTO_FOLDER, SET_STATE, SEARCH_FILES } from "./AppActions.js";
 
+
+
+
 export const SCAN_FOLDER_URL = "/scanFolder?folderPath=";
 export const GET_THUMB_URL = "/getThumbImage?path=";
 export const GET_SRCIMAGE_URL = "/getFile?path=";

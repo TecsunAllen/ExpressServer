@@ -3319,53 +3319,46 @@ var isExtraneousPopstateEvent = function isExtraneousPopstateEvent(event) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.gotoFolder = gotoFolder;
-exports.openFile = openFile;
-exports.setState = setState;
-exports.searchFiles = searchFiles;
-exports.dispatchEvents = dispatchEvents;
 /*
  * action 类型
  */
-
-var GOTO_FOLDER = exports.GOTO_FOLDER = 'GOTO_FOLDER';
-var OPEN_FILE = exports.OPEN_FILE = 'OPEN_FILE';
-var SET_STATE = exports.SET_STATE = 'SET_STATE';
-var SEARCH_FILES = exports.SEARCH_FILES = 'SEARCH_FILES';
+/*
+export const GOTO_FOLDER = 'GOTO_FOLDER';
+export const OPEN_FILE = 'OPEN_FILE';
+export const SET_STATE = 'SET_STATE';
+export const SEARCH_FILES = 'SEARCH_FILES';
 /*
  * 其它的常量
  */
-
-var VisibilityFilters = exports.VisibilityFilters = {
+/*
+export const VisibilityFilters = {
   SHOW_ALL: 'SHOW_ALL',
   SHOW_COMPLETED: 'SHOW_COMPLETED',
   SHOW_ACTIVE: 'SHOW_ACTIVE'
+}*/
 
-  /*
-   * action 创建函数
-   */
-
-};function gotoFolder(data) {
-  return { type: GOTO_FOLDER, data: data };
+/*
+ * action 创建函数
+ */
+/*
+export function gotoFolder(data) {
+  return { type: GOTO_FOLDER, data: data }
 }
 
-function openFile(filePath) {
-  return { type: OPEN_FILE, filePath: filePath };
+
+export function openFile(filePath) {
+  return { type: OPEN_FILE, filePath: filePath }
 }
 
-function setState(state) {
-  return { type: SET_STATE, state: state };
+export function setState(state) {
+  return { type: SET_STATE, state: state }
 }
-function searchFiles(data) {
-  return { type: SEARCH_FILES, data: data };
+export function searchFiles(data) {
+  return { type: SEARCH_FILES, data: data }
 }
 
-function dispatchEvents() {
+
+export function dispatchEvents() {
   var type = arguments[0];
   var data = arguments[1];
   switch (type) {
@@ -3376,7 +3369,8 @@ function dispatchEvents() {
     case "searchFiles":
       return searchFiles(data);
   }
-}
+}*/
+
 
 /***/ }),
 /* 48 */
@@ -3384,6 +3378,8 @@ function dispatchEvents() {
 
 "use strict";
 
+
+__webpack_require__(120);
 
 var _react = __webpack_require__(0);
 
@@ -3403,54 +3399,27 @@ var _MyLife = __webpack_require__(115);
 
 var _MyLife2 = _interopRequireDefault(_MyLife);
 
-var _AppActions = __webpack_require__(47);
-
 var _AppReducers = __webpack_require__(118);
 
-__webpack_require__(120);
+var _AppController = __webpack_require__(127);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//加载组件
-var store = (0, _redux.createStore)(_AppReducers.appReducer);
-// 载入 css
-
 //加载redux模块
+
 //引用公共库
+var store = (0, _redux.createStore)(_AppReducers.appReducer);
+//加载组件
+// 载入 css
 
 var App = (0, _reactRedux.connect)(function (state) {
   return {
-    currentFolder: state.currentFolder,
-    searchedFiles: state.searchedFiles,
-    selectedFilePath: state.selectedFilePath,
-    GET_THUMB_URL: _AppReducers.GET_THUMB_URL,
-    GET_SRCIMAGE_URL: _AppReducers.GET_SRCIMAGE_URL
+    currentFolder: state.currentFolder
   };
 }, function (dispatch) {
   return {
-    eventHander: function eventHander() {
-      var _argumrnts = arguments;
-      var xhr = new XMLHttpRequest();
-      switch (arguments[0]) {
-        case "intoFolder":
-          xhr.open("get", _AppReducers.SCAN_FOLDER_URL + arguments[1], true);
-          xhr.onload = function (ev) {
-            var data = JSON.parse(ev.target.response);
-            dispatch((0, _AppActions.dispatchEvents)(_argumrnts[0], data));
-          };
-          xhr.send();
-          break;
-        case "searchFiles":
-          xhr.open("get", _AppReducers.SEARCH_FILES_URL + arguments[1], true);
-          xhr.onload = function (ev) {
-            var data = JSON.parse(ev.target.response);
-            dispatch((0, _AppActions.dispatchEvents)(_argumrnts[0], data));
-          };
-          xhr.send();
-          break;
-        default:
-          dispatch((0, _AppActions.dispatchEvents)(arguments[0], arguments[1], arguments[2]));
-      }
+    eventHander: function eventHander(ev, component) {
+      return (0, _AppController.AppController)(dispatch)(ev, component);
     }
   };
 })(_MyLife2.default);
@@ -27875,6 +27844,10 @@ var _ShowPhotos = __webpack_require__(117);
 
 var _ShowPhotos2 = _interopRequireDefault(_ShowPhotos);
 
+var _Login = __webpack_require__(126);
+
+var _Login2 = _interopRequireDefault(_Login);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27902,7 +27875,8 @@ var MyLife = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            //const {selectedFilePath } = this.props;
+            var eventHander = this.props.eventHander;
+
             return _react2.default.createElement(
                 'div',
                 { className: 'MyLifeContainer' },
@@ -27911,8 +27885,9 @@ var MyLife = function (_Component) {
                     { id: 'addPhotos' },
                     '+'
                 ),
-                _react2.default.createElement(_EditPhotos2.default, null),
-                _react2.default.createElement(_ShowPhotos2.default, null)
+                _react2.default.createElement(_EditPhotos2.default, { eventHander: eventHander }),
+                _react2.default.createElement(_ShowPhotos2.default, { eventHander: eventHander }),
+                _react2.default.createElement(_Login2.default, { eventHander: eventHander })
             );
         }
     }]);
@@ -28219,7 +28194,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var AppState = {
-    currentFolder: {
+    isLogon: false
+    /*currentFolder: {
         path: "C:/fileStore/default",
         fileList: [],
         folderList: []
@@ -28228,12 +28204,11 @@ var AppState = {
         fileList: []
     },
     selectedFilePath: "",
-
-    fundApp: {
+        fundApp: {
         filter: {
             name: ""
         }
-    }
+    }*/
 };
 
 exports.default = AppState;
@@ -28831,6 +28806,119 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
+
+/***/ }),
+/* 125 */,
+/* 126 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //依赖bootstrap框架
+
+
+var LoginForm = function (_Component) {
+    _inherits(LoginForm, _Component);
+
+    function LoginForm(props) {
+        _classCallCheck(this, LoginForm);
+
+        return _possibleConstructorReturn(this, (LoginForm.__proto__ || Object.getPrototypeOf(LoginForm)).call(this, props));
+    }
+
+    _createClass(LoginForm, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {}
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var eventHander = this.props.eventHander;
+
+            return _react2.default.createElement(
+                'form',
+                { ref: 'loginForm', role: 'form' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'form-group' },
+                    _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'username' },
+                        '\u7528\u6237\u540D'
+                    ),
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'username', placeholder: '\u8BF7\u8F93\u5165\u7528\u6237\u540D' })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'form-group' },
+                    _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'password' },
+                        '\u5BC6\u7801'
+                    ),
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'password', placeholder: '\u8BF7\u8F93\u5165\u5BC6\u7801' })
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { 'data-action': 'submit', type: 'button', onClick: function onClick(ev) {
+                            return eventHander(ev, _this2);
+                        }, className: 'btn btn-default' },
+                    '\u767B\u9646'
+                )
+            );
+        }
+    }]);
+
+    return LoginForm;
+}(_react.Component);
+
+exports.default = LoginForm;
+
+/***/ }),
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.AppController = AppController;
+function getEventType(ev, component) {
+    if (ev.target.dataset.action == 'submit') {}
+}
+
+function AppController(dispatch) {
+    return function (ev, component) {
+        var type = getEventType(ev, component);
+        switch (type) {
+            default:
+                dispatch({});
+        }
+    };
+}
 
 /***/ })
 /******/ ]);
