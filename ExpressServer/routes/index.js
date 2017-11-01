@@ -14,24 +14,12 @@ router.get('/', function (req, res) {
     res.render('index', { title: 'Express' });
 });
 
-
-router.get('/myfund', function (req, res) {
-    var arg = url.parse(req.url, true).query;
-    res.render('myfund', { title: 'Express' });
-});
-
-router.get('/photoAnalysis', function (req, res) {
-    var arg = url.parse(req.url, true).query;
-    res.render('photoAnalysis', { title: 'Express' });
-});
-
 router.post('/saveRecord',upload.array('photos', 12),function (req, res) {
     var arg = url.parse(req.url, true).query;
     var test = fileSystem.existsSync(req.files[0].path);
 
     res.render('photoAnalysis', { title: 'Express' });
 });
-
 
 
 router.get('/dropCollection', function (req, res) {
@@ -66,30 +54,6 @@ router.get('/getData', function (req, res) {
     });
 });
 
-router.get('/oec', function (req, res) {
-    var arg = url.parse(req.url, true).query;
-    res.render('oec', { title: 'Express' });
-});
-
-router.get('/map', function (req, res) {
-    var arg = url.parse(req.url, true).query;
-    res.render('map', { title: 'Express' });
-});
-
-
-/*router.get('/scanPC', function (req, res) {
-    pcScaner.startScan();
-    res.json({ success: true, message: "开始扫描!" });
-});*/
-
-
-router.get('/findFile', function (req, res) {
-    var arg = url.parse(req.url, true).query;
-    pcScaner.findFileByName(arg.fileName, function (err, result) {
-        res.json(result);
-    });
-
-});
 
 function filterFiles(files, folderPath, mode) {
     var newfiles = files.filter(function (file) {

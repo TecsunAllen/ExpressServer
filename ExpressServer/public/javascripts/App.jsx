@@ -15,7 +15,7 @@ const store = createStore(appReducer);
 const App = connect(
   (state) => {
     return {
-      currentFolder: state.currentFolder
+      appState: state
     };
   },
   (dispatch) => {

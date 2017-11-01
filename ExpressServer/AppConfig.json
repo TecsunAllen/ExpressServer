@@ -13,5 +13,6 @@
         "databaseName": "wechatapp",
         "userName":"root",
         "password":"111111"
-    }
+    },
+    "imageArcherDir":"D:/images"
 }

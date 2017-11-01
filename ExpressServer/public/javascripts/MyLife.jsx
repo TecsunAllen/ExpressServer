@@ -14,13 +14,14 @@ class MyLife extends Component {
 
     }  
     render() {
-        const { eventHander } = this.props;
+        const { appState,eventHander } = this.props;
+        var loginForm = appState.isLogon ? null : (<Login eventHander = {eventHander}/>);
         return (
             <div className="MyLifeContainer">
                 <button id='addPhotos'>+</button>
                 <EditPhotos eventHander = {eventHander}/>
                 <ShowPhotos eventHander = {eventHander}/>
-                <Login eventHander = {eventHander}/>
+                {loginForm}
             </div>            
         );
     }
