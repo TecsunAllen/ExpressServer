@@ -3,10 +3,14 @@
 
 module.exports = {
     //插件项
-
+    resolve: {
+        alias: {
+            'vue': 'vue/dist/vue.js'
+        }
+    },
     //页面入口文件配置
     entry: {
-        index: __dirname + '/public/javascripts/App.jsx'
+        index: __dirname + '/public/javascripts/VueAppMain.js'
     },
     //入口文件输出配置
     output: {
@@ -16,6 +20,11 @@ module.exports = {
     module: {
         //loaders加载器
         loaders: [
+            // 使用vue-loader 加载 .vue 结尾的文件
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
             {
                 test: /\.(js|jsx)$/,//一个匹配loaders所处理的文件的拓展名的正则表达式，这里用来匹配js和jsx文件（必须）
                 exclude: /node_modules/,//屏蔽不需要处理的文件（文件夹）（可选）
