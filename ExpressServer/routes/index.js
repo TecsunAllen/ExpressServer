@@ -21,10 +21,12 @@ router.post('/saveRecord',upload.array('photos', 12),function (req, res) {
     res.render('photoAnalysis', { title: 'Express' });
 });
 
-
+/*{
+    collectionName:"",//string
+}*/
 router.get('/dropCollection', function (req, res) {
     var arg = url.parse(req.url, true).query;
-    dbHelper.getMongodb().collection(arg.collection).drop(function(err,result){
+    dbHelper.getMongodb().collection(arg.collectionName).drop(function(err,result){
         if(err){
             res.json(err);
         }
@@ -32,10 +34,14 @@ router.get('/dropCollection', function (req, res) {
     });
 });
 
+/*{
+    collectionName:"",//string
+    data:""           //jsonString
+}*/
 router.get('/insertData', function (req, res) {
     var arg = url.parse(req.url, true).query;
-    var position = JSON.parse(arg.positionInfo);
-    dbHelper.getMongodb().collection(arg.collection).insert(position,function(err,result){
+    var position = JSON.parse(arg.data);
+    dbHelper.getMongodb().collection(arg.collectionName).insert(position,function(err,result){
         if(err){
             res.json(err);
         }
@@ -43,10 +49,14 @@ router.get('/insertData', function (req, res) {
     });
 });
 
+/*{
+    collectionName:"",//string
+    queryInfo:""           //jsonString
+}*/
 router.get('/getData', function (req, res) {
     var arg = url.parse(req.url, true).query;
     var queryObj = JSON.parse(arg.queryInfo);
-    dbHelper.getMongodb().collection(arg.collection).find(queryObj).toArray(function (err, result) {
+    dbHelper.getMongodb().collection(arg.collectionName).find(queryObj).toArray(function (err, result) {
         if(err){
             res.json(err);
         }
