@@ -1,25 +1,19 @@
+// 导入组件
 import Vue from 'vue';
-import Favlist from './components/Favlist.vue';
+import App from './components/VueApp.vue';
 Vue.config.debug = true;//开启错误提示
-/*window.onload = function () {
-  new Vue({
-      el: '#AppContainer',
-      components: {
-        'my-component': Favlist
-      }
-  });
-};*/
-
-/*Vue.component('my-component', {
-  template: '<li>这是个待办项</li>'
-});*/
 
 new Vue({
+  name:'AppContainee',
   el: '#AppContainer',
   components: {
-    'my-component': Favlist
+    'lds-app': App
   }
 });
+
+
+
+
 
 
 
