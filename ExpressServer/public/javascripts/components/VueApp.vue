@@ -16,8 +16,8 @@ export default {
   name: "mainApp",
   data() {
     return {
-      isValidated: false,
-      isEditing: false,
+      isValidated: true,
+      isEditing: true,
       recordList: [1,2]
     };
   },

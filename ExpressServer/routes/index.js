@@ -16,9 +16,9 @@ router.get('/', function (req, res) {
 
 router.post('/saveRecord',upload.array('photos', 12),function (req, res) {
     var arg = url.parse(req.url, true).query;
-    var test = fileSystem.existsSync(req.files[0].path);
+    //var test = fileSystem.existsSync(req.files[0].path);
 
-    res.render('photoAnalysis', { title: 'Express' });
+    res.json({ title: 'Express' });
 });
 
 /*{
