@@ -11669,7 +11669,7 @@ process.umask = function() { return 0; };
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_script_index_0_bustCache_VueApp_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_script_index_0_bustCache_VueApp_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_script_index_0_bustCache_VueApp_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_5_0_vue_loader_lib_template_compiler_index_id_data_v_42624306_hasScoped_false_buble_transforms_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_template_index_0_bustCache_VueApp_vue__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_5_0_vue_loader_lib_template_compiler_index_id_data_v_42624306_hasScoped_false_buble_transforms_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_template_index_0_bustCache_VueApp_vue__ = __webpack_require__(30);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -11810,7 +11810,7 @@ var _EditForm = __webpack_require__(19);
 
 var _EditForm2 = _interopRequireDefault(_EditForm);
 
-var _RecordList = __webpack_require__(24);
+var _RecordList = __webpack_require__(25);
 
 var _RecordList2 = _interopRequireDefault(_RecordList);
 
@@ -12018,7 +12018,7 @@ if (false) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_script_index_0_bustCache_EditForm_vue__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_script_index_0_bustCache_EditForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_script_index_0_bustCache_EditForm_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_5_0_vue_loader_lib_template_compiler_index_id_data_v_5b3cc7f9_hasScoped_false_buble_transforms_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_template_index_0_bustCache_EditForm_vue__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_5_0_vue_loader_lib_template_compiler_index_id_data_v_5b3cc7f9_hasScoped_false_buble_transforms_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_template_index_0_bustCache_EditForm_vue__ = __webpack_require__(24);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -12118,7 +12118,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _RecordManager = __webpack_require__(30);
+var _RecordManager = __webpack_require__(23);
 
 var _RecordManager2 = _interopRequireDefault(_RecordManager);
 
@@ -12134,9 +12134,10 @@ exports.default = {
 
   methods: {
     submitForm: function submitForm(ev) {
+      _RecordManager2.default.setUserId('123');
+      _RecordManager2.default.setUserName('qwe');
       _RecordManager2.default.saveRecordAsync({
-        files: [],
-        text: this.$refs.text.value
+        form: this.$refs.form
       });
     }
   }
@@ -12153,6 +12154,107 @@ exports.default = {
 
 /***/ }),
 /* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/*
+record
+{
+    fileList:[],
+    text:""
+}
+*/
+var userId;
+var userName;
+function setUserId(val) {
+    userId = val;
+}
+function setUserName(val) {
+    userName = val;
+}
+
+async function saveRecordAsync(record) {
+    var formData = new FormData(record.form);
+    //formData.append("text", record.text);
+    //formData.append('file',$(record.form).find("input")[0].files[0]);
+    formData.append("userId", userId);
+    formData.append("userName", userName);
+
+    var response = await new Promise(function (resolve, reject) {
+        //formData.append('file', record.files[0]);
+        /*for (var i = 0; i < record.files.length; i++) {
+            formData.append('file['+ i +']', record.files[i]);
+        }*/
+        /*fetch("/saveRecord", {
+            method: 'post',
+            body: formData
+        });*/
+
+        $.ajax({
+            url: '/saveRecord',
+            type: 'POST',
+            cache: false,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function success(data) {
+                resolve(data);
+            }
+        });
+
+        /*var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/saveRecord", true);
+        xhr.onload = function (data) {
+            resolve(data);
+        };
+        xhr.send(formData);*/
+    });
+
+    /*var response = (await fetch("/saveRecord", {
+        method: 'post',
+        body: formData
+    }));*/
+    var data = response.target.response;
+    return data;
+}
+
+function saveRecord(record) {
+    return new Promise(function (resolve, reject) {
+        var formData = new FormData();
+        formData.append("text", record.text);
+        formData.append("userId", userId);
+        formData.append("userName", userName);
+        for (var i = 0; i < record.files.length; i++) {
+            formData.append('file[]', record.files[i]);
+        }
+        fetch("/saveRecord", {
+            method: 'post',
+            body: formData
+        });
+
+        /*var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/saveRecord", true);
+        xhr.onload = function (data) {
+            resolve(data);
+        };
+        xhr.send(formData);*/
+    });
+}
+
+exports.default = {
+    saveRecordAsync: saveRecordAsync,
+    saveRecord: saveRecord,
+    setUserId: setUserId,
+    setUserName: setUserName
+};
+
+/***/ }),
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12160,24 +12262,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("form", { ref: "form", attrs: { role: "form" } }, [
-    _c("textarea", { ref: "text" }),
-    _vm._v(" "),
-    _c("input", {
-      ref: "files",
-      attrs: { name: "photos", accept: "image/*", type: "file" }
-    }),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-default",
-        attrs: { type: "button" },
-        on: { click: _vm.submitForm }
-      },
-      [_vm._v("上传")]
-    )
-  ])
+  return _c(
+    "form",
+    { ref: "form", attrs: { role: "form", enctype: "multipart/form-data" } },
+    [
+      _c("textarea", { ref: "text" }),
+      _vm._v(" "),
+      _c("input", {
+        ref: "files",
+        attrs: { name: "photos", accept: "image/*", multiple: "", type: "file" }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-default",
+          attrs: { type: "button" },
+          on: { click: _vm.submitForm }
+        },
+        [_vm._v("上传")]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -12191,18 +12297,18 @@ if (false) {
 }
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_script_index_0_bustCache_RecordList_vue__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_script_index_0_bustCache_RecordList_vue__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_script_index_0_bustCache_RecordList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_script_index_0_bustCache_RecordList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_5_0_vue_loader_lib_template_compiler_index_id_data_v_b90a354c_hasScoped_false_buble_transforms_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_template_index_0_bustCache_RecordList_vue__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_5_0_vue_loader_lib_template_compiler_index_id_data_v_b90a354c_hasScoped_false_buble_transforms_node_modules_vue_loader_13_5_0_vue_loader_lib_selector_type_template_index_0_bustCache_RecordList_vue__ = __webpack_require__(29);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(25)
+  __webpack_require__(26)
 }
 var normalizeComponent = __webpack_require__(2)
 /* script */
@@ -12248,13 +12354,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(26);
+var content = __webpack_require__(27);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -12274,7 +12380,7 @@ if(false) {
 }
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)(undefined);
@@ -12288,7 +12394,7 @@ exports.push([module.i, "\n\n", ""]);
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12328,7 +12434,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12360,7 +12466,7 @@ if (false) {
 }
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12392,97 +12498,6 @@ if (false) {
     require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-42624306", esExports)
   }
 }
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-/*
-record
-{
-    fileList:[],
-    text:""
-}
-*/
-var userId;
-var userName;
-function setUserId(val) {
-    userId = val;
-}
-function setUserName(val) {
-    userName = val;
-}
-
-async function saveRecordAsync(record) {
-    debugger;
-    var formData = new FormData();
-    formData.append("text", record.text);
-    formData.append("userId", userId);
-    formData.append("userName", userName);
-    var response = await new Promise(function (resolve, reject) {
-        var formData = new FormData();
-        formData.append("text", record.text);
-        formData.append("userId", userId);
-        formData.append("userName", userName);
-        for (var i = 0; i < record.files.length; i++) {
-            formData.append('file[]', record.files[i]);
-        }
-        /*fetch("/saveRecord", {
-            method: 'post',
-            body: formData
-        });*/
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/saveRecord", true);
-        xhr.onload = function (data) {
-            resolve(data);
-        };
-        xhr.send(formData);
-    });
-
-    /*var response = (await fetch("/saveRecord", {
-        method: 'post',
-        body: formData
-    }));*/
-    var data = response.target.response;
-    return data;
-}
-
-function saveRecord(record) {
-    return new Promise(function (resolve, reject) {
-        var formData = new FormData();
-        formData.append("text", record.text);
-        formData.append("userId", userId);
-        formData.append("userName", userName);
-        for (var i = 0; i < record.files.length; i++) {
-            formData.append('file[]', record.files[i]);
-        }
-        fetch("/saveRecord", {
-            method: 'post',
-            body: formData
-        });
-
-        /*var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/saveRecord", true);
-        xhr.onload = function (data) {
-            resolve(data);
-        };
-        xhr.send(formData);*/
-    });
-}
-
-exports.default = {
-    saveRecordAsync: saveRecordAsync,
-    saveRecord: saveRecord,
-    setUserId: setUserId,
-    setUserName: setUserName
-};
 
 /***/ })
 /******/ ]);

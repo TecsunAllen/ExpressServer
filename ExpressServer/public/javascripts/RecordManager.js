@@ -15,32 +15,41 @@ function setUserName(val) {
 }
 
 async function saveRecordAsync(record) {
-    debugger
-    var formData = new FormData();
-    formData.append("text", record.text);
+    var formData = new FormData(record.form);
+    //formData.append("text", record.text);
+    //formData.append('file',$(record.form).find("input")[0].files[0]);
     formData.append("userId", userId);
     formData.append("userName", userName);
+    
     var response =(await (new Promise(function (resolve, reject) {
-        var formData = new FormData();
-        formData.append("text", record.text);
-        formData.append("userId", userId);
-        formData.append("userName", userName);
-        for (var i = 0; i < record.files.length; i++) {
-            formData.append('file[]', record.files[i]);
-        }
+        //formData.append('file', record.files[0]);
+        /*for (var i = 0; i < record.files.length; i++) {
+            formData.append('file['+ i +']', record.files[i]);
+        }*/
         /*fetch("/saveRecord", {
             method: 'post',
             body: formData
         });*/
 
-        var xhr = new XMLHttpRequest();
+        $.ajax({
+            url: '/saveRecord',
+            type: 'POST',
+            cache: false,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success:function(data){
+                resolve(data);
+            }
+        });
+
+        /*var xhr = new XMLHttpRequest();
         xhr.open("POST", "/saveRecord", true);
         xhr.onload = function (data) {
             resolve(data);
         };
-        xhr.send(formData);
+        xhr.send(formData);*/
     })));
-
 
     /*var response = (await fetch("/saveRecord", {
         method: 'post',
