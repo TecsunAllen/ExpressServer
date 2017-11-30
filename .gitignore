@@ -158,3 +158,4 @@ $RECYCLE.BIN/
 /ExpressServer/typings
 /environments
 ExpressServer/public/javascripts/bundle.js
+uploads

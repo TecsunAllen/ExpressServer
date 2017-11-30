@@ -3,7 +3,7 @@
 </style>
 <template id="template-home">
   <form ref='form' role="form" enctype="multipart/form-data">
-    <textarea ref='text' />
+    <textarea name="text" ref='text' />
     <input name='photos' accept="image/*" ref="files" multiple type="file" />
     <button type="button" v-on:click="submitForm" class="btn btn-default">上传</button>
   </form>

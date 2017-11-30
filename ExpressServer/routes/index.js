@@ -4,21 +4,55 @@ var path = require('path');
 var url = require('url');
 var fileSystem = require('fs');
 var images = require("images");
-var multer  = require('multer');
+var multer = require('multer');
 var upload = multer({ dest: './uploads/' });
 //var pcScaner = require("../services/pcScaner.js");
 var dbHelper = require("../services/dbHelper.js");
+
+
+const collectionName = "Records";
+const ImagesDir = "D:/LDS-Images";
+const splitStr = "{[_--_]}";
+fileSystem.exists(ImagesDir, function (exists) {
+    if (!exists)
+        fileSystem.mkdir(ImagesDir);
+});
+
 /* GET home page. */
 router.get('/', function (req, res) {
     var arg = url.parse(req.url, true).query;
     res.render('index', { title: 'Express' });
 });
 
-router.post('/saveRecord',upload.array('photos', 12),function (req, res) {
+router.get('/getRecords',function(req,res){
     var arg = url.parse(req.url, true).query;
-    //var test = fileSystem.existsSync(req.files[0].path);
+    var queryObj = JSON.parse(arg.query || '{}');
+    dbHelper.getMongodb().collection(collectionName).find(queryObj).toArray(function (err, result) {
+        res.json(result);
+    });
 
+});
+
+router.post('/saveRecord', upload.array('photos', 12), function (req, res) {
+    var arg = req.body;
+    arg.date = (new Date()).getTime();
+    arg.images = [];
+    for (var i = 0; i < req.files.length; i++) {
+        //var filePath = fileSystem.existsSync(req.files[i].path);
+        //创建读取流
+        var dstFilePath = ImagesDir + '/' +arg.date+ splitStr +req.files[i].originalname;
+        var readable = fileSystem.createReadStream(req.files[i].path);
+        //创建写入流 
+        var writable = fileSystem.createWriteStream(dstFilePath, { encoding: "utf8" });
+        // 通过管道来传输流
+        readable.pipe(writable);
+        arg.images.push(dstFilePath);
+    }
+    dbHelper.getMongodb().collection(collectionName).insert(arg, function (err) {
+
+    });
     res.json({ title: 'Express' });
+    //var test = fileSystem.existsSync(req.files[0].path);
 });
 
 /*{
@@ -26,11 +60,11 @@ router.post('/saveRecord',upload.array('photos', 12),function (req, res) {
 }*/
 router.get('/dropCollection', function (req, res) {
     var arg = url.parse(req.url, true).query;
-    dbHelper.getMongodb().collection(arg.collectionName).drop(function(err,result){
-        if(err){
+    dbHelper.getMongodb().collection(arg.collectionName).drop(function (err, result) {
+        if (err) {
             res.json(err);
         }
-        else res.json({success:true});
+        else res.json({ success: true });
     });
 });
 
@@ -41,11 +75,11 @@ router.get('/dropCollection', function (req, res) {
 router.get('/insertData', function (req, res) {
     var arg = url.parse(req.url, true).query;
     var position = JSON.parse(arg.data);
-    dbHelper.getMongodb().collection(arg.collectionName).insert(position,function(err,result){
-        if(err){
+    dbHelper.getMongodb().collection(arg.collectionName).insert(position, function (err, result) {
+        if (err) {
             res.json(err);
         }
-        else res.json({success:true});
+        else res.json({ success: true });
     });
 });
 
@@ -57,7 +91,7 @@ router.get('/getData', function (req, res) {
     var arg = url.parse(req.url, true).query;
     var queryObj = JSON.parse(arg.queryInfo);
     dbHelper.getMongodb().collection(arg.collectionName).find(queryObj).toArray(function (err, result) {
-        if(err){
+        if (err) {
             res.json(err);
         }
         else res.json(result);

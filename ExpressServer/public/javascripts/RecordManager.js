@@ -31,7 +31,7 @@ async function saveRecordAsync(record) {
             body: formData
         });*/
 
-        $.ajax({
+        /*$.ajax({
             url: '/saveRecord',
             type: 'POST',
             cache: false,
@@ -41,14 +41,14 @@ async function saveRecordAsync(record) {
             success:function(data){
                 resolve(data);
             }
-        });
+        });*/
 
-        /*var xhr = new XMLHttpRequest();
+        var xhr = new XMLHttpRequest();
         xhr.open("POST", "/saveRecord", true);
         xhr.onload = function (data) {
             resolve(data);
         };
-        xhr.send(formData);*/
+        xhr.send(formData);
     })));
 
     /*var response = (await fetch("/saveRecord", {

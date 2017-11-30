@@ -12195,24 +12195,24 @@ async function saveRecordAsync(record) {
             body: formData
         });*/
 
-        $.ajax({
+        /*$.ajax({
             url: '/saveRecord',
             type: 'POST',
             cache: false,
             data: formData,
             processData: false,
             contentType: false,
-            success: function success(data) {
+            success:function(data){
                 resolve(data);
             }
-        });
+        });*/
 
-        /*var xhr = new XMLHttpRequest();
+        var xhr = new XMLHttpRequest();
         xhr.open("POST", "/saveRecord", true);
         xhr.onload = function (data) {
             resolve(data);
         };
-        xhr.send(formData);*/
+        xhr.send(formData);
     });
 
     /*var response = (await fetch("/saveRecord", {
@@ -12266,7 +12266,7 @@ var render = function() {
     "form",
     { ref: "form", attrs: { role: "form", enctype: "multipart/form-data" } },
     [
-      _c("textarea", { ref: "text" }),
+      _c("textarea", { ref: "text", attrs: { name: "text" } }),
       _vm._v(" "),
       _c("input", {
         ref: "files",
