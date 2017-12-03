@@ -159,3 +159,4 @@ $RECYCLE.BIN/
 /environments
 ExpressServer/public/javascripts/bundle.js
 uploads
+node_modules/.package_versions.json

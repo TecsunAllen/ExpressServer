@@ -21,7 +21,7 @@ export default {
     submitForm(ev) {
       recordManager.setUserId('123');
       recordManager.setUserName('qwe');
-      recordManager.saveRecordAsync({
+      var result = recordManager.saveRecordAsync({
         form:this.$refs.form
       });
     }

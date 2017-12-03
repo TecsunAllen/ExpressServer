@@ -14,6 +14,19 @@ function setUserName(val) {
     userName = val;
 }
 
+async function getRecords(){
+    var response =(await (new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/getRecords", true);
+        xhr.onload = function (data) {
+            resolve(data);
+        };
+        xhr.send();
+    })));
+    let data = response.target.response;
+    return data;
+}
+
 async function saveRecordAsync(record) {
     var formData = new FormData(record.form);
     //formData.append("text", record.text);
@@ -87,5 +100,6 @@ export default {
     saveRecordAsync: saveRecordAsync,
     saveRecord: saveRecord,
     setUserId: setUserId,
-    setUserName: setUserName
+    setUserName: setUserName,
+    getRecords:getRecords
 };

@@ -3,8 +3,8 @@
 </style>
 <template>
     <div>
-        <ul id="example-1">
-            <li v-bind:key="item" v-for="item in recordList">
+        <ul id="example-1" class="list-group">
+            <li v-bind:key="item" v-for="item in recordList" class="list-group-item">
                 {{ item }}
             </li>
         </ul>

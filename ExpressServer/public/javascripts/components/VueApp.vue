@@ -12,21 +12,31 @@
 import Login from "./Login.vue";
 import EditForm from "./EditForm.vue";
 import RecordList from "./RecordList.vue";
+import recordManager from '../RecordManager.js';
+
 export default {
   name: "mainApp",
+  props: {
+    state: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
-      isValidated: true,
-      isEditing: true,
-      recordList: [1,2]
+      isValidated: this.state.isValidated,
+      isEditing: this.state.isEditing,
+      recordList: this.state.recordList
     };
   },
   computed: {
     isShowList: function() {
-      return this.isValidated && !this.isEditing;
+      return this.isValidated;
     }
   },
-  methods: {},
+  methods: {
+
+  },
   components: {
     "lds-login": Login,
     "lds-edit": EditForm,
