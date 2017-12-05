@@ -16,17 +16,11 @@ import recordManager from '../RecordManager.js';
 
 export default {
   name: "mainApp",
-  props: {
-    state: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
-      isValidated: this.state.isValidated,
-      isEditing: this.state.isEditing,
-      recordList: this.state.recordList
+      isValidated: this.$store.state.isValidated,
+      isEditing: this.$store.state.isEditing,
+      recordList: this.$store.state.recordList
     };
   },
   computed: {
