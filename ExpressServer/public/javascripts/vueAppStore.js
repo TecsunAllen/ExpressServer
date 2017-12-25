@@ -1,6 +1,7 @@
 //state
 import Vue from 'vue';
 import Vuex from 'vuex';
+import recordManager from './RecordManager.js';
 Vue.use(Vuex);
 const service = {};
 const store = new Vuex.Store({
@@ -8,64 +9,51 @@ const store = new Vuex.Store({
     isValidated: true,
     isEditing: true,
     recordList: [1, 2, 3],
-    markList:[]
+    markList: []
   },
   mutations: {
-    mark(state,type) {
-      mark(type);
+    actionController(state, ev) {
+      var target = ev.target;
+      var action = target.dataset.action;
+      switch (action) {
+        case "submitRecord":
+          saveRecord(target.parentNode);
+          break;
+        case "setMark":
+          setMark(parseInt(ev.target.parentNode.firstChild.value));
+          break;
+      }
     },
-    initState(state){
-      getMarkList();
+    initState() {
+      getMarks();
       getRecordList();
     }
   }
 });
 
-//打卡
 
-async function getMarkList() {
-  let response =  await new Promise(function(resolve,reject){
-      var xhr = new XMLHttpRequest();
-      var data = JSON.stringify({
-      });
-      xhr.open('GET','/getData?collectionName=mark&queryInfo='+data,true);
-      xhr.onload=function(ev){
-        resolve(ev.currentTarget.response);
-      }
-      xhr.send();
+async function saveRecord(form) {
+  recordManager.setUserId('123');
+  recordManager.setUserName('qwe');
+  await recordManager.saveRecordAsync({
+    form: form
   });
-  console.log(response);
+  await getRecordList();
+}
+
+async function getMarks() {
+  let response = await recordManager.getMarks();
+  store.state.markList = response;
 }
 
 async function getRecordList() {
-  let response =  await new Promise(function(resolve,reject){
-      var xhr = new XMLHttpRequest();
-      var data = JSON.stringify({
-      });
-      xhr.open('GET','/getData?collectionName=Records&queryInfo='+data,true);
-      xhr.onload=function(ev){
-        resolve(ev.currentTarget.response);
-      }
-      xhr.send();
-  });
-  var list = JSON.parse(response);
-  store.state.recordList = list;
+  let response = await recordManager.getRecords();
+  store.state.recordList = response;
 }
 
-async function mark(type) {
-  let response =  await new Promise(function(resolve,reject){
-      var xhr = new XMLHttpRequest();
-      var data = JSON.stringify({
-        type:type,
-        date:(new Date()).getTime()
-      });
-      xhr.open('GET','/insertData?collectionName=mark&data='+data,true);
-      xhr.onload=function(response){
-        resolve(response);
-      }
-      xhr.send();
-  });
-  console.log(response);
+async function setMark(type) {
+  await recordManager.setMark(type);
+  getMarks();
 }
 
 export default store;

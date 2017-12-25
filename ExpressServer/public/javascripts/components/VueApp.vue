@@ -2,15 +2,17 @@
 
 </style>
 <template id="template-home">
-  <div>
+  <div v-on:click="eventHander">
     <lds-login v-if="!isValidated" />
     <lds-edit v-if="isEditing"></lds-edit>
     <lds-list v-bind:recordList='recordList' v-if="isShowList" ></lds-list>
     <lds-marklist v-bind:markList='markList'></lds-marklist>
-    <select ref='markSelect'>
-      <option value="0">30分钟健身</option>
-    </select>
-      <button v-on:click="mark">签到</button>
+    <div>
+      <select ref='markSelect'>
+        <option value="0">30分钟</option>
+      </select>
+      <button data-action="setMark">签到</button>
+      </div>
   </div>
 </template>
 <script>
@@ -27,25 +29,25 @@ export default {
     };
   },
   computed: {
-    isShowList: function() {
+    isShowList() {
       return this.isValidated;
     },
-    isValidated:function(){
+    isValidated(){
       return this.$store.state.isValidated;
     },
-    isEditing:function(){
+    isEditing(){
       return this.$store.state.isEditing;
     },
-    recordList:function(){
+    recordList(){
       return this.$store.state.recordList;
     },
-    markList:function(){
+    markList(){
       return this.$store.state.markList;
     }
   },
   methods: {
-    mark(){
-        this.$store.commit('mark',parseInt(this.$refs.markSelect.value));
+    eventHander(ev){
+        this.$store.commit('actionController',ev);
     }
   },
   components: {
