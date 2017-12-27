@@ -24,15 +24,6 @@ router.get('/', function (req, res) {
     res.render('index', { title: 'Express' });
 });
 
-router.get('/getRecords',function(req,res){
-    var arg = url.parse(req.url, true).query;
-    var queryObj = JSON.parse(arg.query || '{}');
-    dbHelper.getMongodb().collection(collectionName).find(queryObj).toArray(function (err, result) {
-        res.json(result);
-    });
-
-});
-
 router.post('/saveRecord', upload.array('photos', 12), function (req, res) {
     var arg = req.body;
     arg.date = (new Date()).getTime();

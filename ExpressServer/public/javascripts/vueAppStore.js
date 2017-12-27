@@ -8,7 +8,7 @@ const store = new Vuex.Store({
   state: {
     isValidated: true,
     isEditing: true,
-    recordList: [1, 2, 3],
+    recordList: [],
     markList: []
   },
   mutations: {

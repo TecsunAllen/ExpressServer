@@ -5,7 +5,7 @@
     <div>
         <ul id="example-1" class="list-group">
             <li v-bind:key="item._id" v-for="item in recordList" class="list-group-item">
-                {{ item.text }}
+                {{ item.text }} {{(new Date(item.date)).Format('yyyy-MM-dd hh:mm:ss')}}
             </li>
         </ul>
     </div>
@@ -20,6 +20,9 @@ export default {
   },
   data() {
     return {};
+  },
+  computed:{
+    
   },
   methods: {
     submitUser() {}

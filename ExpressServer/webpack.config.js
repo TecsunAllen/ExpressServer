@@ -15,7 +15,7 @@ module.exports = {
     //入口文件输出配置
     output: {
         path: __dirname + '/public/javascripts',
-        filename: 'bundle.js'
+        filename: 'build/bundle.js'
     },
     module: {
         //loaders加载器
