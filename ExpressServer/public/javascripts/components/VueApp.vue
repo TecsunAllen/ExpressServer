@@ -4,6 +4,7 @@
 <template id="template-home">
   <div v-on:click="eventHander">
     <lds-login v-if="!isValidated" />
+    <lds-Calendar></lds-Calendar>
     <lds-edit v-if="isEditing"></lds-edit>
     <lds-list v-bind:recordList='recordList' v-if="isShowList" ></lds-list>
     <lds-marklist v-bind:markList='markList'></lds-marklist>
@@ -20,6 +21,7 @@ import Login from "./Login.vue";
 import EditForm from "./EditForm.vue";
 import RecordList from "./RecordList.vue";
 import MarkList from "./VueMarkList.vue";
+import Calendar from "./VueCalendar.vue";
 import recordManager from '../RecordManager.js';
 
 export default {
@@ -54,7 +56,8 @@ export default {
     "lds-login": Login,
     "lds-edit": EditForm,
     "lds-list": RecordList,
-    "lds-marklist":MarkList
+    "lds-marklist":MarkList,
+    "lds-Calendar":Calendar
   }
 };
 </script>
