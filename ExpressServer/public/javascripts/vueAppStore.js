@@ -6,8 +6,8 @@ Vue.use(Vuex);
 const service = {};
 const store = new Vuex.Store({
   state: {
-    isValidated: true,
-    isEditing: true,
+    isValidated: false,
+    isEditing: false,
     recordList: [],
     markList: []
   },
