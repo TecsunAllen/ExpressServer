@@ -1,10 +1,10 @@
 // 导入组件
 import Vue from 'vue';
 import App from './components/VueApp.vue';
+import router from './routes.js';
 Vue.config.debug = true;//开启错误提示
 import recordManager from './RecordManager.js';
 import store from './vueAppStore.js';
-
 Date.prototype.Format = function (fmt) { //author: meizz 
   var o = {
       "M+": this.getMonth() + 1, //月份 
@@ -24,13 +24,10 @@ Date.prototype.Format = function (fmt) { //author: meizz
 
 var app = new Vue({
   name:'AppContainee',
+  router,
   el: '#AppContainer',
   store,
-  template: '<lds-app/>',
-  components: {
-    'lds-app': App
-  },
-  render: h => h(App)
+  template: '<router-view></router-view>'
 });
 // $watch 是一个实例方法
 app.$watch('state', function (newValue, oldValue) {

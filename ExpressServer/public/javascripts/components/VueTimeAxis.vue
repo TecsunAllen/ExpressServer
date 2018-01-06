@@ -4,7 +4,7 @@
 <template>
 <div  class="timeAxis">
 <ul>
-    <li v-bind:key="item" v-for="item in test">
+    <li v-bind:key="item.id" v-for="item in test">
         <div style="flex:2;display:flex;margin-right: 1%;">
             <div style="width:100%; background-color: gray;">
                 {{item.time}}
@@ -47,17 +47,9 @@ export default {
   data() {
     return {
         test:[
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
-            {time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"}
+            {id:1,time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
+            {id:2,time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"},
+            {id:3,time:"2017-5-3",content:"奥术大师大所大所大所大所大所大所多"}
             ]
     };
   },

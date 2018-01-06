@@ -21,23 +21,25 @@
       <button data-action="setMark">签到</button>
     </div>
     </div>
+    <div>
+    </div>
   </div>
 </template>
 <style>
-#appMainContainer{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display:flex;
-    flex-direction: column;
+#appMainContainer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
 }
-#appTitle{
-  flex:1;
+#appTitle {
+  flex: 1;
 }
-#appBody{
-  flex:15;
+#appBody {
+  flex: 15;
   overflow: auto;
 }
 #calendaContainer {
@@ -91,7 +93,7 @@ export default {
     "lds-list": RecordList,
     "lds-marklist": MarkList,
     "lds-Calendar": Calendar,
-    "lds-timeAxis":TimeAxis
+    "lds-timeAxis": TimeAxis
   }
 };
 </script>

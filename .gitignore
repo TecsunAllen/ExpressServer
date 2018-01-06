@@ -158,4 +158,4 @@ $RECYCLE.BIN/
 /ExpressServer/typings
 /environments
 uploads
-node_modules/.package_versions.json
+node_modules

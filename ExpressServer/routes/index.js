@@ -8,8 +8,7 @@ var multer = require('multer');
 var upload = multer({ dest: './uploads/' });
 //var pcScaner = require("../services/pcScaner.js");
 var dbHelper = require("../services/dbHelper.js");
-
-
+var shareManager = require("../services/ShareManager.js");
 const collectionName = "Records";
 const ImagesDir = "D:/LDS-Images";
 const splitStr = "{[_--_]}";
@@ -23,6 +22,18 @@ router.get('/', function (req, res) {
     var arg = url.parse(req.url, true).query;
     res.render('index', { title: 'Express' });
 });
+
+router.get('/GetUrlResultProxy', function (req, res) {
+    var arg = url.parse(req.url, true).query;
+    var decodeUrl = new Buffer(arg.url, 'base64').toString()
+    shareManager.getUrlHttpsProxy(decodeUrl,function(result){
+        res.writeHead(200, {'Content-type' : 'text/json;charset=utf-8'});
+        res.write(result);
+        res.end();
+    });
+});
+
+
 
 router.post('/saveRecord', upload.array('photos', 12), function (req, res) {
     var arg = req.body;
