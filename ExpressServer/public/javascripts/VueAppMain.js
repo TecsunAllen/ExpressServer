@@ -5,6 +5,14 @@ import router from './routes.js';
 Vue.config.debug = true;//开启错误提示
 import recordManager from './RecordManager.js';
 import store from './vueAppStore.js';
+import $ from 'jquery';
+
+/*console.log =function(message){
+  $("#consoleMessage").append("<div>"+message+"</div>");
+};*/
+
+
+
 Date.prototype.Format = function (fmt) { //author: meizz 
   var o = {
       "M+": this.getMonth() + 1, //月份 

@@ -5,14 +5,14 @@
             <div>
                 <div style="text-align: center;">
                 <img />    
-                <input data-action="queryShare" @input="eventHander($event)" />
+                <input class="search" data-action="queryShare" @input="eventHander($event)" />
                 <span style="float: right;margin-right: 5%;">取消</span>
                 </div>
                 <ul v-if="isQuerying">
                     <li v-bind:key="item._id" v-for="item in queryShareData" class="list-group-item">
-                        <div style="flex:5;padding: 8px;">{{item.code +"---"+ item.name}}</div>
+                        <div style="-webkit-box-flex: 5;padding: 8px;">{{item.code +"---"+ item.name}}</div>
                         <div data-action="favShare" @click="eventHander($event,item)" class='btn-default' 
-                        style="display:flex;flex-direction: column;flex:1;text-align: center;">
+                        style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-flex: 1;text-align: center;">
                         关注
                         </div>
                     </li>
@@ -20,21 +20,36 @@
             </div>
         </div>
         <ul class="shareBody list-group">
-            <li style="display:flex;" v-bind:key="item._id" v-for="item in shareData" class="list-group-item">
-                <span style="flex:1">{{ item.name }}</span>
-                <span style="flex:1">{{ item.price }}</span>
-                <div style="display:flex;flex:3">
-                <span style="flex:1">{{ item.percentCL }}</span>
-                <span style="flex:1">{{ item.priceCL }}</span>
-                <span style="flex:1">{{ (item.totalWorth/100000000).toFixed(2) + "亿" }}</span>
+            <li style="display:-webkit-box;" v-bind:key="item._id" v-for="item in shareData" class="list-group-item">
+                <div style="-webkit-box-flex: 1;">{{ item.name }}</div>
+                <div style="-webkit-box-flex: 1;">{{ item.price }}</div>
+                <div style="display:-webkit-box;-webkit-box-flex: 3;">
+                <div style="-webkit-box-flex: 1;">{{ item.percentCL }}</div>
+                <div style="-webkit-box-flex: 1;">{{ item.priceCL }}</div>
+                <div style="-webkit-box-flex: 1;">{{ (item.totalWorth/100000000).toFixed(2) + "亿" }}</div>
                 </div>
             </li>
         </ul>
+        <div id="consoleMessage"></div>
     </div>
 </template>
 <style>
 body{
     background-color:#ECF0F1;
+    font-family: DIN,"Microsoft YaHei",Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+}
+input.search {
+    height: 30px;
+    vertical-align: top;
+    text-indent: 6px;
+    line-height: 30px;
+    font-size: 14px;
+    border: 1px solid #dddce2;
+    border-right: 0;
+    display: inline-block;
+    font-family: 'Microsoft YaHei';
 }
 .shareApp{
     position: absolute;
@@ -42,8 +57,8 @@ body{
     bottom: 0px;
     left: 0px;
     right: 0px;
-    display: flex;
-    flex-direction: column;
+    display: -webkit-box;
+     -webkit-box-orient:vertical;
 }
 .shareMask{
     position: absolute;
@@ -56,7 +71,7 @@ body{
     margin-top: 300px;
 }
 .shareHeader{
-    flex:1;
+     -webkit-box-flex: 1;
     background-color:#ECF0F1;
     overflow: auto;
 }
@@ -67,23 +82,26 @@ body{
     position: absolute;
     width: 100%;
     background: #ECF0F1;
+    
 }
 .shareHeader ul li{
-    display:flex;
+    display: -webkit-box;
     margin: 0px;
     padding: 0px;
     background: #95A5A6;
 }
 .shareBody{
-    flex:15;
+     -webkit-box-flex: 15;
 }
 .btn-default:before {
     content: "";
-    flex: 1;
+        display: block;
+     -webkit-box-flex: 1;
 }
 .btn-default:after {
     content: "";
-    flex: 1;
+    display: block;
+     -webkit-box-flex: 1;
 }
 </style>
 

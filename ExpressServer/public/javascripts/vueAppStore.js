@@ -3,6 +3,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import recordManager from './RecordManager.js';
 import shareManager from './ShareManager';
+import { setTimeout } from 'timers';
 Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
@@ -41,10 +42,11 @@ const store = new Vuex.Store({
       }
     },
     initState() {
+      console.log("开始初始化数据");
       getMarks();
       getRecordList();
       getTodayShareThumb();
-      intervalShares();
+      setTimeout(intervalShares,5000);
     }
   }
 });
@@ -84,6 +86,7 @@ async function setMark(type) {
 }
 
 async function queryShare(query) {
+  console.log("开始查询"+query);
   let info = await shareManager.getShareInfo(query);
   var result = [];
   for (var i = 0; i < info.length; i++) {

@@ -74,13 +74,19 @@ async function getShareInfo(code) {
 
 
 async function getSharesInfoBatchByCode(codesArray) {
+    
     var codesString = codesArray.toString();
     var json = await new Promise(function (resolve, reject) {
+        console.log("开始发送："+"https://gupiao.baidu.com/api/rails/stockbasicbatch?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code="+codesString+"&timestamp="+(new Date()).getTime());
         var xhr = new XMLHttpRequest();
         var url = btoa("https://gupiao.baidu.com/api/rails/stockbasicbatch?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code="+codesString+"&timestamp="+(new Date()).getTime());
         xhr.open("GET", "/GetUrlResultProxy?url=" + url, true);
         xhr.onload = function (ev) {
+            console.log("请求成功"+ev.target.response);
             resolve(JSON.parse(ev.target.response).data);
+        };
+        xhr.onerror=function(ev){
+            console.log(ev);
         };
         xhr.send();
     });
