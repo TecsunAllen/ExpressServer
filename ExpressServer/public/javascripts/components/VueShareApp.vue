@@ -1,7 +1,7 @@
 <template>
     <div class="shareApp">
-        <div v-if="!isLoaded" ref="mask" class="shareMask">加载中</div>
-        <div class="shareHeader">
+        <div v-bind:class="maskClass" ref="mask" >加载中...</div>
+        <div class="shareHeader contentVerticalCenter">
             <div>
                 <div style="text-align: center;">
                 <img />    
@@ -44,6 +44,11 @@ export default {
     return {};
   },
   computed: {
+    maskClass(){
+        var share = this.$store.state.todayShareCodes[0];
+        var isLoaded = share && share.name;
+        return isLoaded ? "shareMask fade-leave":"shareMask fade-enter";
+    },
     waveData(){
         return this.$store.state.waveData;
     },
@@ -52,10 +57,6 @@ export default {
     },
     queryShareData(){
       return this.$store.state.queryShareCodes;
-    },
-    isLoaded(){
-        var share = this.$store.state.todayShareCodes[0];
-        return share && share.name;
     },
     isQuerying(){
         var share = this.$store.state.queryShareCodes;
@@ -84,6 +85,10 @@ beforeUpdate: function () {
 
 
 <style>
+*{
+    margin: 0px;
+    padding:0px;
+}
 body{
     background-color:#ECF0F1;
     font-family: DIN,"Microsoft YaHei",Arial,sans-serif;
@@ -100,6 +105,22 @@ input.search {
     border-right: 0;
     display: inline-block;
     font-family: 'Microsoft YaHei';
+    float: left;
+}
+.contentVerticalCenter{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.contentVerticalCenter:before{
+    content: "";
+    -webkit-box-flex: 1;
+    display: block;
+}
+.contentVerticalCenter:after{
+    content: "";
+    -webkit-box-flex: 1;
+    display: block;
 }
 .shareApp{
     position: absolute;
@@ -108,18 +129,20 @@ input.search {
     left: 0px;
     right: 0px;
     display: -webkit-box;
-     -webkit-box-orient:vertical;
-     padding: 5%;
+    -webkit-box-orient:vertical;
+    padding:2% 5% 0 5%;
 }
 .shareMask{
     position: absolute;
-    top:0px;
+    top: 0px;
     bottom: 0px;
     left: 0px;
     right: 0px;
-    z-index:1;
+    z-index: 1;
     text-align: center;
-    margin-top: 300px;
+    background-color: #2c2a2d;
+    color: white;
+    padding-top: 50%;
 }
 .shareHeader{
      -webkit-box-flex: 1;
@@ -153,5 +176,15 @@ input.search {
     content: "";
     display: block;
      -webkit-box-flex: 1;
+}
+.fade-enter{
+   transition: all .5s linear;
+   opacity: 1;
+   pointer-events: none;
+}
+.fade-leave {
+   transition: all .5s linear;
+   opacity: 0;
+   pointer-events: none;
 }
 </style>

@@ -102,7 +102,7 @@ async function queryShare(query) {
 
 //同时获取多个股票的实时简略信息
 async function getTodayShareThumb() {
-  var favCodesJson =  localStorage.getItem("favCodes") || "[]";
+  var favCodesJson =  localStorage.getItem("favCodes") || "[\"sh000001\"]";
   var favCodes = JSON.parse(favCodesJson);
   let infos = await shareManager.getSharesInfoBatchByCode(favCodes);
   var todayShareCodes = infos.map(function(info){  
