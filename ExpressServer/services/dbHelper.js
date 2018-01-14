@@ -2,23 +2,18 @@ var appConfig = require("../services/configHelper.js");
 var DB_CONN_STR = 'mongodb://' + appConfig.mongodb.databaseHost + ':' + appConfig.mongodb.databasePort + '/' + appConfig.mongodb.databaseName;
 var Mongodb;
 var MongoCollection;
-var positionCollection;
 var MongoClient = require('mongodb').MongoClient;
 
-var runDBCommand = __dirname + "/../start.bat";
-
-var exec = require('child_process').exec;
-
-MongoClient.connect(DB_CONN_STR, function (err, db) {
+/*MongoClient.connect(DB_CONN_STR, function (err, db) {
     if (!err) {
         Mongodb = db;
         MongoCollection = db.collection('PCFiless');
         positionCollection = db.collection('position');
     }
-    else {
+    else {g'n't'h'g'f
         console.log(err);
     }
-});
+});*/
 
 
 function insertData(data, callback) {

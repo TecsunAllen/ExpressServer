@@ -12,11 +12,12 @@ const store = new Vuex.Store({
     recordList: [],
     markList: [],
     queryShareCodes:[],
-    todayShareCodes: []
+    todayShareCodes: [],
+    waveData:[]
   },
   mutations: {
-    actionController(state,ev,data) {
-      var target = ev.target;
+    actionController(state,ev) {
+      var target = ev.currentTarget;
       var action = target.dataset.action;
       var data = ev.bindedData;
       switch (action) {
@@ -39,12 +40,15 @@ const store = new Vuex.Store({
           if(favCodes.indexOf(data.f_code)<0) favCodes.push(data.f_code);
           localStorage.setItem("favCodes",JSON.stringify(favCodes));
         break;
+        case "stockDetail":
+        getTodayStockWave(data.f_code);
+        break;
       }
     },
     initState() {
       console.log("开始初始化数据");
-      getMarks();
-      getRecordList();
+      //getMarks();
+      //getRecordList();
       getTodayShareThumb();
       setTimeout(intervalShares,5000);
     }
@@ -54,7 +58,8 @@ const store = new Vuex.Store({
 
 function intervalShares(){
   var hours = (new Date()).getHours();
-  if(hours>=9 && hours<=16){
+  if(hours>=9 && hours<=16 && (new Date()).getDay()>=1 && (new Date()).getDay()<=5){
+    getTodayStockWave();
     getTodayShareThumb();
     setTimeout(intervalShares,5000);
   }
@@ -86,7 +91,7 @@ async function setMark(type) {
 }
 
 async function queryShare(query) {
-  console.log("开始查询"+query);
+  //console.log("开始查询"+query);
   let info = await shareManager.getShareInfo(query);
   var result = [];
   for (var i = 0; i < info.length; i++) {
@@ -95,12 +100,12 @@ async function queryShare(query) {
   store.state.queryShareCodes = result;
 }
 
+//同时获取多个股票的实时简略信息
 async function getTodayShareThumb() {
   var favCodesJson =  localStorage.getItem("favCodes") || "[]";
   var favCodes = JSON.parse(favCodesJson);
   let infos = await shareManager.getSharesInfoBatchByCode(favCodes);
-  var todayShareCodes = infos.map(function(info){
-    
+  var todayShareCodes = infos.map(function(info){  
     return{
       id: Math.random(),
       name: info.stockName,
@@ -115,6 +120,7 @@ async function getTodayShareThumb() {
     };
   });
   store.state.todayShareCodes = todayShareCodes;
+  getTodayStockWave();
   /*for (var i = 0; i < store.state.todayShareCodes.length; i++) {
     var share = store.state.todayShareCodes[i];
     var code = share.code;
@@ -127,6 +133,12 @@ async function getTodayShareThumb() {
     share.id = Math.random();
   }*/
 }
-
+async function getTodayStockWave(code) {
+  let info = await shareManager.getTodayWaveByCode(code || store.state.todayShareCodes[0].f_code);
+  var priceArr=info.timeLine.map((element)=>{
+      return element.price;
+  });
+  store.state.waveData = priceArr;
+}
 export default store;
 

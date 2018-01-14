@@ -47,7 +47,8 @@
     "url-loader": "latest",
     "vue": "^2.5.3",
     "vuex": "^3.0.1",
-    "xml2js": "latest"
+    "xml2js": "latest",
+    "vue-router": "latest"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

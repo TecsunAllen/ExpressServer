@@ -19,20 +19,70 @@
                 </ul>
             </div>
         </div>
-        <ul class="shareBody list-group">
-            <li style="display:-webkit-box;" v-bind:key="item._id" v-for="item in shareData" class="list-group-item">
-                <div style="-webkit-box-flex: 1;">{{ item.name }}</div>
-                <div style="-webkit-box-flex: 1;">{{ item.price }}</div>
-                <div style="display:-webkit-box;-webkit-box-flex: 3;">
-                <div style="-webkit-box-flex: 1;">{{ item.percentCL }}</div>
-                <div style="-webkit-box-flex: 1;">{{ item.priceCL }}</div>
-                <div style="-webkit-box-flex: 1;">{{ (item.totalWorth/100000000).toFixed(2) + "亿" }}</div>
-                </div>
-            </li>
-        </ul>
-        <div id="consoleMessage"></div>
+        <div class="shareBody">
+            <ul class="list-group">
+                <li data-action="stockDetail"  @click="eventHander($event,item)" style="display:-webkit-box;" v-bind:key="item._id" v-for="item in shareData" class="list-group-item">
+                    <div style="-webkit-box-flex: 1;">{{ item.name }}</div>
+                    <div style="-webkit-box-flex: 1;">{{ item.price }}</div>
+                    <div style="display:-webkit-box;-webkit-box-flex: 3;">
+                    <div style="-webkit-box-flex: 1;">{{ item.percentCL +"%" }}</div>
+                    <div style="-webkit-box-flex: 1;">{{ item.priceCL }}</div>
+                    <div style="-webkit-box-flex: 1;">{{ (item.totalWorth/100000000).toFixed(2) + "亿" }}</div>
+                    </div>
+                </li>
+            </ul>
+            <lds-stockChart v-bind:waveData="waveData" />
+        </div>
     </div>
 </template>
+
+<script>
+import StockChart from "./VueStockChart.vue";
+export default {
+  props: {},
+  data() {
+    return {};
+  },
+  computed: {
+    waveData(){
+        return this.$store.state.waveData;
+    },
+    shareData() {
+      return this.$store.state.todayShareCodes;
+    },
+    queryShareData(){
+      return this.$store.state.queryShareCodes;
+    },
+    isLoaded(){
+        var share = this.$store.state.todayShareCodes[0];
+        return share && share.name;
+    },
+    isQuerying(){
+        var share = this.$store.state.queryShareCodes;
+        return share.length>0;
+    }
+  },
+  methods: {
+    eventHander(ev,data) {
+        ev.bindedData =data;
+            this.$store.commit("actionController", ev);
+        
+    }
+  },
+  created: function () {
+  },
+beforeUpdate: function () {
+
+   },
+     components: {
+    "lds-stockChart": StockChart
+  }
+};
+</script>
+
+
+
+
 <style>
 body{
     background-color:#ECF0F1;
@@ -59,6 +109,7 @@ input.search {
     right: 0px;
     display: -webkit-box;
      -webkit-box-orient:vertical;
+     padding: 5%;
 }
 .shareMask{
     position: absolute;
@@ -104,40 +155,3 @@ input.search {
      -webkit-box-flex: 1;
 }
 </style>
-
-<script>
-export default {
-  props: {},
-  data() {
-    return {};
-  },
-  computed: {
-    shareData() {
-      return this.$store.state.todayShareCodes;
-    },
-    queryShareData(){
-      return this.$store.state.queryShareCodes;
-    },
-    isLoaded(){
-        var share = this.$store.state.todayShareCodes[0];
-        return share && share.name;
-    },
-    isQuerying(){
-        var share = this.$store.state.queryShareCodes;
-        return share.length>0;
-    }
-  },
-  methods: {
-    eventHander(ev,data) {
-        ev.bindedData =data;
-            this.$store.commit("actionController", ev);
-        
-    }
-  },
-  created: function () {
-  },
-beforeUpdate: function () {
-
-   }
-};
-</script>

@@ -43,3 +43,13 @@ app.$watch('state', function (newValue, oldValue) {
 });
 
 store.commit("initState");
+window.onresize =(()=>{
+  var lastTime = (new Date()).getTime();
+  return ()=>{
+    var currentTime = (new Date()).getTime();
+    if(currentTime - lastTime >1000){
+      store.commit("initState");
+      lastTime = currentTime;
+    }
+  };
+})();
