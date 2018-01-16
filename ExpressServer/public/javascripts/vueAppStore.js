@@ -104,7 +104,9 @@ async function queryShare(query) {
 async function getTodayShareThumb() {
   var favCodesJson =  localStorage.getItem("favCodes") || "[\"sh000001\"]";
   var favCodes = JSON.parse(favCodesJson);
+  let fundInfos =await shareManager.getFundInfoByCodes(["110022"]);
   let infos = await shareManager.getSharesInfoBatchByCode(favCodes);
+  infos = infos.concat(fundInfos);
   var todayShareCodes = infos.map(function(info){  
     return{
       id: Math.random(),
@@ -113,7 +115,7 @@ async function getTodayShareThumb() {
       f_code: info.exchange+info.stockCode,
       price: info.close.toFixed(2),
       priceCL: (info.close - info.preClose).toFixed(2),
-      percentCL: ((info.close - info.preClose)*100/info.preClose).toFixed(2),
+      percentCL: info.percentCL|| ((info.close - info.preClose)*100/info.preClose).toFixed(2),
       volume:info.volume,
       totalWorth:info.capitalization,
       todayWave: null
