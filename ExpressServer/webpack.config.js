@@ -8,6 +8,7 @@ module.exports = {
             'vue': 'vue/dist/vue.js'
         }
     },
+    devtool: 'eval-source-map',
     //页面入口文件配置
     entry: {
         index: __dirname + '/public/javascripts/VueAppMain.js'

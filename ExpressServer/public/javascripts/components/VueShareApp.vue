@@ -31,7 +31,7 @@
                     </div>
                 </li>
             </ul>
-            <lds-stockChart v-bind:waveData="waveData" />
+            <lds-stockChart v-if="false" v-bind:waveData="waveData" />
         </div>
     </div>
 </template>

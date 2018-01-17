@@ -51,6 +51,7 @@ const store = new Vuex.Store({
       //getRecordList();
       getTodayShareThumb();
       setTimeout(intervalShares,5000);
+      getTodayStockWave();
     }
   }
 });
@@ -59,7 +60,7 @@ const store = new Vuex.Store({
 function intervalShares(){
   var hours = (new Date()).getHours();
   if(hours>=9 && hours<=16 && (new Date()).getDay()>=1 && (new Date()).getDay()<=5){
-    getTodayStockWave();
+    //getTodayStockWave();
     getTodayShareThumb();
     setTimeout(intervalShares,5000);
   }
@@ -120,7 +121,6 @@ async function getTodayShareThumb() {
     };
   });
   store.state.todayShareCodes = todayShareCodes;
-  getTodayStockWave();
   /*for (var i = 0; i < store.state.todayShareCodes.length; i++) {
     var share = store.state.todayShareCodes[i];
     var code = share.code;
