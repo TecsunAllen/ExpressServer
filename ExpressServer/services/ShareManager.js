@@ -1,9 +1,12 @@
 var https = require('https');
+var http = require('http');
 var cheerio = require('cheerio');
 var iconv = require("iconv-lite");
 
 function getUrlHttpsProxy(url,callback) {
-    https.get(url, function (res) {
+    var curHttp;
+    curHttp = /https/i.test(url)?https:http;
+    curHttp.get(url, function (res) {
         var datas = [];
         var size = 0;
         res.on('data', function (data) {
