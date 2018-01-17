@@ -87,7 +87,7 @@ async function getFundInfoByCode(code){
     var json = await new Promise(function (resolve, reject) {
         //console.log("开始发送："+"https://gupiao.baidu.com/api/rails/stockbasicbatch?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code="+codesString+"&timestamp="+(new Date()).getTime());
         var xhr = new XMLHttpRequest();
-        var url = btoa("http://fund.eastmoney.com/"+code+".html");
+        var url = btoa("http://fund.eastmoney.com/"+code+".html?spm=aladin");
         xhr.open("GET", "/GetUrlResultProxy?url=" + url, true);
         xhr.onload = function (ev) {
             var html = $(ev.target.response);

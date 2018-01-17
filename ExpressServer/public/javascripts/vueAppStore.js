@@ -49,21 +49,30 @@ const store = new Vuex.Store({
       console.log("开始初始化数据");
       //getMarks();
       //getRecordList();
-      getTodayShareThumb();
-      setTimeout(intervalShares,5000);
+      requestAnimationFrame(intervalShares());
       getTodayStockWave();
     }
   }
 });
 
-
-function intervalShares(){
-  var hours = (new Date()).getHours();
-  if(hours>=9 && hours<=16 && (new Date()).getDay()>=1 && (new Date()).getDay()<=5){
-    //getTodayStockWave();
-    getTodayShareThumb();
-    setTimeout(intervalShares,5000);
-  }
+/*  */
+function intervalShares() {
+  var lastTime = 0;
+  var func;
+  func = function () {
+    var curTime = (new Date()).getTime();
+    var hours = (new Date()).getHours();
+    if (hours >= 9
+      && hours <= 16
+      && (new Date()).getDay() >= 1
+      && (new Date()).getDay() <= 5
+      &&(curTime - lastTime) > 3000) {
+      getTodayShareThumb();
+      lastTime = curTime;
+    }
+    requestAnimationFrame(func);
+  };
+  return func;
 }
 
 
@@ -103,9 +112,11 @@ async function queryShare(query) {
 
 //同时获取多个股票的实时简略信息
 async function getTodayShareThumb() {
+  console.log("开始获取");
   var favCodesJson =  localStorage.getItem("favCodes") || "[\"sh000001\"]";
   var favCodes = JSON.parse(favCodesJson);
-  let fundInfos =await shareManager.getFundInfoByCodes(["110022"]);
+  //let fundInfos =await shareManager.getFundInfoByCodes(["110022","020026"]);
+  let fundInfos =[];
   let infos = await shareManager.getSharesInfoBatchByCode(favCodes);
   infos = infos.concat(fundInfos);
   var todayShareCodes = infos.map(function(info){  
