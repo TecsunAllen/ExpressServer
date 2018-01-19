@@ -3,7 +3,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import recordManager from './RecordManager.js';
 import shareManager from './ShareManager';
-import { setTimeout } from 'timers';
+import $ from 'jquery';
 Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
@@ -41,21 +41,33 @@ const store = new Vuex.Store({
           localStorage.setItem("favCodes",JSON.stringify(favCodes));
         break;
         case "stockDetail":
-        getTodayStockWave(data.f_code);
+          if(ev.type == "dragstart"){
+            ev.currentTarget.parentElement.draggingElement = ev.currentTarget;         
+          }
+          else if(ev.type=='dragover'){
+            ev.preventDefault();
+            $(ev.currentTarget.parentElement.draggingElement).css("position","absolute");
+          }
+          else if(ev.type == "drop"){
+            ev.currentTarget.parentElement.insertBefore(ev.currentTarget.parentElement.draggingElement,ev.currentTarget.nextSibling);
+            var f_codes= Array.from(ev.currentTarget.parentElement.children).map((element)=>{
+              return element.children[0].innerText;
+            });
+            localStorage.setItem("favCodes",JSON.stringify(f_codes));
+          }
         break;
       }
     },
     initState() {
       console.log("开始初始化数据");
-      //getMarks();
-      //getRecordList();
+      getTodayShareThumb();
       requestAnimationFrame(intervalShares());
-      getTodayStockWave();
+      //getTodayStockWave();
     }
   }
 });
 
-/*  */
+/*  刷新数据 */
 function intervalShares() {
   var lastTime = 0;
   var func;

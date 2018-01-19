@@ -48,7 +48,7 @@ window.onresize =(()=>{
   return ()=>{
     var currentTime = (new Date()).getTime();
     if(currentTime - lastTime >1000){
-      store.commit("initState");
+      //store.commit("initState");
       lastTime = currentTime;
     }
   };
