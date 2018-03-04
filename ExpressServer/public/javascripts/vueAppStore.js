@@ -59,6 +59,7 @@ const store = new Vuex.Store({
       }
     },
     initState() {
+      let infos = shareManager.getAllStockCodes();
       console.log("开始初始化数据");
       getTodayShareThumb();
       requestAnimationFrame(intervalShares());

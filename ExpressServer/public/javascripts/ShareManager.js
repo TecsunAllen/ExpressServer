@@ -19,6 +19,45 @@ async function getHistoryWaveByCode(code) {
 }
 
 
+async function getAllStockCodes(){
+    var data = await new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        var url = btoa("http://quote.eastmoney.com/stock_list.html");
+        xhr.open("GET", "/GetUrlResultProxy?url=" + url, true);
+        xhr.onload = function (ev) {
+            var doc = $(ev.target.response).find("#quotesearch li a");
+            var codes = Array.from(doc).map((a)=>{
+                if(a.href){
+                    return (new URL(a.href)).pathname.match(/\w\w\d{6}/)[0];
+                }
+                else return "";
+            });
+            codes = codes.filter((code)=>{
+                return /^\w\w(00|600|300)/.test(code);
+            });
+            debugger
+        };
+        xhr.send();
+    });
+    return data;
+}
+
+async function getStockRecentInfos(code,dayNum){
+    var data = await new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        var url = btoa(`https://gupiao.baidu.com/api/stocks/stockdaybar?
+            from=pc&os_ver=1&cuid=xxx&vv=100&format=json&step=3&start=&count=${dayNum}
+            &fq_type=no&timestamp=1520189535331
+            &stock_code=${code}&timestamp=${(new Date()).getTime()}`);
+        xhr.open("GET", "/GetUrlResultProxy?url=" + url, true);
+        xhr.onload = function (ev) {
+            var doc = $(JSON.parse(ev.target.response));
+        };
+        xhr.send();
+    });
+    return data;
+}
+
 
 async function getTodayWaveByCode(code) {
     var data = await new Promise(function (resolve, reject) {
@@ -143,5 +182,7 @@ export default {
     getSharePageInfoByCode:getSharePageInfoByCode,
     getSharesInfoBatchByCode:getSharesInfoBatchByCode,
     getFundInfoByCode:getFundInfoByCode,
-    getFundInfoByCodes:getFundInfoByCodes
+    getFundInfoByCodes:getFundInfoByCodes,
+    getAllStockCodes,
+    getStockRecentInfos
 };
