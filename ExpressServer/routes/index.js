@@ -27,7 +27,7 @@ router.get('/GetUrlResultProxy', function (req, res) {
     var arg = url.parse(req.url, true).query;
     var decodeUrl = new Buffer(arg.url, 'base64').toString()
     shareManager.getUrlHttpsProxy(decodeUrl,function(result){
-        res.writeHead(200, {'Content-type' : 'text/json;charset=utf-8'});
+        res.writeHead(200, {'Content-type' : 'text/json;charset=utf-8','Access-Control-Allow-Origin':'*'});
         res.write(result);
         res.end();
     });
