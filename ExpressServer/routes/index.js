@@ -23,6 +23,12 @@ router.get('/', function (req, res) {
     res.render('index', { title: 'Express' });
 });
 
+
+router.get('/stock', function (req, res) {
+    var arg = url.parse(req.url, true).query;
+    res.render('stock', { title: 'Express' });
+});
+
 router.get('/GetUrlResultProxy', function (req, res) {
     var arg = url.parse(req.url, true).query;
     var decodeUrl = new Buffer(arg.url, 'base64').toString()

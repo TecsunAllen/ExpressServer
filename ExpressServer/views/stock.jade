@@ -1,0 +1,9 @@
+﻿//
+   Created by admin on 2017/5/28.
+extends layout
+block append head
+block content
+    button(onclick="stockFilter.getAllFocuStock()") 开始筛选
+    p(id="runingInfo")
+    div(id="runResult")
+    script(src="/javascripts/build/stock.js")
